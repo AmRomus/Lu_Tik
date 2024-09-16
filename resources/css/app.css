@@ -3495,7 +3495,10 @@ textarea.form-control-lg {
 
 .collapse:not(.show) {
   display: none; }
-
+.collapse
+{
+    visibility: initial;
+}
 .collapsing {
   height: 0;
   overflow: hidden;
