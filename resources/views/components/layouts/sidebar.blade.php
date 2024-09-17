@@ -34,6 +34,12 @@
             </div>
         </div><!-- aside-loggedin -->
         <ul class="nav nav-aside">
+          <li class="nav-label">{{__('Configurations')}}</li>
+          <li class="nav-item {{($activePage ==='Mikrotiks')? 'active':'' }}" >
+            <a href="{{route('mikrotik.list')}}" class="nav-link"> 
+              <i data-feather="hard-drive"></i> <span>{{__('Mikrotiks')}}</span>
+            </a>
+          </li>
             <li class="nav-label">Բաժանորդներ</li>
             <li class="nav-item {{ ($activePage === 'Accounts') ? 'active' : '' }} ">
              <a href="#" class="nav-link"> 

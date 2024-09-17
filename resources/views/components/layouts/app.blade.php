@@ -9,4 +9,15 @@
     <body>
         {{ $slot }}
     </body>
+    <script type="module">
+        $(document).ready(function() {
+          window.feather.replace();
+          if (typeof window.Livewire !== 'undefined') {
+              window.Livewire.hook('morph.updating', (message, component) => {
+               //   $('[data-bs-toggle="tooltip"]').tooltip();
+                  window.feather.replace();
+              });
+          }
+        });
+      </script>     
 </html>
