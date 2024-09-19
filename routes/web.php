@@ -1,7 +1,10 @@
 <?php
 
+use App\Http\Controllers\AddressController;
 use App\Livewire\Auth\Login;
 use App\Livewire\Dashboard;
+use App\Livewire\Managment\Accounts;
+use App\Livewire\Misc\Addressbook;
 use App\Livewire\Servers\EditMikrotik;
 use App\Livewire\Servers\Mikrotiks;
 use Illuminate\Support\Facades\Route;
@@ -18,4 +21,16 @@ Route::post('/logout',function(){
 Route::middleware('auth')->prefix('/servers')->group(function(){
     Route::get('/mikrotik',Mikrotiks::class)->name('mikrotik.list');
     Route::get('/mikrotik/{mikrotik}/edit',EditMikrotik::class)->name('mikrotik.edit');
+});
+
+#accounts
+Route::middleware('auth')->prefix('/accounts')->group(function(){
+    Route::get('/list',Accounts::class)->name('accounts.list');
+});
+
+
+#misc
+Route::middleware('auth')->prefix('/misc')->group(function(){
+    Route::get('/addressbook',Addressbook::class)->name('addressbook');
+    Route::get('/address/{parent}/childs/{view?}',[AddressController::class,'achilds']);  
 });

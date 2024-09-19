@@ -19,5 +19,6 @@
               });
           }
         });
-      </script>     
+      </script>  
+       @stack('js')   
 </html>

@@ -1,5 +1,5 @@
 @props(['activePage'])
-<aside class="aside aside-fixed"> 
+<aside class="aside aside-fixed" wire:ignore> 
     <div class="aside-header">
         <a href="/" class="aside-logo"><img src="/imgs/logo.png" width="180" alt=""></a>       
         <a href="" class="aside-menu-link">
@@ -34,18 +34,25 @@
             </div>
         </div><!-- aside-loggedin -->
         <ul class="nav nav-aside">
+          <li class="nav-label">{{__('Managment')}}</li>
+          <li class="nav-item {{ ($activePage === 'Accounts') ? 'active' : '' }} ">
+            <a href="{{route('accounts.list')}}" class="nav-link"> 
+              <i data-feather="users"></i> <span>{{__('Accounts')}}</span>
+            </a>
+           </li>
           <li class="nav-label">{{__('Configurations')}}</li>
+          <li class="nav-item {{($activePage === 'Addresses')? 'active':''}}">
+            <a href="{{route('addressbook')}}" class="nav-link">
+              <i data-feather="navigation"></i> <span>{{__('Addresses')}}</span>
+            </a>
+          </li>
           <li class="nav-item {{($activePage ==='Mikrotiks')? 'active':'' }}" >
             <a href="{{route('mikrotik.list')}}" class="nav-link"> 
               <i data-feather="hard-drive"></i> <span>{{__('Mikrotiks')}}</span>
             </a>
           </li>
-            <li class="nav-label">Բաժանորդներ</li>
-            <li class="nav-item {{ ($activePage === 'Accounts') ? 'active' : '' }} ">
-             <a href="#" class="nav-link"> 
-               <i data-feather="users"></i> <span>Ցանկ</span>
-             </a>
-            </li>
+           
+            
         </ul>
     </div>
 </aside>
