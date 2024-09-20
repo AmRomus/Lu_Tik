@@ -3,6 +3,7 @@
 use App\Http\Controllers\AddressController;
 use App\Livewire\Auth\Login;
 use App\Livewire\Dashboard;
+use App\Livewire\Finances\Tarifs;
 use App\Livewire\Managment\Accounts;
 use App\Livewire\Misc\Addressbook;
 use App\Livewire\Servers\EditMikrotik;
@@ -33,4 +34,9 @@ Route::middleware('auth')->prefix('/accounts')->group(function(){
 Route::middleware('auth')->prefix('/misc')->group(function(){
     Route::get('/addressbook',Addressbook::class)->name('addressbook');
     Route::get('/address/{parent}/childs/{view?}',[AddressController::class,'achilds']);  
+});
+
+#finances
+Route::middleware('auth')->prefix('/finances')->group(function(){
+    Route::get('/tarifs',Tarifs::class)->name('tarifs');
 });

@@ -40,6 +40,12 @@
               <i data-feather="users"></i> <span>{{__('Accounts')}}</span>
             </a>
            </li>
+           <li class="nav-label">{{__('Finances')}}</li>
+          <li class="nav-item {{ ($activePage === 'Tarifs') ? 'active' : '' }} ">
+            <a href="{{route('tarifs')}}" class="nav-link"> 
+              <i data-feather="dollar-sign"></i> <span>{{__('Tarifs')}}</span>
+            </a>
+           </li>
           <li class="nav-label">{{__('Configurations')}}</li>
           <li class="nav-item {{($activePage === 'Addresses')? 'active':''}}">
             <a href="{{route('addressbook')}}" class="nav-link">
