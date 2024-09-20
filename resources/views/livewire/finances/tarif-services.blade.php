@@ -15,8 +15,9 @@
         <textarea type="text" class="form-control" placeholder="{{__('Description')}}" aria-label="description" name="description" wire:model.defer="description">{{$description}} </textarea>
     </div>
     <div class="row">
-        <div class="col-12 d-flex justify-content-end">
+        <div class="col-12  justify-content-end">
             @if ($cur_tarif?->InetService)
+            <h6>Internet Service</h6>
                 <div class="row ">
                     <div class="col-auto table-responsive">
                         <table class="table table-dashboard">

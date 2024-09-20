@@ -24,7 +24,13 @@ class Tarif extends Model implements ProductLimitedInterface
     }
     public function getAmountProduct(Customer $customer = null): int|string
     {
-        return 100;
+        $price=0;
+        if($this->InetService)
+        {
+            $price+=$this->InetService->price;
+        }
+          
+        return $price;
     }
     public function canBuy(Customer $customer =null, int $quantity = 1, bool $force = false): bool
     {
