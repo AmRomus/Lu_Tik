@@ -5,6 +5,7 @@ use App\Livewire\Auth\Login;
 use App\Livewire\Dashboard;
 use App\Livewire\Finances\Tarifs;
 use App\Livewire\Managment\Accounts;
+use App\Livewire\Managment\EditAccount;
 use App\Livewire\Misc\Addressbook;
 use App\Livewire\Servers\EditMikrotik;
 use App\Livewire\Servers\Mikrotiks;
@@ -27,6 +28,7 @@ Route::middleware('auth')->prefix('/servers')->group(function(){
 #accounts
 Route::middleware('auth')->prefix('/accounts')->group(function(){
     Route::get('/list',Accounts::class)->name('accounts.list');
+    Route::get('/edit/{billing_account}',EditAccount::class)->name('account.edit');
 });
 
 
