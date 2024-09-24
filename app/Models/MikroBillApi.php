@@ -8,6 +8,15 @@ use Illuminate\Database\Eloquent\Model;
 class MikroBillApi extends Model
 {
     use HasFactory;
+    protected $fillable=[
+        'name',
+        'host',
+        'login',
+        'password',
+        'key1',
+        'key2',
+        'port',
+    ];
     const TIMEOUT = 5;
     private $Stream;
 	private $errno=-1;
