@@ -57,7 +57,11 @@
               <i data-feather="hard-drive"></i> <span>{{__('Mikrotiks')}}</span>
             </a>
           </li>
-           
+          <li class="nav-item {{($activePage ==='Mikrobill')? 'active':'' }}" >
+            <a href="{{route('mikrobill')}}" class="nav-link"> 
+              <i data-feather="hard-drive"></i> <span>{{__('MikroBill')}}</span>
+            </a>
+          </li>
             
         </ul>
     </div>

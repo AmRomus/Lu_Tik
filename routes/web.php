@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AddressController;
+use App\Livewire\Apis\MikroBill;
 use App\Livewire\Auth\Login;
 use App\Livewire\Dashboard;
 use App\Livewire\Finances\Tarifs;
@@ -42,3 +43,9 @@ Route::middleware('auth')->prefix('/misc')->group(function(){
 Route::middleware('auth')->prefix('/finances')->group(function(){
     Route::get('/tarifs',Tarifs::class)->name('tarifs');
 });
+
+#FROM API
+Route::middleware('auth')->prefix('/apis')->group(function(){
+    Route::get('/mikrobill',MikroBill::class)->name('mikrobill');
+});
+
