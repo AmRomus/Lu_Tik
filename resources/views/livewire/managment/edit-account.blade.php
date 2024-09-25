@@ -134,7 +134,7 @@
                             </li>
                             <li class="list-item">
                               <div class="media align-items-center">
-                                <div class="wd-35 ht-35 bd bd-2 bd-primary tx-primary rounded-circle align-items-center justify-content-center op-6 d-none d-sm-flex" wire:click="change_billing">
+                                <div class="wd-35 ht-35 bd bd-2 bd-primary tx-primary rounded-circle align-items-center justify-content-center op-6 d-none d-sm-flex" >
                                   <i data-feather="link-2" style="cursor: pointer"></i>
                                 </div>
                                 <div class="media-body mg-sm-l-15">
@@ -166,7 +166,8 @@
                                     <li class="list-item">
 
                                         <div class="media align-items-center">
-                                          <div class="wd-35 ht-35 bd bd-2 bd-primary tx-primary rounded-circle align-items-center justify-content-center op-6 d-none d-sm-flex" wire:click="change_tarif">
+                                          <div class="wd-35 ht-35 bd bd-2 bd-primary tx-primary rounded-circle align-items-center justify-content-center op-6 d-none d-sm-flex" 
+                                          wire:click="$dispatchTo('modals.set-service-api','show_modal',{ service_id:{{$account->AccountInetService?->id}}})">
                                             <i data-feather="briefcase" style="cursor: pointer"></i>
                                           </div>
                                           <div class="media-body mg-sm-l-15">
@@ -177,9 +178,8 @@
                                             @if ($account->AccountInetService?->MikroBillApi)                                          
                                                 Mikro-Bill({{$account->AccountInetService?->MikroBillApi?->name}})
                                             @else
-                                                
-                                            @endif
-                                          {{$account->Tarif?->name}}
+                                                {{__('Internal')}}
+                                            @endif                                         
                                         </div>
                                     </li>                            
                                     @endif
@@ -191,4 +191,5 @@
             </div>
         </div>
         <livewire:modals.change-tarif @saved="$refresh" :account_id="$account->id" >
+        <livewire:modals.set-service-api @saved="$refresh" >
 </div>

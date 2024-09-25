@@ -156,5 +156,9 @@ class MikroBillApi extends Model
          );
        // return trim($ret_data,"\x00");
     }
+    public function AccountInetService()
+    {
+        return $this->hasMany(AccountInetService::class);
+    }
 
 }
