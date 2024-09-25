@@ -38,4 +38,8 @@ class BillingAccount extends Model implements Customer
     {
         return $this->belongsTo(Tarif::class);
     }
+    public function AccountInetService()
+    {
+        return $this->hasOne(AccountInetService::class)->whereNotNull('inet_service_id');
+    }
 }

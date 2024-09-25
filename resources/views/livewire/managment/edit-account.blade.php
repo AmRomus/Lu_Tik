@@ -164,16 +164,21 @@
                                     @if ($account->Tarif?->InetService)
                                     <li class="list-label">{{__('Internet')}}</li>
                                     <li class="list-item">
+                                        
                                         <div class="media align-items-center">
                                           <div class="wd-35 ht-35 bd bd-2 bd-primary tx-primary rounded-circle align-items-center justify-content-center op-6 d-none d-sm-flex" wire:click="change_tarif">
                                             <i data-feather="briefcase" style="cursor: pointer"></i>
                                           </div>
                                           <div class="media-body mg-sm-l-15">
-                                            <p class="tx-medium mg-b-0">{{__('Control')}}</p>
-                                           
+                                            <p class="tx-medium mg-b-0">{{__('Control')}}</p>                                           
                                           </div><!-- media-body -->
                                         </div><!-- media -->
-                                        <div class="text-end tx-rubik">
+                                        <div class="text-end tx-rubik">                                            
+                                            @if ($account->AccountInetService?->MikroBillApi)                                          
+                                                Mikro-Bill({{$account->AccountInetService?->MikroBillApi?->name}})
+                                            @else
+                                                
+                                            @endif
                                           {{$account->Tarif?->name}}
                                         </div>
                                     </li>                            

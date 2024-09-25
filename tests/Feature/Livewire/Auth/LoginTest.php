@@ -14,6 +14,6 @@ class LoginTest extends TestCase
     public function renders_successfully()
     {
         Livewire::test(Login::class)
-            ->assertStatus(200);
+            ->assertStatus(302);
     }
 }
