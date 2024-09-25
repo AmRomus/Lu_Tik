@@ -120,7 +120,7 @@
                             </li>
                             <li class="list-item">
                               <div class="media align-items-center">
-                                <div class="wd-35 ht-35 bd bd-2 bd-primary tx-primary rounded-circle align-items-center justify-content-center op-6 d-none d-sm-flex" wire:click="change_tarif">
+                                <div class="wd-35 ht-35 bd bd-2 bd-primary tx-primary rounded-circle align-items-center justify-content-center op-6 d-none d-sm-flex" wire:click="$dispatchTo('modals.change-tarif','show_modal')">
                                   <i data-feather="briefcase" style="cursor: pointer"></i>
                                 </div>
                                 <div class="media-body mg-sm-l-15">
@@ -164,7 +164,7 @@
                                     @if ($account->Tarif?->InetService)
                                     <li class="list-label">{{__('Internet')}}</li>
                                     <li class="list-item">
-                                        
+
                                         <div class="media align-items-center">
                                           <div class="wd-35 ht-35 bd bd-2 bd-primary tx-primary rounded-circle align-items-center justify-content-center op-6 d-none d-sm-flex" wire:click="change_tarif">
                                             <i data-feather="briefcase" style="cursor: pointer"></i>
@@ -190,4 +190,5 @@
                 </div>
             </div>
         </div>
+        <livewire:modals.change-tarif @saved="$refresh" :account_id="$account->id" >
 </div>

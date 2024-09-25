@@ -20,4 +20,9 @@ class InetService extends Model
     {
         return $this->belongsTo(Tarif::class);
     }
+
+    public function AccountInetService()
+    {
+        return $this->hasMany(AccountInetService::class);
+    }
 }

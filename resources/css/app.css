@@ -42695,4 +42695,7 @@ a.bg-twitter:hover, a.bg-twitter:focus, button.bg-twitter:hover, button.bg-twitt
       justify-content: space-between;
       border-top: 1px solid #e5e9f2; }
     
-      
+.show
+{
+  display: block;
+}

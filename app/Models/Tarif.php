@@ -46,4 +46,7 @@ class Tarif extends Model implements ProductLimitedInterface
     {
         return $this->hasOne(InetService::class);
     }
+    public function BillingAccount(){
+        return $this->hasMany(BillingAccount::class);
+    }
 }

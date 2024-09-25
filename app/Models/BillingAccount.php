@@ -2,11 +2,14 @@
 
 namespace App\Models;
 
+use App\Observers\BillingAccountObserver;
+use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Bavix\Wallet\Traits\CanPay;
 use Bavix\Wallet\Interfaces\Customer;
 
+#[ObservedBy([BillingAccountObserver::class])]
 class BillingAccount extends Model implements Customer
 {
     use HasFactory,CanPay;
@@ -40,6 +43,7 @@ class BillingAccount extends Model implements Customer
     }
     public function AccountInetService()
     {
-        return $this->hasOne(AccountInetService::class)->whereNotNull('inet_service_id');
+        return $this->hasOne(AccountInetService::class);
     }
+    
 }
