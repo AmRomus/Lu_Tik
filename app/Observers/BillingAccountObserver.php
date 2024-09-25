@@ -13,7 +13,7 @@ class BillingAccountObserver
      */
     public function created(BillingAccount $billingAccount): void
     {
-        //
+        $billingAccount->AccountInetService()->save(new AccountInetService());
     }
 
     /**
@@ -27,10 +27,8 @@ class BillingAccountObserver
           if($billingAccount->AccountInetService)
           {
             if($tarif?->InetService)
-            {
-                //$row=$billingAccount->AccountInetService;
-                $tarif->InetService->AccountInetService()->save($billingAccount->AccountInetService);
-               // $row->InetService()->save();
+            {               
+                $tarif->InetService->AccountInetService()->save($billingAccount->AccountInetService);               
             }else 
             {
                 $billingAccount->AccountInetService->inet_service_id=null;
@@ -41,10 +39,8 @@ class BillingAccountObserver
           {
             $billingAccount->AccountInetService()->save(new AccountInetService());
             if($tarif?->InetService)
-            {
-                //$row=$billingAccount->AccountInetService;
-                $tarif->InetService->AccountInetService()->save($billingAccount->AccountInetService);
-               // $row->InetService()->save();
+            {               
+                $tarif->InetService->AccountInetService()->save($billingAccount->AccountInetService);               
             }else 
             {
                 $billingAccount->AccountInetService->inet_service_id=null;
