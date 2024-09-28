@@ -18,6 +18,7 @@ window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 feather.replace();
 window.feather =feather;
 
+import Cleave from 'cleave.js'
 
 
 /**

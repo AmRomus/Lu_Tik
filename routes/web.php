@@ -8,6 +8,7 @@ use App\Livewire\Finances\Tarifs;
 use App\Livewire\Managment\Accounts;
 use App\Livewire\Managment\EditAccount;
 use App\Livewire\Misc\Addressbook;
+use App\Livewire\Network\InetDevices;
 use App\Livewire\Servers\EditMikrotik;
 use App\Livewire\Servers\Mikrotiks;
 use Illuminate\Support\Facades\Route;
@@ -49,3 +50,7 @@ Route::middleware('auth')->prefix('/apis')->group(function(){
     Route::get('/mikrobill',MikroBill::class)->name('mikrobill');
 });
 
+#Network
+Route::middleware('auth')->prefix('/network')->group(function(){
+    Route::get('/inet_devices',InetDevices::class)->name('inetdevices');
+});

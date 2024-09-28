@@ -46,4 +46,48 @@ class Mikrotik extends Model
         }
         return null;       
     }
+    public function getRemoteInterfacesAttribute()
+    {
+        $params_array=$this->Link?->q(new Query(endpoint: '/interface/print'))->read();
+        return $params_array;
+    }
+    public function ControlInterface(){
+        return $this->hasMany(ControlInterface::class);
+    }
+    public function findDevice($device)
+    {
+        //$query= new Query('/ip/arp/print');
+        $face_count=0;
+        $faces= array();
+        foreach($this->ControlInterface as $item)
+        {
+            // $query=$query->where('interface',$item->interface);
+            // $face_count++;
+            $faces[]=array('interface',$item->interface);
+        }
+        if(count($faces)>1)
+        {
+           // $query= new Query('/ip/arp/print',$faces,'|');
+           $params_array=$this->Link?->q('/ip/arp/print',$faces,'|')->r();
+        }elseif(count($faces)==1)
+        {
+            $params_array=$this->Link?->q('/ip/arp/print',$faces)->r();
+        }else{
+            $params_array=[];
+        }
+        foreach($params_array as $key=>$val)
+        {
+            if(!array_key_exists('mac-address',$val)||$val['mac-address']!=$device)
+            {
+                unset($params_array[$key]);
+            }
+        }
+        
+        return $params_array;
+    }
+    public function findDhcp($device)
+    {
+        $params_array=$this->Link?->q((new Query(endpoint: '/ip/dhcp-server/lease/print'))->where('mac-address',$device))->read();
+        return $params_array;
+    }
 }

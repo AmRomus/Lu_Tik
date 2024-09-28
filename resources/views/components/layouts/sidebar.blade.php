@@ -54,15 +54,19 @@
           </li>
           <li class="nav-item {{($activePage ==='Mikrotiks')? 'active':'' }}" >
             <a href="{{route('mikrotik.list')}}" class="nav-link"> 
-              <i data-feather="hard-drive"></i> <span>{{__('Mikrotiks')}}</span>
+              <i data-feather="server"></i> <span>{{__('Mikrotiks')}}</span>
             </a>
           </li>
           <li class="nav-item {{($activePage ==='Mikrobill')? 'active':'' }}" >
             <a href="{{route('mikrobill')}}" class="nav-link"> 
-              <i data-feather="hard-drive"></i> <span>{{__('MikroBill')}}</span>
+              <i data-feather="repeat"></i> <span>{{__('MikroBill')}}</span>
             </a>
           </li>
-            
+          <li class="nav-item {{($activePage ==='inetdevices')? 'active':'' }}" >
+            <a href="{{route('inetdevices')}}" class="nav-link"> 
+              <i data-feather="hard-drive"></i> <span>{{__('Routers')}}</span>
+            </a>
+          </li>  
         </ul>
     </div>
 </aside>

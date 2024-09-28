@@ -48,6 +48,47 @@
                       </div>
                     </div>
                    </div>
+                   <div class="col-4">
+                    <ul class="list-unstyled mg-b-0">
+                      <li class="list-label">{{__('Controlled interfaces')}}</li>   
+                    @forelse ($mikrotik->ControlInterface as $item)
+                    <li class="list-item">
+                      <div class="media align-items-center w-100">                        
+                        <div class="media-body mg-sm-l-15">
+                          <h6>{{$item->interface}}</h6>
+                          @forelse ($item->Ip as $ip)
+                              <span class="tx-10 tx-bold tx-rubik tx-gray-500">{{$ip['address']}}</span><br>
+                          @empty
+                          <p>{{__('No Ip address')}}</p>
+                          @endforelse  
+                            
+                        </div>
+                        <div class="text-end ">                                            
+                          <i data-feather="trash-2"></i>                            
+                      </div>                
+                      </div>
+                    </li>
+                    @empty
+                    <li class="list-label">{{__('No Interface controlled')}}</li>
+                    @endforelse
+                    <li class="list-label">{{__('Device Interfaces')}}</li>
+                    @forelse ($uncontroled as $key=>$item)
+                    <li class="list-item">
+                      <div class="media align-items-center">
+                        <div class=" tx-primary align-items-center justify-content-centerd-none d-sm-flex" >
+                          <div class="form-check form-switch">
+                            <input class="form-check-input ms-0 me-2" type="checkbox" wire:click="add_iface({{$key}})">                           
+                          </div>
+
+                        </div>
+                        <label class="form-check-label">{{$item['name']}}</label>
+                      </div>
+                    </li>
+                    @empty
+                    <li class="list-label">{{__('No Interface found')}}</li>
+                    @endforelse
+                    </ul>
+                   </div>
                 </div>
             </div>
         </div>
