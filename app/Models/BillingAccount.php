@@ -45,5 +45,9 @@ class BillingAccount extends Model implements Customer
     {
         return $this->hasOne(AccountInetService::class);
     }
+
+    public function InetDevices(){
+        return $this->hasMany(InetDevices::class);
+    }
     
 }

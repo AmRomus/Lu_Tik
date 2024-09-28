@@ -184,15 +184,20 @@
                                     </li>
                                     <li class="list-label">{{__('Devices')}}</li>
                                     @for ($i=0;$i<$account->AccountInetService->InetService->devices_count;$i++)
+                                   
                                       <li class="list-item">
                                         <div class="media align-items-center">
                                           <div class="wd-35 ht-35 bd bd-2 bd-primary tx-primary rounded-circle align-items-center justify-content-center op-6 d-none d-sm-flex"
-                                          wire:click="$dispatchTo('modals.add-inet-device-to-account','show_modal',{service_id:{{$account->AccountInetService->InetService->id}}})"
+                                          wire:click="$dispatchTo('modals.add-inet-device-to-account','show_modal',{service_id:{{$account->AccountInetService->id}}})"
                                           >
                                             <i data-feather="hard-drive" style="cursor: pointer"></i>
                                           </div>
                                           <div class="media-body mg-sm-l-15">
-                                            <p class="tx-medium mg-b-0">{{__('Control')}}</p>                                           
+                                            <p class="tx-medium mg-b-0">@if (count($account->AccountInetService?->InetDevices)>$i)
+                                              {{$account->AccountInetService?->InetDevices[$i]->mac}}
+                                            @else
+                                            {{__('Free')}}
+                                            @endif </p>                                           
                                           </div><!-- media-body -->
                                         </div><!-- media -->
                                         <div class="text-end tx-rubik">                                            

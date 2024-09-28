@@ -25,4 +25,6 @@ class InetService extends Model
     {
         return $this->hasMany(AccountInetService::class);
     }
+
+   
 }

@@ -22,4 +22,8 @@ class AccountInetService extends Model
     {
         return $this->belongsTo(InetService::class);
     }
+    public function InetDevices()
+    {
+        return $this->hasMany(InetDevices::class);
+    }
 }

@@ -2,8 +2,10 @@
 
 namespace App\Livewire\Modals;
 
+use App\Models\AccountInetService;
 use App\Models\BillingAccount;
 use App\Models\InetDevices;
+use App\Models\InetService;
 use App\Models\Mikrotik;
 use Livewire\Attributes\On;
 use Livewire\Attributes\Rule;
@@ -21,6 +23,8 @@ class AddInetDeviceToAccount extends Component
     public $mikrotik;
     public $bind_select;
     public $ret=[];
+    public $key;
+    public $ipdevice;
     public function mount($account_id)
     {
         $this->account=BillingAccount::findOrFail($account_id);
@@ -34,35 +38,36 @@ class AddInetDeviceToAccount extends Component
     public function show_modal($service_id=null)
     {
         $this->show=!$this->show;
-        $this->account_service=$service_id;
+        $this->account_service=AccountInetService::find($service_id);
+       
     }
     public function updatedMac()
     {
         $this->validate();
-        $ipdevice=InetDevices::where('mac',$this->mac)->first();
+        $this->ipdevice=InetDevices::where('mac',$this->mac)->first();
         foreach(Mikrotik::all() as $mk)
         {
             $this->ret=$mk->findDevice($this->mac);
             $this->mikrotik=$mk;
            break;
-           // dd($ret);
-            // if(count($ret)>0){
-            //     $this->ipaddr=$ret[0]['address'];
-            //     $this->interface=$ret[0]['interface'];
-            //     $this->mikrotik=$mk;
-            //     $dhcp = $mk->findDhcp($this->mac);
-            //     //dd($dhcp);
-            //     break;
-            // }
         }
-       
-      //  dd($ipdevice);
     }
     public function bind($key){
         foreach($this->ret as $del=>$list)
         {
             if($del!=$key) unset($this->ret[$del]);
-        }
-       // dd($this->bind_select,$key);
+        }  
+        $this->key=$key;     
+    }
+    public function save()
+    {
+        if(!$this->ipdevice)
+            $this->ipdevice=new InetDevices();
+        $this->ipdevice->mac= $this->mac;
+        $this->account_service->InetDevices()->save($this->ipdevice);
+        $this->ipdevice->refresh();
+        $this->account->InetDevices()->save($this->ipdevice);
+        $this->dispatch('saved');
+        $this->show_modal();
     }
 }
