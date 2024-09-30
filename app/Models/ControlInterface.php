@@ -21,4 +21,8 @@ class ControlInterface extends Model
     {
        return $this->Mikrotik->Link?->q((new Query('/ip/address/print'))->where('interface',$this->interface))->r();
     }
+    public function InetDevices()
+    {
+        return $this->hasMany(InetDevices::class);
+    }
 }

@@ -64,9 +64,18 @@ class AddInetDeviceToAccount extends Component
         if(!$this->ipdevice)
             $this->ipdevice=new InetDevices();
         $this->ipdevice->mac= $this->mac;
+        
         $this->account_service->InetDevices()->save($this->ipdevice);
         $this->ipdevice->refresh();
         $this->account->InetDevices()->save($this->ipdevice);
+        $this->ipdevice->refresh();
+        if($this->key){
+            $this->ipdevice->bind=true;           
+            $this->ipdevice->ip=$this->ret[$this->key]['address'];
+            $this->mikrotik->ControlInterface->where('interface',$this->ret[$this->key]['interface'])->first()->InetDevices()->save($this->ipdevice);
+            $this->ipdevice->refresh();
+            
+        }
         $this->dispatch('saved');
         $this->show_modal();
     }

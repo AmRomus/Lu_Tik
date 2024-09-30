@@ -56,13 +56,16 @@ class EditMikrotik extends Component
         ];
         $this->mikrotik->update($mk);
     }
-    #[On('changed')]
-    public function refresh(){}
+    // #[On('changed')]
+    // public function refresh(){}
     public function add_iface($key)
-    {
-        // dd($this->uncontroled[$key]);
+    {        
         $new_control = new ControlInterface(["ident"=>$this->uncontroled[$key]['.id'],'interface'=>$this->uncontroled[$key]['name']]);
         $this->mikrotik->ControlInterface()->save($new_control);
+        return redirect(request()->header('Referer'));
+    }
+    public function rem_iface($id){
+        ControlInterface::find($id)->delete();
         return redirect(request()->header('Referer'));
     }
 }

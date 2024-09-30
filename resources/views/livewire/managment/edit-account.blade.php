@@ -193,12 +193,16 @@
                                             <i data-feather="hard-drive" style="cursor: pointer"></i>
                                           </div>
                                           <div class="media-body mg-sm-l-15">
-                                            <p class="tx-medium mg-b-0">@if (count($account->AccountInetService?->InetDevices)>$i)
-                                              {{$account->AccountInetService?->InetDevices[$i]->mac}}
+                                            @if (count($account->AccountInetService?->InetDevices)>$i)
+                                            <livewire:network.inet-dev-detail :dev="$account->AccountInetService?->InetDevices[$i]->id" :key="$account->AccountInetService?->InetDevices[$i]->id">
+
+                                             
+                                                
                                             @else
-                                            {{__('Free')}}
-                                            @endif </p>                                           
-                                          </div><!-- media-body -->
+                                            <p class="tx-12 mg-b-0">{{__('Free')}}</p> 
+
+                                            @endif                        
+                                          </div><!-- media-body -->                                         
                                         </div><!-- media -->
                                         <div class="text-end tx-rubik">                                            
                                            <!-- device params -->                               
@@ -215,7 +219,7 @@
         </div>
         <livewire:modals.change-tarif @saved="$refresh" :account_id="$account->id" >
         <livewire:modals.set-service-api @saved="$refresh" >
-        <livewire:modals.add-inet-device-to-account @saved="refresh" :account_id="$account->id">
+        <livewire:modals.add-inet-device-to-account @saved="$refresh" :account_id="$account->id">
           @push('js')
               <script type="module">
                 var cleaveII = new Cleave('#new_mac', {

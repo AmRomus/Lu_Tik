@@ -64,7 +64,7 @@
                             
                         </div>
                         <div class="text-end ">                                            
-                          <i data-feather="trash-2"></i>                            
+                          <span wire:click="rem_iface({{$item->id}})"><i data-feather="trash-2"></i></span>
                       </div>                
                       </div>
                     </li>

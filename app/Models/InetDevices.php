@@ -15,4 +15,10 @@ class InetDevices extends Model
     {
         return $this->belongsTo(BillingAccount::class);
     }
+    public function ControlInterface()
+    {
+        return $this->belongsTo(ControlInterface::class);
+    }
+
+    
 }
