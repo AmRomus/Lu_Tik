@@ -2,7 +2,7 @@
     <x-layouts.sidebar activePage="inetdevices" > </x-layouts.aside>
         <div class="content ht-100v pd-0">
             <div class="content-header">
-                <h4>{{__('Netvork Devices')}}</h4>
+                <h4>{{__('Network Devices')}}</h4>
                 <nav class="nav">
                     <a href="#" class="btn btn-sm btn-success tx-bold" wire:click="$dispatchTo('modals.new-inet-device','show_modal')"> {{__('New')}}</a>
                   </nav>

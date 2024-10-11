@@ -14,7 +14,7 @@ use Livewire\Component;
 class AddInetDeviceToAccount extends Component
 {
     public $account;
-    public $account_service;
+   
     #[Rule('required|mac_address')]
     public $mac;
 
@@ -35,10 +35,20 @@ class AddInetDeviceToAccount extends Component
     }
     public $show;
     #[On('show_modal')]
-    public function show_modal($service_id=null)
+    public function show_modal($device_id=null)
     {
-        $this->show=!$this->show;
-        $this->account_service=AccountInetService::find($service_id);
+       
+        if($device_id!=null){
+            $this->ipdevice=InetDevices::find($device_id);
+            foreach(Mikrotik::all() as $mk)
+        {
+            $this->ret=$mk->findDevice($this->ipdevice->mac);
+            $this->mac=$this->ipdevice->mac;
+            $this->mikrotik=$mk;
+           break;
+        }
+        }
+        $this->show=!$this->show;        
        
     }
     public function updatedMac()
@@ -64,9 +74,6 @@ class AddInetDeviceToAccount extends Component
         if(!$this->ipdevice)
             $this->ipdevice=new InetDevices();
         $this->ipdevice->mac= $this->mac;
-        
-        $this->account_service->InetDevices()->save($this->ipdevice);
-        $this->ipdevice->refresh();
         $this->account->InetDevices()->save($this->ipdevice);
         $this->ipdevice->refresh();
         if($this->key){
@@ -75,6 +82,10 @@ class AddInetDeviceToAccount extends Component
             $this->mikrotik->ControlInterface->where('interface',$this->ret[$this->key]['interface'])->first()->InetDevices()->save($this->ipdevice);
             $this->ipdevice->refresh();
             
+        }else {
+            $this->ipdevice->bind=false;
+            $this->ipdevice->save();
+            $this->ipdevice->refresh();
         }
         $this->dispatch('saved');
         $this->show_modal();

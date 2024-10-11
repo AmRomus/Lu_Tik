@@ -15,8 +15,7 @@ return new class extends Migration
         Schema::create('inet_services', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('tarif_id');
-            $table->foreign('tarif_id','tarif_inet_service')->references('id')->on('tarifs')->cascadeOnDelete();
-            $table->integer('devices_count')->default(1);
+            $table->foreign('tarif_id','tarif_inet_service')->references('id')->on('tarifs')->cascadeOnDelete();          
             $table->unsignedBigInteger('speed_up')->default(0);
             $table->unsignedBigInteger('speed_down')->default(0);
             $table->integer('price')->default(0);            

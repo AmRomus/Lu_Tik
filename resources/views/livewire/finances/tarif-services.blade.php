@@ -23,7 +23,7 @@
                         <table class="table table-dashboard">
                             <thead>
                                 <tr>
-                                    <th>{{__('Devices')}}</th>
+                                   
                                     <th>{{__('Speed UP (Mbit/s)')}}</th>
                                     <th>{{__('Speed DOWN (Mbit/s)')}}</th>
                                     <th>{{__('Price')}}</th>
@@ -31,8 +31,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr align="middle">
-                                    <td>{{$cur_tarif?->InetService->devices_count}}</td>
+                                <tr align="middle">                                
                                     <td>{{$cur_tarif?->InetService->speed_up}}</td>
                                     <td>{{$cur_tarif?->InetService->speed_down}}</td>
                                     <td>{{$cur_tarif?->InetService->price}}</td>

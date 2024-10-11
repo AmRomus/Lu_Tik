@@ -9,8 +9,7 @@ class InetService extends Model
 {
     use HasFactory;
     protected $fillable=[
-        'tarif_id',
-        'devices_count',
+        'tarif_id',      
         'speed_up',
         'speed_down',
         'price',

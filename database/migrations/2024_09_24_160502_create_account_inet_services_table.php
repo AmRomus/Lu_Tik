@@ -21,6 +21,7 @@ return new class extends Migration
             $table->foreign('mikro_bill_api_id','service_api')->references('id')->on('mikro_bill_apis')->nullOnDelete();
             $table->string('api_ident')->nullable();
             $table->string('api_ssid')->nullable();
+            $table->dateTime('api_check')->nullable();
             $table->integer('service_state')->default(0);
             $table->timestamps();
         });

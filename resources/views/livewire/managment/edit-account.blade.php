@@ -66,7 +66,7 @@
                             <li class="list-label">{{__('Billing')}}</li>
                             <li class="list-item">
                               <div class="media align-items-center">
-                                <div class="wd-35 ht-35 bd bd-2 @if($account->status<0) bg-success @else bg-danger  @endif tx-white rounded-circle align-items-center justify-content-center op-6 d-none d-sm-flex" >
+                                <div class="wd-35 ht-35 bd bd-2 {{($account->subscription)?'bg-success':'bg-danger'}} tx-white rounded-circle align-items-center justify-content-center op-6 d-none d-sm-flex" >
                                   @if($account->status<0)
                                     <i data-feather="check" ></i>
                                     @else
@@ -124,26 +124,11 @@
                                   <i data-feather="briefcase" style="cursor: pointer"></i>
                                 </div>
                                 <div class="media-body mg-sm-l-15">
-                                  <p class="tx-medium mg-b-0">{{__('Tarif')}}</p>
-                                 
+                                  <p class="tx-medium mg-b-0">{{__('Tarif')}}</p>                                 
                                 </div><!-- media-body -->
                               </div><!-- media -->
                               <div class="text-end tx-rubik">
                                 {{$account->Tarif?->name}}
-                              </div>
-                            </li>
-                            <li class="list-item">
-                              <div class="media align-items-center">
-                                <div class="wd-35 ht-35 bd bd-2 bd-primary tx-primary rounded-circle align-items-center justify-content-center op-6 d-none d-sm-flex" >
-                                  <i data-feather="link-2" style="cursor: pointer"></i>
-                                </div>
-                                <div class="media-body mg-sm-l-15">
-                                  <p class="tx-medium mg-b-0">{{__('Bill API')}}</p>
-                                 
-                                </div><!-- media-body -->
-                              </div><!-- media -->
-                              <div class="text-end tx-rubik">
-                                {{$account->api?->name}}
                               </div>
                             </li>
                             <li class="list-label">{{__('Advanced')}}</li>
@@ -154,7 +139,8 @@
                         </div><!-- card-body -->
                       </div><!-- card -->
                     </div>
-                    <div class="col-4">
+
+                    <div class="col-8">
                         <div class="card">
                             <div class="card-header">
                                 <h6 class="lh-5 mg-b-0 tx-bold">{{__('Services')}}</h6>
@@ -182,34 +168,69 @@
                                             @endif                                         
                                         </div>
                                     </li>
-                                    <li class="list-label">{{__('Devices')}}</li>
-                                    @for ($i=0;$i<$account->AccountInetService->InetService->devices_count;$i++)
+                                    @endif
+                                   
+                                    <li class="list-label">{{__('Tv Service')}}</li>
+                                    @if ($account->Tarif?->TvService)
+                                    <li class="list-item">
+                                        <div class="media align-items-center">
+                                          <div class="wd-35 ht-35 bd bd-2 bd-primary tx-primary rounded-circle align-items-center justify-content-center op-6 d-none d-sm-flex" 
+                                          wire:click="$dispatchTo('modals.set-service-api','show_modal',{ service_id:{{$account->AccountInetService?->id}}})">
+                                            <i data-feather="briefcase" style="cursor: pointer"></i>
+                                          </div>
+                                          <div class="media-body mg-sm-l-15">
+                                            <p class="tx-medium mg-b-0">{{__('Control')}}</p>                                           
+                                          </div><!-- media-body -->
+                                        </div><!-- media -->
+                                        <div class="text-end tx-rubik">                                            
+                                            @if ($account->AccountTvService?->MikroBillApi)                                          
+                                                Mikro-Bill({{$account->AccountInetService?->MikroBillApi?->name}})
+                                            @else
+                                                {{__('Internal')}}
+                                            @endif                                         
+                                        </div>
+                                    </li>
+                                    @else
+                                      <li class="list-item">
+                                        <div class="media align-items-center">
+                                          <div class="wd-35 ht-35 bd bd-2 bg-danger tx-white rounded-circle align-items-center justify-content-center op-6 d-none d-sm-flex" >
+                                              <i data-feather="alert-circle" ></i>                                            
+                                          </div>
+                                          <div class="media-body mg-sm-l-15">
+                                            <p class="tx-medium mg-b-0">{{__('Disabled in this tarif')}}</p>                                           
+                                          </div><!-- media-body -->
+                                        </div><!-- media -->                                        
+                                      </li>
+                                    @endif
+                                    <li class="list-label">
+                                      <div class="d-flex w-100">
+                                        <div class="w-100">{{__('Internet Devices')}}</div>
+                                        <div class="w-100 text-end">
+                                          <span style="cursor: pointer"  wire:click="$dispatchTo('modals.add-inet-device-to-account','show_modal')">
+                                            <i class="fa fa-plus"></i>{{__('Add')}}
+                                          </span>
+                                        </div>
+                                      </div>
+                                    </li>
+                                    @foreach ($account->InetDevices as $dev)
                                    
                                       <li class="list-item">
                                         <div class="media align-items-center">
                                           <div class="wd-35 ht-35 bd bd-2 bd-primary tx-primary rounded-circle align-items-center justify-content-center op-6 d-none d-sm-flex"
-                                          wire:click="$dispatchTo('modals.add-inet-device-to-account','show_modal',{service_id:{{$account->AccountInetService->id}}})"
+                                          wire:click="$dispatchTo('modals.add-inet-device-to-account','show_modal',{device_id:{{$dev->id}}})"
                                           >
                                             <i data-feather="hard-drive" style="cursor: pointer"></i>
                                           </div>
                                           <div class="media-body mg-sm-l-15">
-                                            @if (count($account->AccountInetService?->InetDevices)>$i)
-                                            <livewire:network.inet-dev-detail :dev="$account->AccountInetService?->InetDevices[$i]->id" :key="$account->AccountInetService?->InetDevices[$i]->id">
-
-                                             
-                                                
-                                            @else
-                                            <p class="tx-12 mg-b-0">{{__('Free')}}</p> 
-
-                                            @endif                        
+                                                 <livewire:network.inet-dev-detail :dev='$dev->id' :wire:key="$loop->index">
                                           </div><!-- media-body -->                                         
                                         </div><!-- media -->
                                         <div class="text-end tx-rubik">                                            
-                                           <!-- device params -->                               
+                                            <span style="cursor: pointer" wire:confirm="{{__('Are you whant unlink this device ?')}}" wire:click="unlik_dev({{$dev->id}})"><i data-feather="trash" style="height: 16px; color:red"></i></span>
                                         </div>
                                       </li>
-                                    @endfor                            
-                                    @endif
+                                    @endforeach                            
+                                    
                                 </ul>
                             </div>
                         </div>

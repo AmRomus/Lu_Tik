@@ -40,7 +40,10 @@ class Tarif extends Model implements ProductLimitedInterface
          * If the service can be purchased once, then
          *  return !$customer->paid($this);
          */
-        return true; 
+        //dd($customer->paid($this));
+        //return true;
+        
+        return !$customer->paid($this);
     }
     public function InetService()
     {

@@ -19,7 +19,9 @@
                                     <th style="width: 300px">{{__('Address')}}</th>
                                     <th style="width: 150px;">{{__('Phone')}}</th>
                                     <th>{{__('Tarif')}}</th>
+                                    <th>{{__('Active Until')}}</th>
                                     <th>{{__('Comment')}}</th>
+                                    
                                     <th style="width: 50px;"></th>
                                 </tr>
                             </thead>
@@ -41,9 +43,15 @@
                                         </td>
                                         <td>{{$item->phone}}</td>
                                         <td>
-                                            {{$item->tarif?->name}}
+                                            <div class="media">
+                                                {{__('Current')}}: {{$item->Subscription?->tarif?->name}}
+                                            </div>
+                                            <div class="media">
+                                                {{__('Next Tarif')}}: {{$item->tarif?->name}}
+                                            </div>
                                         </td>
-                                        <td>{{$item->coment}}</td>
+                                        <td>{{$item->Subscription?->acct_end}}</td>
+                                        <td>{{$item->coment}}</td>                                       
                                         <td valign="middle"><a href="{{route('account.edit',$item->id)}}"><i data-feather="arrow-right"></i></a></td>
                                     </tr>
                                 @endforeach

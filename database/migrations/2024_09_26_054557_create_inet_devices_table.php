@@ -16,9 +16,7 @@ return new class extends Migration
             $table->macAddress('mac')->unique();
             $table->ipAddress('ip')->nullable();
             $table->unsignedBigInteger('billing_account_id')->nullable();
-            $table->foreign('billing_account_id','account_inet_device')->references('id')->on('billing_accounts')->nullOnDelete();
-            $table->unsignedBigInteger('account_inet_service_id')->nullable();
-            $table->foreign('account_inet_service_id','service_device')->references('id')->on('account_inet_services')->nullOnDelete();
+            $table->foreign('billing_account_id','account_inet_device')->references('id')->on('billing_accounts')->nullOnDelete();           
             $table->unsignedBigInteger('control_interface_id')->nullable();
             $table->foreign('control_interface_id','control_interface_device')->references('id')->on('control_interfaces')->nullOnDelete();            
             $table->string('dhcp_server')->nullable();

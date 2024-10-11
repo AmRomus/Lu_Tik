@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Contracts\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use \RouterOS\Client;
@@ -54,20 +55,16 @@ class Mikrotik extends Model
     public function ControlInterface(){
         return $this->hasMany(ControlInterface::class);
     }
+  
     public function findDevice($device)
     {
-        //$query= new Query('/ip/arp/print');
-        $face_count=0;
         $faces= array();
         foreach($this->ControlInterface as $item)
-        {
-            // $query=$query->where('interface',$item->interface);
-            // $face_count++;
+        {           
             $faces[]=array('interface',$item->interface);
         }
         if(count($faces)>1)
-        {
-           // $query= new Query('/ip/arp/print',$faces,'|');
+        {          
            $params_array=$this->Link?->q('/ip/arp/print',$faces,'|')->r();
         }elseif(count($faces)==1)
         {
@@ -84,6 +81,51 @@ class Mikrotik extends Model
         }
         
         return $params_array;
+    }
+    public function getArpListAttribute()
+    {
+        $faces= array();
+        foreach($this->ControlInterface as $item)
+        {           
+            $faces[]=array('interface',$item->interface);
+        }
+        if(count($faces)>1)
+        {          
+           $params_array=$this->Link?->q('/ip/arp/print',$faces,'|')->r();
+        }elseif(count($faces)==1)
+        {
+            $params_array=$this->Link?->q('/ip/arp/print',$faces)->r();
+        }else{
+            $params_array=[];
+        }
+        foreach($params_array as $key=>$val)
+        {
+            if(!array_key_exists('mac-address',$val))
+            {
+                unset($params_array[$key]);
+            }
+        }
+        
+        return $params_array;
+    }
+    public function getAccessListAttribute()    :array
+    {
+        $ret= $this->Link?->qr((new Query('/ip/firewall/address-list/print'))->where('list','inet-access'));
+        $ret_list=array();
+        foreach($ret as $item){
+            $ret_list[$item['.id']]=$item['address'];
+            
+        }
+       return $ret_list;
+    }
+    public function AddToList($ip){
+       $result=$this->Link?->qr((new Query('/ip/firewall/address-list/add'))->equal('list','inet-access')->equal('address',$ip));
+       return $result;
+    }
+    public function DeleteFromList($id)
+    {
+        $result=$this->Link?->qr((new Query('/ip/firewall/address-list/remove'))->equal('.id',$id));
+       return $result;
     }
     public function findDhcp($device)
     {

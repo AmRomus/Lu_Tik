@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Observers\BillingAccountObserver;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -49,5 +50,24 @@ class BillingAccount extends Model implements Customer
     public function InetDevices(){
         return $this->hasMany(InetDevices::class);
     }
-    
+
+    public function Subscriptions(){
+        return $this->hasMany(AccountSubscription::class);
+    }
+    public function getSubscriptionAttribute(){
+        return $this->Subscriptions()->whereDate('acct_end','>',Carbon::now())->latest()->first();
+    }
+    public function getInetAccessAttribute(): int
+    {
+        $state=0;
+       
+        if($this->AccountInetService?->MikroBillApi){
+            // esli est' privyazka k API
+           $state=$this->AccountInetService->service_state;
+        }
+        if($state>=0&&$this->Subscription){
+            $state=-1;
+        }
+        return $state;
+    }
 }

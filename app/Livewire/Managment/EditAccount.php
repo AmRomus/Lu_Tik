@@ -3,6 +3,9 @@
 namespace App\Livewire\Managment;
 
 use App\Models\BillingAccount;
+use App\Models\InetDevices;
+use App\Models\Mikrotik;
+use Livewire\Attributes\On;
 use Livewire\Component;
 
 class EditAccount extends Component
@@ -15,7 +18,17 @@ class EditAccount extends Component
         $this->acc=$this->account?->toArray();
     }
     public function render()
-    {
+    {        
+      
         return view('livewire.managment.edit-account');
+    }
+    #[On('saved')]
+    public function refresh(){
+        return redirect(request()->header('Referer'));
+     
+    }
+    public function unlik_dev(InetDevices $dev){
+       $dev->billing_account_id=null;
+       $dev->save();
     }
 }
