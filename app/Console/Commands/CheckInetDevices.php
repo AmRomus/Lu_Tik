@@ -67,9 +67,15 @@ class CheckInetDevices extends Command
            
             $this->info('Checkin MK :'.$mk->name);
             $this->info('Request mac list');
+            $link=$mk->Link;
+            if($link===null){
+                $this->info('Mikrotik '.$mk->hostname.' unrechable');
+                continue;
+            }
+           
             // $macs= $mk->ArpList;
-            $access_list = $mk->AccessList;            
-            $limit_list = $mk->QueueList;
+            $access_list = $mk->getAccessList($link);            
+            $limit_list = $mk->getQueueList($link);
            
            // var_dump($limit_list);
             foreach($mk->ControlInterface()->with('InetDevices')->get() as $ci){
@@ -82,7 +88,7 @@ class CheckInetDevices extends Command
                         if($in_list!==false){                            
                             if(!$u_access){
                                 $this->info("Dekativate ".$dev->ip);
-                                $mk->DeleteFromList($in_list); 
+                                $mk->DeleteFromList($link,$in_list); 
                                 unset($access_list[$in_list]);
                             }else{
                                 unset($access_list[$in_list]);
@@ -90,7 +96,7 @@ class CheckInetDevices extends Command
                         }else {
                             if($u_access){
                                 $this->info("Activate ".$dev->ip);
-                                $mk->AddToList($dev->ip); 
+                                $mk->AddToList($link,$dev->ip); 
                                // $mk->AddQueue($dev);
                             }
                         }
@@ -98,14 +104,14 @@ class CheckInetDevices extends Command
                         {
                             if(!$u_access){
                                 $this->info('REM Q:'.$dev->ip);
-                                $mk->DelQueue($dev);
+                                $mk->DelQueue($link,$dev);
                                 unset($limit_list[$in_q]);
                             }
                         }else {
                             var_dump($in_q);
                             if($u_access){
                                 $this->info('ADD Q:'.$dev->ip);
-                                $mk->AddQueue($dev);
+                                $mk->AddQueue($link,$dev);
                             }
                         }
                       
@@ -113,7 +119,7 @@ class CheckInetDevices extends Command
                 }
             }
             foreach($access_list as $key=>$val){
-             $mk->DeleteFromList($key);   
+             $mk->DeleteFromList($link,$key);   
             }
            
             // var_dump($access_list);

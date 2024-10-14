@@ -107,9 +107,9 @@ class Mikrotik extends Model
         }
         return $ret_list;
     }
-    public function getAccessListAttribute()    :array
+    public function getAccessList(Client $link) :array
     {
-        $ret= $this->Link?->q((new Query('/ip/firewall/address-list/print'))->where('list','inet-access'))->readAsIterator();
+        $ret= $link->q((new Query('/ip/firewall/address-list/print'))->where('list','inet-access'))->readAsIterator();
         $ret_list=array();
         for ($ret->rewind(); $ret->valid(); $ret->next()) {
             try{
@@ -121,9 +121,9 @@ class Mikrotik extends Model
         }
        return $ret_list;
     }
-    public function getQueueListAttribute() : array 
+    public function getQueueList(Client $link) : array 
     {
-        $ret= $this->Link?->q(new Query('/queue/simple/print'))->readAsIterator();
+        $ret= $link->q(new Query('/queue/simple/print'))->readAsIterator();
         $ret_list=array();       
         for ($ret->rewind(); $ret->valid(); $ret->next()) {
             try{
@@ -136,28 +136,28 @@ class Mikrotik extends Model
        return $ret_list;
     }
 
-    public function AddToList($ip){
-       $result=$this->Link?->qr((new Query('/ip/firewall/address-list/add'))->equal('list','inet-access')->equal('address',$ip));
+    public function AddToList(Client $link,$ip){
+       $result=$link->qr((new Query('/ip/firewall/address-list/add'))->equal('list','inet-access')->equal('address',$ip));
        return $result;
     }
-    public function DeleteFromList($id)
+    public function DeleteFromList(Client $link,$id)
     {
-        $result=$this->Link?->qr((new Query('/ip/firewall/address-list/remove'))->equal('.id',$id));
+        $result=$link?->qr((new Query('/ip/firewall/address-list/remove'))->equal('.id',$id));
        return $result;
     }
-    public function AddQueue(InetDevices $device)
+    public function AddQueue(Client $link,InetDevices $device)
     {
         $up_speed=$device->BillingAccount->Tarif->InetService->speed_up.$device->BillingAccount->Tarif->InetService->speed_up_unit;
         $down_speed=$device->BillingAccount->Tarif->InetService->speed_down.$device->BillingAccount->Tarif->InetService->speed_down_unit;  
         $ips=implode(',',$device->BillingAccount->InetDevices->pluck('ip')->toArray());
         // dd($ips));     
-        $result=$this->Link?->qr((new Query('/queue/simple/add'))->equal('name','q'.$device->BillingAccount->ident)
+        $result=$link->qr((new Query('/queue/simple/add'))->equal('name','q'.$device->BillingAccount->ident)
         ->equal('target',$ips)
         ->equal('max-limit',$up_speed.'/'.$down_speed));
        return $result;
     }
-    public function DelQueue(InetDevices $dev){
-        $result=$this->Link?->qr((new Query('/queue/simple/remove'))->equal('numbers','q'.$dev->BillingAccount->ident));
+    public function DelQueue(Client $link,InetDevices $dev){
+        $result=$link->qr((new Query('/queue/simple/remove'))->equal('numbers','q'.$dev->BillingAccount->ident));
         return $result;
     }
     public function findDhcp($device)
