@@ -25,6 +25,7 @@ class CheckInetDevices extends Command
     /**
      * Execute the console command.
      */
+    
     public function handle()
     {
         $this->info("Begin process");       
@@ -61,20 +62,25 @@ class CheckInetDevices extends Command
 
 
         // }
-
+        $time_start = microtime(true); 
         foreach(Mikrotik::all() as $mk){
+           
             $this->info('Checkin MK :'.$mk->name);
             $this->info('Request mac list');
-            $macs= $mk->ArpList;
-            $access_list = $mk->AccessList;
+            // $macs= $mk->ArpList;
+            $access_list = $mk->AccessList;            
+            $limit_list = $mk->QueueList;
+           
+           // var_dump($limit_list);
             foreach($mk->ControlInterface()->with('InetDevices')->get() as $ci){
                 foreach($ci->InetDevices as $dev){
                     if($dev->ip&&$dev->BillingAccount){
+                        $u_access=($dev->BillingAccount->InetAccess>=0)?false:true;
                         $in_list=array_search($dev->ip,$access_list,true); 
+                        $in_q=array_search('q'.$dev->BillingAccount->ident,$limit_list,true);
                        
-                        if($in_list!==false){
-                            var_dump($dev->BillingAccount->InetAccess);
-                            if($dev->BillingAccount->InetAccess>=0){
+                        if($in_list!==false){                            
+                            if(!$u_access){
                                 $this->info("Dekativate ".$dev->ip);
                                 $mk->DeleteFromList($in_list); 
                                 unset($access_list[$in_list]);
@@ -82,9 +88,24 @@ class CheckInetDevices extends Command
                                 unset($access_list[$in_list]);
                             }
                         }else {
-                            if($dev->BillingAccount->InetAccess<0){
+                            if($u_access){
                                 $this->info("Activate ".$dev->ip);
                                 $mk->AddToList($dev->ip); 
+                               // $mk->AddQueue($dev);
+                            }
+                        }
+                        if($in_q!==false)
+                        {
+                            if(!$u_access){
+                                $this->info('REM Q:'.$dev->ip);
+                                $mk->DelQueue($dev);
+                                unset($limit_list[$in_q]);
+                            }
+                        }else {
+                            var_dump($in_q);
+                            if($u_access){
+                                $this->info('ADD Q:'.$dev->ip);
+                                $mk->AddQueue($dev);
                             }
                         }
                       
@@ -94,7 +115,8 @@ class CheckInetDevices extends Command
             foreach($access_list as $key=>$val){
              $mk->DeleteFromList($key);   
             }
-            var_dump($access_list);
+           
+            // var_dump($access_list);
             // foreach($mk->ControlInterface()->with('InetDevices')->get() as $ci){
             //     $this->info('Checkin iface :'.$ci->interface);
             //     $this->info("Mac count ".count($macs));
@@ -128,5 +150,6 @@ class CheckInetDevices extends Command
             //     $this->info("Mac count ".count($macs));
             // }
         }
+        $this->info("Map in: ".(microtime(true) - $time_start)." seconds");
     }
 }
