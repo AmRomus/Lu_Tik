@@ -12,29 +12,34 @@
                 <div>{{ $error }}</div>
             @endforeach
      
+            
             <div class="input-group mb-3">
                 <div class="input-group-prepend">
-                  <span class="input-group-text" >{{__('Divecs')}}</span>
+                  <span class="input-group-text" >{{__('Speed UP')}}</span>
                 </div>
-                <input type="number" class="form-control" placeholder="1" aria-label="devices_count" name="devices_count" wire:model.live="devices_count" min="1" max="20">
+                <input type="number" class="form-control" placeholder="1" aria-label="speed_up" name="speed_up" wire:model.defer="speed_up" min="0" >
+                <select class="form-control" wire:model.live="speed_up_unit">
+                  <option value="">Bit/s</option>
+                  <option value="K">Kbit/s</option>
+                  <option value="M">Mbit/s</option>
+                </select>
             </div>
             <div class="input-group mb-3">
                 <div class="input-group-prepend">
-                  <span class="input-group-text" >{{__('Speed UP (Mbit/s)')}}</span>
+                  <span class="input-group-text" >{{__('Speed Down')}}</span>
                 </div>
-                <input type="number" class="form-control" placeholder="1" aria-label="speed_up" name="speed_up" wire:model.live="speed_up" min="0" >
-            </div>
-            <div class="input-group mb-3">
-                <div class="input-group-prepend">
-                  <span class="input-group-text" >{{__('Speed Down (Mbit/s)')}}</span>
-                </div>
-                <input type="number" class="form-control" placeholder="1" aria-label="speed_up" name="speed_up" wire:model.live="speed_down" min="0" >
+                <input type="number" class="form-control" placeholder="1" aria-label="speed_down" name="speed_down" wire:model.defer="speed_down" min="0" >
+                <select class="form-control" wire:model.live="speed_down_unit">
+                  <option value="">Bit/s</option>
+                  <option value="K">Kbit/s</option>
+                  <option value="M">Mbit/s</option>
+                </select>
             </div>
             <div class="input-group mb-3">
                 <div class="input-group-prepend">
                   <span class="input-group-text" >{{__('Price')}}</span>
                 </div>
-                <input type="number" class="form-control" placeholder="0" aria-label="price" name="price" wire:model.live="price" min="0" >
+                <input type="number" class="form-control" placeholder="0" aria-label="price" name="price" id="price" wire:model.defer="price" min="0" >
             </div>
           <div class="d-flex justify-content-end mg-t-30 mg-b-0">
             <button type="button" class="btn btn-xs btn-white" data-dismiss="modal" wire:click="show_modal">{{__('Cencel')}}</button>

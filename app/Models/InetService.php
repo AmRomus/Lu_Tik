@@ -11,7 +11,9 @@ class InetService extends Model
     protected $fillable=[
         'tarif_id',      
         'speed_up',
+        'speed_up_unit',
         'speed_down',
+        'speed_down_unit',
         'price',
     ];
 

@@ -66,7 +66,8 @@
             <a href="{{route('inetdevices')}}" class="nav-link"> 
               <i data-feather="hard-drive"></i> <span>{{__('Routers')}}</span>
             </a>
-          </li>  
+          </li>
+          
         </ul>
     </div>
 </aside>

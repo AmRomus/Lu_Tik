@@ -12,7 +12,7 @@
                     <div class="col-4 table-resposive">
                         <ul class="list-unstyled mg-b-0">
                             <li class="list-label">{{__('List')}}</li>
-                            @forelse ($tarifs as $item)                            
+                            @forelse ($tarif_list as $item)                            
                             <li class="list-item bd">
                                 <div class="media align-items-center w-100">
                                     <div class="wd-35 ht-35 bd bd-2 bd-success tx-primary rounded-circle align-items-center justify-content-center op-6 d-none d-sm-flex">

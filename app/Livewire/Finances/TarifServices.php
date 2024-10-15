@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Finances;
 
+use App\Models\InetService;
 use App\Models\Tarif;
 use Livewire\Attributes\On;
 use Livewire\Component;
@@ -22,5 +23,14 @@ class TarifServices extends Component
         $this->cur_tarif=Tarif::find($tarif);
         $this->name=$this->cur_tarif?->name;
         $this->description = $this->cur_tarif?->description;
+    }
+    #[On('saved')]
+    public function renew_services(){
+       
+        $this->cur_tarif->refresh();
+    }
+    public function del_inet_service($service_id){
+        InetService::find($service_id)?->delete();
+        $this->cur_tarif->refresh();
     }
 }

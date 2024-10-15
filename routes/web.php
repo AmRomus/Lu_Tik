@@ -3,6 +3,7 @@
 use App\Http\Controllers\AddressController;
 use App\Livewire\Apis\MikroBill;
 use App\Livewire\Auth\Login;
+use App\Livewire\Confs\InetServices;
 use App\Livewire\Dashboard;
 use App\Livewire\Finances\Tarifs;
 use App\Livewire\Managment\Accounts;
@@ -54,3 +55,4 @@ Route::middleware('auth')->prefix('/apis')->group(function(){
 Route::middleware('auth')->prefix('/network')->group(function(){
     Route::get('/inet_devices',InetDevices::class)->name('inetdevices');
 });
+
