@@ -5,11 +5,13 @@ namespace App\Livewire\Finances;
 use App\Models\InetService;
 use App\Models\Tarif;
 use Livewire\Attributes\On;
+use Livewire\Attributes\Rule;
 use Livewire\Component;
 
 class TarifServices extends Component
 {
     public $cur_tarif;
+    #[Rule('required')]
     public $name;  
     public $description;  
     public function render()
@@ -31,6 +33,15 @@ class TarifServices extends Component
     }
     public function del_inet_service($service_id){
         InetService::find($service_id)?->delete();
+        $this->cur_tarif->refresh();
+    }
+    public function save(){
+        $this->validate([
+            'name'=>'required|unique:tarifs,name,'.$this->cur_tarif->id,
+        ]);
+        $this->cur_tarif->name=$this->name;
+        $this->cur_tarif->description=$this->description;
+        $this->cur_tarif->save();
         $this->cur_tarif->refresh();
     }
 }

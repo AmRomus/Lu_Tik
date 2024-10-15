@@ -2,6 +2,9 @@
 @if ($cur_tarif)    
 
 <div class="card card-body">
+    @foreach ($errors->all() as $error)
+    <div>{{ $error }}</div>
+@endforeach
     <div class="input-group mb-3">
         <div class="input-group-prepend">
           <span class="input-group-text" >{{__('Tarif name')}}</span>
@@ -14,6 +17,7 @@
         </div>
         <textarea type="text" class="form-control" placeholder="{{__('Description')}}" aria-label="description" name="description" wire:model.defer="description">{{$description}} </textarea>
     </div>
+    
     <div class="row">
         <div class="col-12  justify-content-end">
             @if ($cur_tarif?->InetService)
@@ -50,7 +54,10 @@
         </div>
     </div>
 
-    <livewire:modals.new-inet-services ::wire:key="$cur_tarif->id">
+    <div class="card-footer text-end mt-3">
+        <button class="btn btn-sm btn-success" wire:click="save">{{__('Save')}}</button>
+    </div>
 </div>
 @endif
+<livewire:modals.new-inet-services ::wire:key="$cur_tarif->id">
 </div>
