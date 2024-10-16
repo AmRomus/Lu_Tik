@@ -147,13 +147,13 @@ class Mikrotik extends Model
     }
     public function AddQueue(Client $link,InetDevices $device)
     {
-        $up_speed=$device->BillingAccount->Tarif->InetService->speed_up.$device->BillingAccount->Tarif->InetService->speed_up_unit;
-        $down_speed=$device->BillingAccount->Tarif->InetService->speed_down.$device->BillingAccount->Tarif->InetService->speed_down_unit;  
+        //$this->Subscription->tarif->InetService
+         
         $ips=implode(',',$device->BillingAccount->InetDevices->pluck('ip')->toArray());
         // dd($ips));     
         $result=$link->qr((new Query('/queue/simple/add'))->equal('name','q'.$device->BillingAccount->ident)
         ->equal('target',$ips)
-        ->equal('max-limit',$up_speed.'/'.$down_speed));
+        ->equal('max-limit',$device->InetSpeedLimit));
        return $result;
     }
     public function DelQueue(Client $link,InetDevices $dev){

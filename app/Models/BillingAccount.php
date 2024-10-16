@@ -65,9 +65,9 @@ class BillingAccount extends Model implements Customer
             // esli est' privyazka k API
            $state=$this->AccountInetService->service_state;
         }
-        if($state>=0&&$this->Subscription){
+        if($state>=0&&$this->Subscription->tarif->InetService){
             $state=-1;
-        }
+        }       
         return $state;
     }
 }

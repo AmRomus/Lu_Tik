@@ -22,5 +22,20 @@ class InetDevices extends Model
         return $this->belongsTo(ControlInterface::class);
     }
    
+    public function getInetSpeedLimitAttribute()
+    {
+        $inet_service=$this->BillingAccount?->Subscription?->tarif?->InetService;
+        if ($inet_service){
+            $up_speed= $inet_service->speed_up.$inet_service->speed_up_unit;
+            $down_speed= $inet_service->speed_down.$inet_service->speed_down_unit; 
+           
+        }else {
+            $inet_service=$this->BillingAccount->Tarif->InetService;
+            $up_speed= $inet_service->speed_up.$inet_service->speed_up_unit;
+            $down_speed= $inet_service->speed_down.$inet_service->speed_down_unit; 
+        }
+        $speeds=$up_speed.'/'.$down_speed;
+        return $speeds;
+    }
     
 }

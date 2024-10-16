@@ -80,7 +80,7 @@
                               </div><!-- media -->
                               <div class="text-end tx-rubik">
                                
-                                  @if($account->status<0)
+                                  @if($account->subscription)
                                   <p class="mg-b-0 tx-success"> {{__('Active')}} </p>   
                                   @else
                                   <p class="mg-b-0 tx-danger tx-bold"> {{__('Blocked')}} </p>   
