@@ -42,8 +42,13 @@ class Tarif extends Model implements ProductLimitedInterface
          */
         //dd($customer->paid($this));
         //return true;
-        
-        return !$customer->paid($this);
+        $ret =false;
+        if($customer->Tarif){
+            if (!$customer->Subscription){
+                $ret=true;
+            }
+        }
+        return $ret;
     }
     public function InetService()
     {

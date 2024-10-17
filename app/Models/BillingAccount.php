@@ -59,8 +59,7 @@ class BillingAccount extends Model implements Customer
     }
     public function getInetAccessAttribute(): int
     {
-        $state=0;
-       
+        $state=0;       
         if($this->AccountInetService?->MikroBillApi){
             // esli est' privyazka k API
            $state=$this->AccountInetService->BillingState;
@@ -68,6 +67,16 @@ class BillingAccount extends Model implements Customer
         }
         if($state>=0&&$this->Subscription?->tarif?->InetService){
             $state=-1;
+        }else if($state>=0&&!$this->Subscription){
+            //Try to by tarif subscription
+            if($this->Tarif->canBuy($this)){
+                $subscr= new AccountSubscription();
+                $subscr->tarif_id=$this->tarif_id;
+                $subscr->acct_end=Carbon::now()->addMonth();
+                if($this->safePay($this->Tarif)){
+                    $this->Subscriptions()->save($subscr);
+                }
+            }
         }       
         return $state;
     }
