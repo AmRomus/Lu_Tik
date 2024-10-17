@@ -144,13 +144,29 @@
                         <div class="card">
                             <div class="card-header">
                                 <h6 class="lh-5 mg-b-0 tx-bold">{{__('Services')}}</h6>
-                            </div>
-                            <div class="card-body pd-0">
+                            </div>                            
+                            <div class="card-body pd-0">                              
                                 <ul class="list-unstyled mg-b-0">
+                                  @if ($account->Subscription)
+                                    <li class="list-label">{{__('Subscription')}}</li>
+                                    <li class="list-item">
+                                      <div class="media align-items-center">
+                                        <div class="wd-35 ht-35 bd bd-2 bd-primary tx-primary rounded-circle align-items-center justify-content-center op-6 d-none d-sm-flex" >
+                                          <i data-feather="briefcase" style="cursor: pointer"></i>
+                                        </div>
+                                        <div class="media-body mg-sm-l-15">
+                                          <p class="tx-medium mg-b-0">{{$account->Subscription->Tarif?->name}}</p> 
+                                          <p class="tx-small tx-mutted mg-b-0">{{__('End date:')}} {{$account->Subscription->acct_end}}</p>                                
+                                        </div><!-- media-body -->
+                                      </div><!-- media -->
+                                      <div class="text-end tx-rubik">
+                                        <i class="fa fa-trash tx-24" wire:click="$dispatchTo('modals.subscription-cencel','stop_subscription')" ></i>
+                                      </div>
+                                    </li>
+                                  @endif                                   
                                     @if ($account->Tarif?->InetService)
                                     <li class="list-label">{{__('Internet')}}</li>
                                     <li class="list-item">
-
                                         <div class="media align-items-center">
                                           <div class="wd-35 ht-35 bd bd-2 bd-primary tx-primary rounded-circle align-items-center justify-content-center op-6 d-none d-sm-flex" 
                                           wire:click="$dispatchTo('modals.set-service-api','show_modal',{ service_id:{{$account->AccountInetService?->id}}})">
@@ -167,6 +183,17 @@
                                                 {{__('Internal')}}
                                             @endif                                         
                                         </div>
+                                    </li>
+                                    @else 
+                                    <li class="list-item">
+                                      <div class="media align-items-center">
+                                        <div class="wd-35 ht-35 bd bd-2 bg-danger tx-white rounded-circle align-items-center justify-content-center op-6 d-none d-sm-flex" >
+                                            <i data-feather="alert-circle" ></i>                                            
+                                        </div>
+                                        <div class="media-body mg-sm-l-15">
+                                          <p class="tx-medium mg-b-0">{{__('Disabled in this tarif')}}</p>                                           
+                                        </div><!-- media-body -->
+                                      </div><!-- media -->                                        
                                     </li>
                                     @endif
                                    
@@ -241,6 +268,7 @@
         <livewire:modals.change-tarif @saved="$refresh" :account_id="$account->id" >
         <livewire:modals.set-service-api @saved="$refresh" >
         <livewire:modals.add-inet-device-to-account @saved="$refresh" :account_id="$account->id">
+        <livewire:modals.subscription-cencel @saved="$refresh" :account_id="$account->id">
           @push('js')
               <script type="module">
                 var cleaveII = new Cleave('#new_mac', {

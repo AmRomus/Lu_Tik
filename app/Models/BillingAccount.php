@@ -63,9 +63,10 @@ class BillingAccount extends Model implements Customer
        
         if($this->AccountInetService?->MikroBillApi){
             // esli est' privyazka k API
-           $state=$this->AccountInetService->service_state;
+           $state=$this->AccountInetService->BillingState;
+           
         }
-        if($state>=0&&$this->Subscription->tarif->InetService){
+        if($state>=0&&$this->Subscription?->tarif?->InetService){
             $state=-1;
         }       
         return $state;
