@@ -14,45 +14,64 @@
                             <thead>
                                 <tr>
                                     <th style="width:100px;"></th>
-                                    <th style="width:50px;"></th>
+                                   
                                     <th style="width: 250px">{{__('Full Name')}}</th>
+                                    <th>{{__('Balance')}}</th>
                                     <th style="width: 300px">{{__('Address')}}</th>
                                     <th style="width: 150px;">{{__('Phone')}}</th>
                                     <th>{{__('Tarif')}}</th>
+                                    <th>{{__('State')}}</th>
                                     <th>{{__('Active Until')}}</th>
                                     <th>{{__('Comment')}}</th>
-                                    
+                                    <th  style="width: 50px;"></th>
                                     <th style="width: 50px;"></th>
                                 </tr>
                             </thead>
                             <tbody>
                                 @foreach ($accounts as $item)
                                     <tr>
-                                        <td valign="middle"><strong>{{$item->ident}}</strong></td>
-                                        <td valign="middle">
-                                            <div class="d-flex justify-content-center @if ($item->status>=0) bg-danger @else bg-success @endif rounded-1 text-white font-bold align-items-center me-3" style="height: 30px;width:30px;">
-                                                <strong>{{$item->initials}}</strong>
-                                            </div>
+                                        <td >{{$item->ident}}</td>                                        
+                                        <td>
+                                            {{$item->FullName}}                                     
                                         </td>
                                         <td>
-                                            <h6 class="mb-0">{{$item->FullName}}</h6>
-                                            <small class="mt-0">{{__('Balance')}}:{{$item->balance}}</small>
+                                           {{$item->balance}}
                                         </td>
                                         <td>
                                             {{$item->address}}
                                         </td>
                                         <td>{{$item->phone}}</td>
                                         <td>
-                                            <div class="media">
-                                                {{__('Current')}}: {{$item->Subscription?->tarif?->name}}
-                                            </div>
-                                            <div class="media">
-                                                {{__('Next Tarif')}}: {{$item->tarif?->name}}
-                                            </div>
+                                            @if ($item->Subscription?->tarif?->name)
+                                                {{$item->Subscription?->tarif?->name}} 
+                                            @else
+                                                {{$item->tarif?->name}}                                                
+                                            @endif                                            
+                                        </td>
+                                        <td>
+                                            @if ($item->Subscription)
+                                                <span class="badge rounded-pill text-bg-success">{{__('Active')}}</span>
+                                            @else
+                                            @if ($item->InetAccess<0 || $item->TvAccess<0)
+                                                @if ($item->InetAccess<0)
+                                                <span class="badge rounded-pill text-bg-success">{{__('Inet Api Active')}}</span>
+                                                @else 
+                                                <span class="badge rounded-pill text-bg-danger">{{__('Inet Suspended')}}</span>
+                                                @endif
+                                                @if ($item->TvAccess<0)
+                                                <span class="badge rounded-pill text-bg-success">{{__('TV Api Active')}}</span>
+                                                @else
+                                                <span class="badge rounded-pill text-bg-danger">{{__('TV Suspended')}}</span>
+                                                @endif
+                                            @else
+                                            <span class="badge rounded-pill text-bg-danger">{{__('Suspended')}}</span>
+                                            @endif
+                                            @endif
                                         </td>
                                         <td>{{$item->Subscription?->acct_end}}</td>
-                                        <td>{{$item->coment}}</td>                                       
-                                        <td valign="middle"><a href="{{route('account.edit',$item->id)}}"><i data-feather="arrow-right"></i></a></td>
+                                        <td>{{$item->coment}}</td> 
+                                        <td><a href="#" wire:click.prevent="$dispatchTo('modals.cash-pay','show_modal',{account:{{$item->id}}})"><i class="fa fa-money strong"></i></a></td>                                      
+                                        <td ><a href="{{route('account.edit',$item->id)}}"><i class="fa fa-arrow-right"></i></a></td>
                                     </tr>
                                 @endforeach
                             </tbody>
@@ -62,4 +81,5 @@
             </div>
         </div>
         <livewire:modals.new-billing-account @saved="$refresh">
+        <livewire:modals.cash-pay @saved="$refresh">
 </div>

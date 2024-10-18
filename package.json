@@ -20,6 +20,7 @@
     },
     "dependencies": {
         "@fontsource/ibm-plex-sans": "^5.1.0",
+        "@fortawesome/fontawesome-svg-core": "^6.6.0",
         "@ibm/plex-sans": "^1.0.0",
         "cleave.js": "^1.6.0",
         "feather-icons": "^4.29.2",
