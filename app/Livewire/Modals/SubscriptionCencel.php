@@ -19,7 +19,10 @@ class SubscriptionCencel extends Component
        $this->account=$account_id;
        if($account_id->Subscription){
        //$this->refund_days=$account_id->Subscription->created_at->diffInDays($account_id->Subscription->acct_end);
-       $this->refund_summ=round($account_id->Subscription->created_at->diffInDays(Carbon::now())*$account_id->Subscription->tarif->getAmountProduct()/$account_id->Subscription->created_at->diffInDays($account_id->Subscription->acct_end),0);
+       //cena za den'
+       $day_price=$account_id->Subscription->tarif->getAmountProduct()/$account_id->Subscription->created_at->diffInDays($account_id->Subscription->acct_end);
+       $spent_summ=$account_id->Subscription->created_at->diffInDays(Carbon::now())*$day_price;
+       $this->refund_summ=round($account_id->Subscription->tarif->getAmountProduct()-$spent_summ,0);
        }
      
     }
