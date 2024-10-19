@@ -240,7 +240,7 @@
                                       </div>
                                     </li>
                                     @foreach ($account->InetDevices as $dev)
-                                   
+                                    
                                       <li class="list-item">
                                         <div class="media align-items-center">
                                           <div class="wd-35 ht-35 bd bd-2 bd-primary tx-primary rounded-circle align-items-center justify-content-center op-6 d-none d-sm-flex"
@@ -249,7 +249,7 @@
                                             <i data-feather="hard-drive" style="cursor: pointer"></i>
                                           </div>
                                           <div class="media-body mg-sm-l-15">
-                                                 <livewire:network.inet-dev-detail :dev='$dev->id' :wire:key="$loop->index">
+                                            <livewire:network.inet-dev-detail :dev='$dev->id' :wire:key="$loop->index">
                                           </div><!-- media-body -->                                         
                                         </div><!-- media -->
                                         <div class="text-end tx-rubik">                                            

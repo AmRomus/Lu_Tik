@@ -17,20 +17,18 @@ class InetDevDetail extends Component
     public $bind;
     public $ret=[];
     public function mount( $dev){
-        $this->dev = InetDevices::find($dev); 
-        //$this->dev = $dev;
+        $this->dev = InetDevices::find($dev);        
         if($this->dev->bind==1){        
         $this->interface=($this->dev->ControlInterface?->interface)? $this->dev->ControlInterface->interface:"-";
-        $this->mk= $this->dev->ControlInterface->Mikrotik->name;
-        $this->ip= $this->dev->ip;
-        $this->ret=$this->dev->ControlInterface->Mikrotik->findDevice( $this->dev->mac);
+        $this->mk= ($this->dev->ControlInterface->Mikrotik->name)?$this->dev->ControlInterface->Mikrotik->name:$this->dev->ControlInterface->Mikrotik->hostname;
+        $this->ip= $this->dev->ip;        
+        $this->ret=$this->dev->ControlInterface->Mikrotik->findDevice($this->dev->mac)->toArray();
+        
         }else 
         {
             foreach(Mikrotik::all() as $mk){
-                $this->ret=$mk->findDevice( $this->dev->mac);
-                $this->mk=$mk->name;
-              // dd($ret);
-               break;
+                $this->ret=$mk->findDevice( $this->dev->mac)->toArray();
+
             }
         }
         $this->mac= $this->dev->mac;

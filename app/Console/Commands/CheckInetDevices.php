@@ -73,13 +73,17 @@ class CheckInetDevices extends Command
                 continue;
             }
            
-            // $macs= $mk->ArpList;
+            $macs= $mk->ArpList;
             $access_list = $mk->getAccessList($link);            
             $limit_list = $mk->getQueueList($link);
+            
            
            // var_dump($limit_list);
             foreach($mk->ControlInterface()->with('InetDevices')->get() as $ci){
-                foreach($ci->InetDevices as $dev){
+              
+                foreach($ci->InetDevices as $dev){ 
+                     $iface_macs=$macs->where("mac-address",$dev->mac);
+              //dd($iface_macs);
                     if($dev->ip&&$dev->BillingAccount){
                         $u_access=($dev->BillingAccount->InetAccess>=0)?false:true;
                         $in_list=array_search($dev->ip,$access_list,true); 

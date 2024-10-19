@@ -18,6 +18,7 @@
                 <input type="text" class="form-control" id="new_mac" name="mac" wire:model.live="mac">               
             </div>
            @forelse ($ret as $key=>$item)
+           
            <div class="input-group mb-3 w-auto ">   
             <div class="input-group-text tx-10">         
               <input type="checkbox" class="form-check-input" wire:click="bind({{$key}})" wire:model.live="bind_select">
@@ -26,11 +27,11 @@
               </label>
             </div>
             <span class="input-group-text tx-10 w-auto">{{__('IP')}}</span>
-            <span class="input-group-text tx-10 w-auto">{{$item['address']}}</span>
+            <span class="input-group-text tx-10 w-auto">{{$item->address}}</span>
             <span class="input-group-text tx-10 ms-2">{{__('Interface')}}</span>
-            <span class="input-group-text tx-10">{{$item['interface']}}</span>
+            <span class="input-group-text tx-10">{{$item->interface}}</span>
             <span class="input-group-text tx-10 ms-2">{{__('Mikrotik')}}</span>
-            <span class="input-group-text tx-10">{{$mikrotik->name}}</span>
+            <span class="input-group-text tx-10">{{($item->mk->name)?$item->mk->name:$item->mk->hostname}}</span>
           </div> 
            @empty
                

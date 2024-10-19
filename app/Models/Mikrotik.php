@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Contracts\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use \RouterOS\Client;
@@ -58,54 +59,57 @@ class Mikrotik extends Model
   
     public function findDevice($device)
     {
-        $faces= array();
-        foreach($this->ControlInterface as $item)
-        {           
-            $faces[]=array('interface',$item->interface);
-        }
-        if(count($faces)>1)
-        {          
-           $params_array=$this->Link?->q('/ip/arp/print',$faces,'|')->r();
-        }elseif(count($faces)==1)
-        {
-            $params_array=$this->Link?->q('/ip/arp/print',$faces)->r();
-        }else{
-            $params_array=[];
-        }
-        foreach($params_array as $key=>$val)
-        {
-            if(!array_key_exists('mac-address',$val)||$val['mac-address']!=$device)
-            {
-                unset($params_array[$key]);
-            }
-        }
+       
+        $dev=$this->ArpList->where('mac-address',$device);
+        //if($this->hostname==='100.127.255.250') dd($this->ArpList);
+        //dd($this->ArpList,$dev);
+        // $faces= array();
+        // foreach($this->ControlInterface as $item)
+        // {           
+        //     $faces[]=array('interface',$item->interface);
+        // }
+        // if(count($faces)>1)
+        // {          
+        //    $params_array=$this->Link?->q('/ip/arp/print',$faces,'|')->r();
+        // }elseif(count($faces)==1)
+        // {
+        //     $params_array=$this->Link?->q('/ip/arp/print',$faces)->r();
+        // }else{
+        //     $params_array=[];
+        // }
+        // foreach($params_array as $key=>$val)
+        // {
+        //     if(!array_key_exists('mac-address',$val)||$val['mac-address']!=$device)
+        //     {
+        //         unset($params_array[$key]);
+        //     }
+        // }
         
-        return $params_array;
+       // return $params_array;
+      
+       return $dev;
     }
     public function getArpListAttribute()
     {
-        $faces= array();
-        $ret_list=array();
+      
+        $c=new Collection();
         foreach($this->ControlInterface as $item)
         {           
             $faces[]=array('interface',$item->interface);
         }
-        if(count($faces)>1)
-        {          
-           $params_array=$this->Link?->q('/ip/arp/print',$faces,'|')->readAsIterator();
-        }elseif(count($faces)==1)
-        {
-            $params_array=$this->Link?->q('/ip/arp/print',$faces)->readAsIterator();
-        }       
+       
+        $params_array=$this->Link->q('/ip/arp/print')->readAsIterator();
         for ($params_array->rewind(); $params_array->valid(); $params_array->next()) {
             try{
-            $item=$params_array->current();      
-            $ret_list[]=$item;
+            $item=$params_array->current();           
+            $item['mk']=$this;
+            $c->push( (object)$item);
             } catch (Exception $ignoire){
                 continue;
             }
         }
-        return $ret_list;
+      
+        return $c; 
     }
     public function getAccessList(Client $link) :array
     {
@@ -147,10 +151,7 @@ class Mikrotik extends Model
     }
     public function AddQueue(Client $link,InetDevices $device)
     {
-        //$this->Subscription->tarif->InetService
-         
-        $ips=implode(',',$device->BillingAccount->InetDevices->pluck('ip')->toArray());
-        // dd($ips));     
+        $ips=implode(',',$device->BillingAccount->InetDevices->pluck('ip')->toArray());      
         $result=$link->qr((new Query('/queue/simple/add'))->equal('name','q'.$device->BillingAccount->ident)
         ->equal('target',$ips)
         ->equal('max-limit',$device->InetSpeedLimit));
