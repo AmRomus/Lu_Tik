@@ -20,7 +20,7 @@ class InetDevDetail extends Component
         $this->dev = InetDevices::find($dev);        
         if($this->dev->bind==1){        
         $this->interface=($this->dev->ControlInterface?->interface)? $this->dev->ControlInterface->interface:"-";
-        $this->mk= ($this->dev->ControlInterface->Mikrotik->name)?$this->dev->ControlInterface->Mikrotik->name:$this->dev->ControlInterface->Mikrotik->hostname;
+        $this->mk= $this->dev->ControlInterface->Mikrotik;
         $this->ip= $this->dev->ip;        
         $this->ret=$this->dev->ControlInterface->Mikrotik->findDevice($this->dev->mac)->toArray();
         

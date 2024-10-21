@@ -82,15 +82,20 @@ class CheckInetDevices extends Command
             foreach($mk->ControlInterface()->with('InetDevices')->get() as $ci){
               
                 foreach($ci->InetDevices as $dev){ 
-                     $iface_macs=$macs->where("mac-address",$dev->mac);
-              //dd($iface_macs);
+                     $iface_macs=$macs->where("mac-address",$dev->mac)->where('interface','!=',$dev->ControlInterface->interface); 
+                    // dd($iface_macs);                         
                     if($dev->ip&&$dev->BillingAccount){
                         $u_access=($dev->BillingAccount->InetAccess>=0)?false:true;
                         $in_list=array_search($dev->ip,$access_list,true); 
                         $in_q=array_search('q'.$dev->BillingAccount->ident,$limit_list,true);
-                       
+                        $right_place=true;
+                        
+                        if(count($iface_macs)>0){
+                            
+                            $right_place=false;
+                        }
                         if($in_list!==false){                            
-                            if(!$u_access){
+                            if(!$u_access||!$right_place){
                                 $this->info("Dekativate ".$dev->ip);
                                 $mk->DeleteFromList($link,$in_list); 
                                 unset($access_list[$in_list]);
@@ -98,7 +103,7 @@ class CheckInetDevices extends Command
                                 unset($access_list[$in_list]);
                             }
                         }else {
-                            if($u_access){
+                            if($u_access&&$right_place){
                                 $this->info("Activate ".$dev->ip);
                                 $mk->AddToList($link,$dev->ip); 
                                // $mk->AddQueue($dev);
@@ -106,14 +111,14 @@ class CheckInetDevices extends Command
                         }
                         if($in_q!==false)
                         {
-                            if(!$u_access){
+                            if(!$u_access||!$right_place){
                                 $this->info('REM Q:'.$dev->ip);
                                 $mk->DelQueue($link,$dev);
                                 unset($limit_list[$in_q]);
                             }
                         }else {
                             var_dump($in_q);
-                            if($u_access){
+                            if($u_access&&$right_place){
                                 $this->info('ADD Q:'.$dev->ip);
                                 $mk->AddQueue($link,$dev);
                             }
