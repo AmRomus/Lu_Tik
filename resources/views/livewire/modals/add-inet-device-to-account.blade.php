@@ -17,6 +17,7 @@
                 <span class="input-group-text" >{{__('MAC ADDRESS')}}</span>
                 <input type="text" class="form-control" id="new_mac" name="mac" wire:model.live="mac">               
             </div>
+            <div wire:loading> {{__('Searching...')}}</div>
            @forelse ($ret as $key=>$item)
            
            <div class="input-group mb-3 w-auto ">   
