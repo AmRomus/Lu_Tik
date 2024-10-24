@@ -30,26 +30,41 @@ class InetDeviceObserver
             //@todo
             //remove old lease if present
            
-            $lease = $device->ControlInterface->Mikrotik->Link?->q((new Query('/ip/dhcp-server/lease/print'))->where('mac-address',$device->mac))->r();
-          
-         
+            //REMOVE old address list ip            
+            // $mk=$device->ControlInterface->Mikrotik;
+             if($device->getOriginal('ip')!=null){
+                $device->ControlInterface->Mikrotik->RemFromList($device->getOriginal('ip'));               
+            }
+            
+            
+
+
+            // $link= $device->ControlInterface->Mikrotik->Link;
+           
+
+            // $lease =$link?->q((new Query('/ip/dhcp-server/lease/print'))->where('mac-address',$device->mac))->r();
+            // foreach($lease as $item){
+            //     $delobj=(object)$item;
+            //     $id=".id";
+            //     $link?->qr((new Query('/ip/dhcp-server/lease/remove'))->equal('.id',$delobj->$id));
+            //  }
+            // if($device->billing_account_id!=null){
+            //  $link?->qr((new Query('/ip/dhcp-server/lease/add'))->equal('address',$device->ip)->equal('mac-address',$device->mac)->equal('server',$device->ControlInterface->DhcpName)->equal('comment',$device->BillingAccount->ident));
+            // }
             //add new lease
         }
         if($device->wasChanged('billing_account_id')){
-            if($device->billing_account_id==null){
-               $link=$device->ControlInterface->Mikrotik->Link;
-                $lease = $link?->q((new Query('/ip/dhcp-server/lease/print'))->where('mac-address',$device->mac))->r();
-                foreach($lease as $item){
-                   $delobj=(object)$item;
-                   $id=".id";
-                   $link?->qr((new Query('/ip/dhcp-server/lease/remove'))->equal('.id',$delobj->$id));
-                }
-                $device->control_interface_id=null;
-                $device->save();
+            if($device->billing_account_id==null){               
+                $device->ControlInterface->Mikrotik->RemLease($device->mac);
             }
         }
+       
     }
     public function deleted(InetDevices $device){
         dd($device);
+    }
+    public function created(InetDevices $device)
+    {
+
     }
 }

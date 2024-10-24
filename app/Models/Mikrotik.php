@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Model;
 use \RouterOS\Client;
 use \RouterOS\Query;
 use Exception;
-
+use Log;
 class Mikrotik extends Model
 {
     use HasFactory;
@@ -67,11 +67,6 @@ class Mikrotik extends Model
     {
       
         $c=new Collection();
-        // foreach($this->ControlInterface as $item)
-        // {           
-        //     $faces[]=array('interface',$item->interface);
-        // }
-       
         $params_array=$this->Link->q('/ip/arp/print')->readAsIterator();
         for ($params_array->rewind(); $params_array->valid(); $params_array->next()) {
             try{
@@ -149,5 +144,30 @@ class Mikrotik extends Model
         {
            $this->ControlInterface->where('ident',$face['.id'])->first()?->update(['interface'=>$face["name"]]);
         }
+    }
+
+    public function RemLease(String  $mac_address)
+    {
+        Log::info("message");
+        $link=$this->Link;
+        $lease = $link?->q((new Query('/ip/dhcp-server/lease/print'))->where('mac-address',$mac_address))->r();
+      
+         foreach($lease as $item){
+        //     Log::info("leases_count:".var_dump($item));
+             $delobj=(object)$item;
+             $id=".id";
+             $this->Link?->qr((new Query('/ip/dhcp-server/lease/remove'))->equal('.id',$delobj->$id));
+         }
+    }
+    public function RemFromList(String $ip)
+    {
+        $link=$this->Link;
+        $ret= $link?->q((new Query('/ip/firewall/address-list/print'))->where('list','inet-access')->where('address',$ip))->r();
+       
+         foreach($ret as $item){
+             $delobj=(object)$item;
+             $id=".id";
+             $link?->qr((new Query('/ip/firewall/address-list/remove'))->equal('.id',$delobj->$id));
+         }
     }
 }
