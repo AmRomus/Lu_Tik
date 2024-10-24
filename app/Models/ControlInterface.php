@@ -25,4 +25,8 @@ class ControlInterface extends Model
     {
         return $this->hasMany(InetDevices::class);
     }
+    public function getDhcpNameAttribute()
+    {
+        return $this->Mikrotik->Link?->q((new Query('/ip/dhcp-server/print'))->where('interface',$this->interface))->r();
+    }
 }

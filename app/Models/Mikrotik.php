@@ -61,49 +61,25 @@ class Mikrotik extends Model
     {
        
         $dev=$this->ArpList->where('mac-address',$device);
-        //if($this->hostname==='100.127.255.250') dd($this->ArpList);
-        //dd($this->ArpList,$dev);
-        // $faces= array();
-        // foreach($this->ControlInterface as $item)
-        // {           
-        //     $faces[]=array('interface',$item->interface);
-        // }
-        // if(count($faces)>1)
-        // {          
-        //    $params_array=$this->Link?->q('/ip/arp/print',$faces,'|')->r();
-        // }elseif(count($faces)==1)
-        // {
-        //     $params_array=$this->Link?->q('/ip/arp/print',$faces)->r();
-        // }else{
-        //     $params_array=[];
-        // }
-        // foreach($params_array as $key=>$val)
-        // {
-        //     if(!array_key_exists('mac-address',$val)||$val['mac-address']!=$device)
-        //     {
-        //         unset($params_array[$key]);
-        //     }
-        // }
-        
-       // return $params_array;
-      
-       return $dev;
+        return $dev;
     }
     public function getArpListAttribute()
     {
       
         $c=new Collection();
-        foreach($this->ControlInterface as $item)
-        {           
-            $faces[]=array('interface',$item->interface);
-        }
+        // foreach($this->ControlInterface as $item)
+        // {           
+        //     $faces[]=array('interface',$item->interface);
+        // }
        
         $params_array=$this->Link->q('/ip/arp/print')->readAsIterator();
         for ($params_array->rewind(); $params_array->valid(); $params_array->next()) {
             try{
-            $item=$params_array->current();           
-            $item['mk']=$this;
+            $item=$params_array->current();   
+            if($item['complete']==="true"){     
+            $item['mk']=$this;           
             $c->push( (object)$item);
+            }
             } catch (Exception $ignoire){
                 continue;
             }
@@ -165,5 +141,13 @@ class Mikrotik extends Model
     {
         $params_array=$this->Link?->q((new Query(endpoint: '/ip/dhcp-server/lease/print'))->where('mac-address',$device))->read();
         return $params_array;
+    }
+ 
+    public function UpdateInterfaceNames()
+    {
+        foreach($this->RemoteInterfaces as $face)
+        {
+           $this->ControlInterface->where('ident',$face['.id'])->first()?->update(['interface'=>$face["name"]]);
+        }
     }
 }

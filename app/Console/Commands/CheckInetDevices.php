@@ -29,42 +29,10 @@ class CheckInetDevices extends Command
     public function handle()
     {
         $this->info("Begin process");       
-        // foreach(Mikrotik::with('ControlInterface.InetDevices')->get() as $mk)
-        // {
-        //    $mac_array=$mk->ArpList;
-        //    foreach(InetDevices::where('bind',0)->get() as $dindev)
-        //    {
-           
-        //      if(in_array($dindev->mac,array_column($mac_array,'mac-address'),true)){
-        //         foreach($mac_array as $key=>$value){
-        //             if($value['mac-address']===$dindev->mac){
-        //                 var_dump($value);
-        //                 if($value['complete']=="true"){                           
-        //                     $mk->ControlInterface->where('interface',$value["interface"])->first()->InetDevices()->save($dindev);
-        //                     $dindev->ip=$value['address'];
-        //                     $dindev->online=1;
-        //                 }else {
-        //                     $dindev->online=0;
-        //                     $dindev->control_interface_id=null;
-        //                     $dindev->ip=null;
-        //                 }
-        //                 $dindev->save();
-        //             }
-        //         }
-        //         $found_key = array_search($dindev->mac, array_column($mac_array,'mac-address'),true);
-        //       //  var_dump($mac_array[$found_key]);
-        //         $this->info('MAC '.$dindev->mac." IN MK :".$mk->name." Array Key ".$found_key );                
-        //      }
-        //    }
-        // }
-      
-        // foreach(InetDevices::orderBy('control_interface_id')->get() as $dev){
-
-
-        // }
+       
         $time_start = microtime(true); 
         foreach(Mikrotik::all() as $mk){
-           
+           $mk->UpdateInterfaceNames();
             $this->info('Checkin MK :'.$mk->name);
             $this->info('Request mac list');
             $link=$mk->Link;
@@ -94,7 +62,7 @@ class CheckInetDevices extends Command
                         $right_place=true;
                         
                         if(count($iface_macs)>0){
-                            
+                            dd($iface_macs);
                             $right_place=false;
                         }
                         if($in_list!==false){                            
@@ -115,6 +83,7 @@ class CheckInetDevices extends Command
                         if($in_q!==false)
                         {
                             if(!$u_access||!$right_place){
+                                dd($in_q,$u_access,$right_place);
                                 $this->info('REM Q:'.$dev->ip);
                                 $mk->DelQueue($link,$dev);
                                 unset($limit_list[$in_q]);
