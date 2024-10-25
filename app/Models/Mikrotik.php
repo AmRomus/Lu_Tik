@@ -120,17 +120,26 @@ class Mikrotik extends Model
         $result=$link?->qr((new Query('/ip/firewall/address-list/remove'))->equal('.id',$id));
        return $result;
     }
-    public function AddQueue(Client $link,InetDevices $device)
+    public function AddQueue(BillingAccount $account)
     {
-        $ips=implode(',',$device->BillingAccount->InetDevices->pluck('ip')->toArray());      
-        $result=$link->qr((new Query('/queue/simple/add'))->equal('name','q'.$device->BillingAccount->ident)
-        ->equal('target',$ips)
-        ->equal('max-limit',$device->InetSpeedLimit));
+        $link=$this->Link;
+        $ips=implode(',',$account->InetDevices->pluck('ip')->toArray()); 
+        if(count($account->InetDevices)>0){     
+            $result=$link->qr((new Query('/queue/simple/add'))->equal('name','q'.$account->ident)
+            ->equal('target',$ips)
+            ->equal('max-limit',$account->InetSpeedLimit));
+        }
        return $result;
     }
-    public function DelQueue(Client $link,InetDevices $dev){
-        $result=$link->qr((new Query('/queue/simple/remove'))->equal('numbers','q'.$dev->BillingAccount->ident));
-        return $result;
+    public function DelQueue(BillingAccount $account){
+        $link=$this->Link;
+        $lease = $link?->q((new Query('/queue/simple/print'))->where('name','q'.$account->ident))->r();      
+        foreach($lease as $item){      
+            $delobj=(object)$item;
+            $id=".id";
+            $link->qr((new Query('/queue/simple/remove'))->equal('.id',$delobj->$id));            
+        }
+       
     }
     public function findDhcp($device)
     {
@@ -147,13 +156,11 @@ class Mikrotik extends Model
     }
 
     public function RemLease(String  $mac_address)
-    {
-        Log::info("message");
+    {       
         $link=$this->Link;
         $lease = $link?->q((new Query('/ip/dhcp-server/lease/print'))->where('mac-address',$mac_address))->r();
       
-         foreach($lease as $item){
-        //     Log::info("leases_count:".var_dump($item));
+         foreach($lease as $item){      
              $delobj=(object)$item;
              $id=".id";
              $this->Link?->qr((new Query('/ip/dhcp-server/lease/remove'))->equal('.id',$delobj->$id));
@@ -169,5 +176,9 @@ class Mikrotik extends Model
              $id=".id";
              $link?->qr((new Query('/ip/firewall/address-list/remove'))->equal('.id',$delobj->$id));
          }
+    }
+    public function AddLease(InetDevices $device)
+    {
+        $this->Link?->qr((new Query('/ip/dhcp-server/lease/add'))->equal('address',$device->ip)->equal('mac-address',$device->mac)->equal('server',$device->ControlInterface->DhcpName)->equal('comment',$device->BillingAccount->ident));
     }
 }

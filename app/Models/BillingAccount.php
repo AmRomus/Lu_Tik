@@ -80,4 +80,19 @@ class BillingAccount extends Model implements Customer
         }       
         return $state;
     }
+    public function getInetSpeedLimitAttribute()
+    {
+        $inet_service=$this->Subscription?->tarif?->InetService;
+        if ($inet_service){
+            $up_speed= $inet_service->speed_up.$inet_service->speed_up_unit;
+            $down_speed= $inet_service->speed_down.$inet_service->speed_down_unit; 
+           
+        }else {
+            $inet_service=$this->Tarif->InetService;
+            $up_speed= $inet_service->speed_up.$inet_service->speed_up_unit;
+            $down_speed= $inet_service->speed_down.$inet_service->speed_down_unit; 
+        }
+        $speeds=$up_speed.'/'.$down_speed;
+        return $speeds;
+    }
 }

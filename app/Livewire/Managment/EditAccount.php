@@ -29,6 +29,7 @@ class EditAccount extends Component
     }
     public function unlik_dev(InetDevices $dev){
        $dev->billing_account_id=null;
+       $dev->ip=null;
        $dev->save();
     }
 }
