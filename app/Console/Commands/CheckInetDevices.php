@@ -61,8 +61,7 @@ class CheckInetDevices extends Command
                         $in_q=array_search('q'.$dev->BillingAccount->ident,$limit_list,true);
                         $right_place=true;
                         
-                        if(count($iface_macs)>0){
-                            dd($iface_macs);
+                        if(count($iface_macs)>0){                          
                             $right_place=false;
                         }
                         if($in_list!==false){                            
@@ -81,18 +80,17 @@ class CheckInetDevices extends Command
                             }
                         }
                         if($in_q!==false)
-                        {
-                            if(!$u_access||!$right_place){
-                                dd($in_q,$u_access,$right_place);
+                        {                           
+                            if(!$u_access||!$right_place){                               
                                 $this->info('REM Q:'.$dev->ip);
-                                $mk->DelQueue($link,$dev);
+                                $mk->DelQueue($dev->BillingAccount);
                                 unset($limit_list[$in_q]);
                             }
                         }else {
                             var_dump($in_q);
                             if($u_access&&$right_place){
                                 $this->info('ADD Q:'.$dev->ip);
-                                $mk->AddQueue($link,$dev);
+                                $mk->AddQueue($dev->BillingAccount);
                             }
                         }
                       
