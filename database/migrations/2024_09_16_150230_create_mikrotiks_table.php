@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('password')->nullable();
             $table->integer('port')->default(8728);
             $table->boolean('ssl')->default(false);
+            $table->string('qtype')->nullable();
             $table->timestamps();
         });
     }

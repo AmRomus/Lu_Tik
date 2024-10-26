@@ -28,12 +28,7 @@ class InetDeviceObserver
             }
         }
         if($device->wasChanged('ip')){
-            $mk=$device->ControlInterface->Mikrotik;
-            //@todo
-            //remove old lease if present
-           
-            //REMOVE old address list ip            
-            // $mk=$device->ControlInterface->Mikrotik;
+            $mk=$device->ControlInterface->Mikrotik;           
              if($device->getOriginal('ip')!=null){
                 $mk?->RemFromList($device->getOriginal('ip')); 
                 $uac=BillingAccount::find($device->getOriginal('billing_account_id'));
@@ -53,23 +48,6 @@ class InetDeviceObserver
                     $mk?->AddQueue($device->BillingAccount);   
                 }
              }
-            
-            
-
-
-            // $link= $device->ControlInterface->Mikrotik->Link;
-           
-
-            // $lease =$link?->q((new Query('/ip/dhcp-server/lease/print'))->where('mac-address',$device->mac))->r();
-            // foreach($lease as $item){
-            //     $delobj=(object)$item;
-            //     $id=".id";
-            //     $link?->qr((new Query('/ip/dhcp-server/lease/remove'))->equal('.id',$delobj->$id));
-            //  }
-            // if($device->billing_account_id!=null){
-            //  $link?->qr((new Query('/ip/dhcp-server/lease/add'))->equal('address',$device->ip)->equal('mac-address',$device->mac)->equal('server',$device->ControlInterface->DhcpName)->equal('comment',$device->BillingAccount->ident));
-            // }
-            //add new lease
         }
         // if($device->wasChanged('billing_account_id')){
         //     if($device->billing_account_id==null){               

@@ -47,6 +47,7 @@
                         <button type="button" class="btn  btn-xs btn-primary mg-l-5" wire:click="save">Պահպանել</button>
                       </div>
                     </div>
+                    <livewire:servers.queue-types-widget :mikrotik="$mikrotik->id" @saved="$refresh">
                    </div>
                    <div class="col-4">
                       <livewire:servers.controlled-interfaces :mikrotik="$mikrotik->id">  

@@ -56,7 +56,16 @@ class Mikrotik extends Model
     public function ControlInterface(){
         return $this->hasMany(ControlInterface::class);
     }
-  
+    public function getQtypesAttribute()
+    {
+        $colection = new Collection();
+        $params_array=$this->Link?->q(new Query('/queue/type/print'))->read();
+        foreach($params_array as $item)
+        {
+            $colection->push((object)$item);
+        }
+        return $colection;
+    }
     public function findDevice($device)
     {
        
@@ -123,13 +132,17 @@ class Mikrotik extends Model
     public function AddQueue(BillingAccount $account)
     {
         $link=$this->Link;
+        $q=$this->qtype?$this->qtype:'default';
+       
         $ips=implode(',',$account->InetDevices->pluck('ip')->toArray()); 
         if(count($account->InetDevices)>0){     
-            $result=$link->qr((new Query('/queue/simple/add'))->equal('name','q'.$account->ident)
+            $link->qr((new Query('/queue/simple/add'))->equal('name','q'.$account->ident)
             ->equal('target',$ips)
-            ->equal('max-limit',$account->InetSpeedLimit));
-        }
-       return $result;
+            ->equal('max-limit',$account->InetSpeedLimit)
+            ->equal('total-queue',$q)
+            ->equal('queue',$q.'/'.$q)
+            );
+        }     
     }
     public function DelQueue(BillingAccount $account){
         $link=$this->Link;
