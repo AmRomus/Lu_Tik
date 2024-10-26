@@ -95,4 +95,66 @@ class BillingAccount extends Model implements Customer
         $speeds=$up_speed.'/'.$down_speed;
         return $speeds;
     }
+    public function getInetSpeedBurstAttribute()
+    {
+        $inet_service=$this->Subscription?->tarif?->InetService;
+        if ($inet_service){
+            $up_speed=round($inet_service->speed_up+($inet_service->speed_up/100)*$inet_service->burst_percent).$inet_service->speed_up_unit;
+            $down_speed= round($inet_service->speed_down+($inet_service->speed_down/100)*$inet_service->burst_percent).$inet_service->speed_down_unit; 
+           
+        }else {
+            $inet_service=$this->Tarif->InetService;
+            $up_speed=round($inet_service->speed_up+($inet_service->speed_up/100)*$inet_service->burst_percent).$inet_service->speed_up_unit;
+            $down_speed= round($inet_service->speed_down+($inet_service->speed_down/100)*$inet_service->burst_percent).$inet_service->speed_down_unit; 
+        }
+        $speeds=$up_speed.'/'.$down_speed;
+        return $speeds;
+    }
+    public function getInetSpeedBurstTimeAttribute()
+    {
+        $inet_service=$this->Subscription?->tarif?->InetService;
+        if ($inet_service){
+            $time=$inet_service->burst_time.'s';
+        }else {
+            $inet_service=$this->Tarif->InetService;
+            $time=$inet_service->burst_time.'s';
+        }
+        $times=$time.'/'.$time;
+        return $times;    
+    }
+    public function getInetBustThresholdAttribute()
+    {
+        $upk=1;
+        $downk=1;
+        $inet_service=$this->Subscription?->tarif?->InetService;
+        if (!$inet_service){
+            $inet_service=$this->Tarif->InetService;
+        }
+        switch($inet_service->speed_up_unit)
+        {
+            case "M":
+                $upk=1024*1024;
+                break;
+            case "K":
+                $upk=1024;
+                break;
+            default:
+                $upk=1;
+        }
+        switch($inet_service->speed_down_unit)
+        {
+            case "M":
+                $downk=1024*1024;
+                break;
+            case "K":
+                $downk=1024;
+                break;
+            default:
+                $downk=1;
+        }
+        $up_speed= ($inet_service->speed_up*$upk*3)/4;
+        $down_speed= ($inet_service->speed_down*$downk*3)/4; 
+        $speeds=$up_speed.'/'.$down_speed;
+        return $speeds;
+    }
 }

@@ -14,6 +14,7 @@ class InetService extends Model
         'speed_up_unit',
         'speed_down',
         'speed_down_unit',
+        'bust_percent',
         'price',
     ];
 

@@ -20,6 +20,8 @@ return new class extends Migration
             $table->unsignedBigInteger('speed_up_unit')->nullable()->default('M');
             $table->unsignedBigInteger('speed_down')->default(0);
             $table->unsignedBigInteger('speed_down_unit')->nullable()->default('M');
+            $table->integer('burst_percent')->default(0);
+            $table->integer('burst_time')->default(1);
             $table->integer('price')->default(0);            
             $table->timestamps();
         });

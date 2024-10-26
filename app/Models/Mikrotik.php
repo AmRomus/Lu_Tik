@@ -135,13 +135,16 @@ class Mikrotik extends Model
         $q=$this->qtype?$this->qtype:'default';
        
         $ips=implode(',',$account->InetDevices->pluck('ip')->toArray()); 
-        if(count($account->InetDevices)>0){     
-            $link->qr((new Query('/queue/simple/add'))->equal('name','q'.$account->ident)
+        if(count($account->InetDevices)>0){              
+            $ret=$link->qr((new Query('/queue/simple/add'))->equal('name','q'.$account->ident)
             ->equal('target',$ips)
             ->equal('max-limit',$account->InetSpeedLimit)
+            ->equal('burst-limit',$account->InetSpeedBurst)
+            ->equal('burst-time',$account->InetSpeedBurstTime)
+            ->equal('burst-threshold',$account->InetBustThreshold)
             ->equal('total-queue',$q)
             ->equal('queue',$q.'/'.$q)
-            );
+            );          
         }     
     }
     public function DelQueue(BillingAccount $account){
