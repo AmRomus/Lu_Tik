@@ -60,7 +60,7 @@ class BillingAccount extends Model implements Customer
     public function getInetAccessAttribute(): int
     {
         $state=0;       
-        if($this->AccountInetService?->MikroBillApi){
+        if($this->AccountInetService?->MikroBillApi&&$this->tarif?->InetService){
             // esli est' privyazka k API
            $state=$this->AccountInetService->BillingState;
            

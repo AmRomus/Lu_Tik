@@ -179,8 +179,10 @@ class Mikrotik extends Model
       
          foreach($lease as $item){      
              $delobj=(object)$item;
-             $id=".id";
-             $this->Link?->qr((new Query('/ip/dhcp-server/lease/remove'))->equal('.id',$delobj->$id));
+             if(!str_contains($delobj->comment,"MikroBill")){
+                $id=".id";
+                $this->Link?->qr((new Query('/ip/dhcp-server/lease/remove'))->equal('.id',$delobj->$id));
+             }
          }
     }
     public function RemFromList(String $ip)
@@ -196,6 +198,18 @@ class Mikrotik extends Model
     }
     public function AddLease(InetDevices $device)
     {
-        $this->Link?->qr((new Query('/ip/dhcp-server/lease/add'))->equal('address',$device->ip)->equal('mac-address',$device->mac)->equal('server',$device->ControlInterface->DhcpName)->equal('comment',$device->BillingAccount->ident));
+        $link=$this->Link;
+        $lease = $link?->q((new Query('/ip/dhcp-server/lease/print'))->where('mac-address',$device->mac))->r();          
+        if(count($lease)>0){
+            dd($lease);
+        foreach($lease as $item){      
+            $delobj=(object)$item;
+            if(!str_contains($delobj->comment,"MikroBill")){
+               $id=".id";
+               $this->Link?->qr((new Query('/ip/dhcp-server/lease/remove'))->equal('.id',$delobj->$id));
+            }
+        }} else {
+            $this->Link?->qr((new Query('/ip/dhcp-server/lease/add'))->equal('address',$device->ip)->equal('mac-address',$device->mac)->equal('server',$device->ControlInterface->DhcpName)->equal('comment',$device->BillingAccount->ident));
+        }
     }
 }
