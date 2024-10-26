@@ -75,7 +75,7 @@ class CheckInetDevices extends Command
                         }else {
                             if($u_access&&$right_place){
                                 $this->info("Activate ".$dev->ip);
-                                $mk->AddToList($link,$dev->ip); 
+                                $mk->AddToList($dev->ip); 
                                // $mk->AddQueue($dev);
                             }
                         }

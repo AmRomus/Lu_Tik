@@ -120,8 +120,9 @@ class Mikrotik extends Model
        return $ret_list;
     }
 
-    public function AddToList(Client $link,$ip){
-       $result=$link->qr((new Query('/ip/firewall/address-list/add'))->equal('list','inet-access')->equal('address',$ip));
+    public function AddToList($ip){
+        $link=$this->Link;
+       $result=$link?->qr((new Query('/ip/firewall/address-list/add'))->equal('list','inet-access')->equal('address',$ip));
        return $result;
     }
     public function DeleteFromList(Client $link,$id)

@@ -45,7 +45,11 @@ class InetDeviceObserver
                     Log::info("Start Add lease");
                     $mk?->AddLease($device);
                     $mk?->DelQueue($device->BillingAccount); 
-                    $mk?->AddQueue($device->BillingAccount);   
+                    $mk?->AddQueue($device->BillingAccount);
+                    $u_access=($device->BillingAccount->InetAccess>=0)?false:true;
+                    if($u_access){
+                        $mk->AddToList($device->ip);
+                    }   
                 }
              }
         }
