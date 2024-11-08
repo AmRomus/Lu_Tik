@@ -12,6 +12,7 @@ class QueueTypesWidget extends Component
     public function mount(Mikrotik $mikrotik)
     {
         $this->mk=$mikrotik;
+        $this->qtype=$mikrotik->qtype;
     }
     public function render()
     {

@@ -30,6 +30,8 @@
                                    
                                     <th>{{__('Speed UP')}}</th>
                                     <th>{{__('Speed DOWN ')}}</th>
+                                    <th>{{__('Burst %')}}</th>
+                                    <th>{{__('Burst Time (s)')}}</th>
                                     <th>{{__('Price')}}</th>
                                     <th></th>
                                     <th></th>
@@ -39,6 +41,8 @@
                                 <tr align="middle">                                
                                     <td>{{$cur_tarif?->InetService->speed_up}} {{$cur_tarif?->InetService->speed_up_unit}}bit/s</td>
                                     <td>{{$cur_tarif?->InetService->speed_down}} {{$cur_tarif?->InetService->speed_down_unit}}bit/s</td>
+                                    <td>{{$cur_tarif?->InetService->burst_percent}}</td>
+                                    <td>{{$cur_tarif?->InetService->burst_time}}</td>
                                     <td>{{$cur_tarif?->InetService->price}}</td>
                                     <td><i class="fa fa-edit" style="cursor: pointer" wire:click.prevent="$dispatchTo('modals.new-inet-services','show_modal',{ tarif: {{$cur_tarif->id}} })"></i></td>
                                     <td><i class="fa fa-trash tx-danger" style="cursor: pointer" wire:confirm="{{__('Delete service from tarif?')}}" wire:click="del_inet_service({{$cur_tarif?->InetService->id}})"></i></td>

@@ -36,6 +36,18 @@
                 </select>
             </div>
             <div class="input-group mb-3">
+              <div class="input-group-prepend">
+                <span class="input-group-text" >{{__('% Burst')}}</span>
+              </div>
+              <input type="number" class="form-control" placeholder="0" aria-label="burst" name="burst" id="burst" wire:model.defer="burst_percent" min="0" >
+          </div>
+          <div class="input-group mb-3">
+            <div class="input-group-prepend">
+              <span class="input-group-text" >{{__('Burst Time (s)')}}</span>
+            </div>
+            <input type="number" class="form-control" placeholder="0" aria-label="burst_time" name="burst_time" id="burst_time" wire:model.defer="burst_time" min="1" >
+        </div>
+            <div class="input-group mb-3">
                 <div class="input-group-prepend">
                   <span class="input-group-text" >{{__('Price')}}</span>
                 </div>

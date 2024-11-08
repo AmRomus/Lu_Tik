@@ -19,7 +19,11 @@ class NewInetServices extends Component
     public $speed_up_unit;
     public $speed_down;
     public $speed_down_unit;
+    #[Rule('required|integer|gte:0')]
+    public $burst_percent;
     #[Rule('required|integer|gt:0')]
+    public $burst_time;
+    #[Rule('required|integer|gte:0')]
     public $price;
     public $cur_service;
 
@@ -46,6 +50,8 @@ class NewInetServices extends Component
           $this->speed_up_unit = $this->cur_service->speed_up_unit;
           $this->speed_down=$this->cur_service->speed_down;
           $this->speed_down_unit=$this->cur_service->speed_down_unit;
+          $this->burst_percent=$this->cur_service->burst_percent;
+          $this->burst_time=$this->cur_service->burst_time;
         }
       }
     }
@@ -64,6 +70,8 @@ class NewInetServices extends Component
               'speed_up_unit'=>$this->speed_down_unit,
               'speed_down'=>$this->speed_down,
               'speed_down_unit'=>$this->speed_down_unit,
+              'burst_percent'=>$this->burst_percent,
+              'burst_time'=>$this->burst_time,
               'price'=>$this->price,
           ]);
         }else {
@@ -71,6 +79,8 @@ class NewInetServices extends Component
           $this->cur_service->speed_up_unit=$this->speed_up_unit;
           $this->cur_service->speed_down=$this->speed_down;
           $this->cur_service->speed_down_unit = $this->speed_down_unit;
+          $this->cur_service->burst_percent=$this->burst_percent;
+          $this->cur_service->burst_time=$this->burst_time;
           $this->cur_service->price=$this->price;
           $this->cur_service->save();
           $this->cur_service->refresh();

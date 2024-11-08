@@ -2,7 +2,9 @@
 
 namespace App\Models;
 
+use App\Observers\MikrotikObserver;
 use Illuminate\Contracts\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -10,6 +12,7 @@ use \RouterOS\Client;
 use \RouterOS\Query;
 use Exception;
 use Log;
+#[ObservedBy([MikrotikObserver::class])]
 class Mikrotik extends Model
 {
     use HasFactory;

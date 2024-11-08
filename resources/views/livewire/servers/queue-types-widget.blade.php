@@ -2,7 +2,9 @@
     <h6 class="card-title">{{__('Queue Type')}}</h6>
     <select class="form-control" wire:model.live="qtype">       
         @foreach ($mk->Qtypes as $item)
-            <option value={{$item->name}}> {{$item->name}}</option>
+            <option value={{$item->name}} @if ($item->name==$mk->qtype)
+                @selected(true)
+            @endif> {{$item->name}}</option>
         @endforeach
     </select>       
     <div class="row">
