@@ -57,6 +57,11 @@
               <i data-feather="server"></i> <span>{{__('Mikrotiks')}}</span>
             </a>
           </li>
+          <li class="nav-item {{($activePage ==='Olts')? 'active':'' }}" >
+            <a href="{{route('olt.list')}}" class="nav-link"> 
+              <i data-feather="server"></i> <span>{{__('Olts')}}</span>
+            </a>
+          </li>
           <li class="nav-item {{($activePage ==='Mikrobill')? 'active':'' }}" >
             <a href="{{route('mikrobill')}}" class="nav-link"> 
               <i data-feather="repeat"></i> <span>{{__('MikroBill')}}</span>

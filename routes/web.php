@@ -10,6 +10,7 @@ use App\Livewire\Managment\Accounts;
 use App\Livewire\Managment\EditAccount;
 use App\Livewire\Misc\Addressbook;
 use App\Livewire\Network\InetDevices;
+use App\Livewire\Pon\OltList;
 use App\Livewire\Servers\EditMikrotik;
 use App\Livewire\Servers\Mikrotiks;
 use Illuminate\Support\Facades\Route;
@@ -26,6 +27,8 @@ Route::post('/logout',function(){
 Route::middleware('auth')->prefix('/servers')->group(function(){
     Route::get('/mikrotik',Mikrotiks::class)->name('mikrotik.list');
     Route::get('/mikrotik/{mikrotik}/edit',EditMikrotik::class)->name('mikrotik.edit');
+    Route::get('/olts',OltList::class)->name('olt.list');
+    
 });
 
 #accounts
@@ -55,4 +58,5 @@ Route::middleware('auth')->prefix('/apis')->group(function(){
 Route::middleware('auth')->prefix('/network')->group(function(){
     Route::get('/inet_devices',InetDevices::class)->name('inetdevices');
 });
+
 
