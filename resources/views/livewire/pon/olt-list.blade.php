@@ -12,9 +12,9 @@
                     @foreach ($olts as $item)
                     <div class="col-sm-6 col-lg-3 mt-2">
                         <div class="card card-body shadow-none">
-                            <div class="marker marker-ribbon marker-top-right pos-absolute t-10 r-0"><a href="{{route('mikrotik.edit',$item->id)}}">{{$item->OltTemplate?$item->OltTemplate->name:__('Unknown')}}</a></div>
-                            <h6 class="mg-b-15 mg-t-2 tx-10">{{$item->name}} - {{$item->ip}}</h6>
-                            <p class="mg-b-0">Uptime: <span> {{$item->SysInfo?$item->SysInfo["uptime"]:"OFFLINE"}}</p>
+                            <div class="marker marker-ribbon marker-top-right pos-absolute t-10 r-0"><a href="{{route('olt.edit',$item->id)}}">{{$item->OltTemplate?$item->OltTemplate->name:__('Unknown')}}</a></div>
+                            <h6 class="mg-b-15 mg-t-2 tx-10">{{$item->name}} - {{$item->ip}} - {{$item->SystemName}}</h6>
+                            <p class="mg-b-0">Uptime: <span> {{$item->SystemUpTime?$item->SystemUpTime:"OFFLINE"}}</p>
                         </div>
                     </div>     
                     @endforeach

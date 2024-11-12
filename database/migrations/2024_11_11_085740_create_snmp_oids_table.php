@@ -15,10 +15,8 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('olt_template_id');
             $table->foreign('olt_template_id','templ_snmp')->references('id')->on('olt_templates')->cascadeOnDelete();           
-            $table->text('onu_list')->nullable();
-            $table->text('onu_signal')->nullable();
-            $table->text('onu_catv')->nullable();
-            $table->text('onu_catv_state')->nullable();
+            $table->text('cmd')->nullable();
+            $table->text('oid')->nullable();            
             $table->timestamps();
         });
     }

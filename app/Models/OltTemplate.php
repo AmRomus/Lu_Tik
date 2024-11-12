@@ -8,4 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 class OltTemplate extends Model
 {
     use HasFactory;
+    public function SnmpOids()
+    {
+        return $this->hasMany(SnmpOids::class);
+    }
 }
