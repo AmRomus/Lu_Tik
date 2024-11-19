@@ -87,4 +87,11 @@ class Olt extends Model
         
        return $if_pair;
     }
+
+    /* RELATIONS */
+    public function OltIfaces()
+    {
+        return $this->hasMany(OltIfaces::class);
+    }
+
 }
