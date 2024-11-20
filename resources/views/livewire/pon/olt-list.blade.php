@@ -4,7 +4,7 @@
             <div class="content-header">
                 <h4>{{__('Olts')}}</h4>
                 <nav class="nav">
-                    <a href="#" class="btn btn-sm btn-success tx-bold" wire:click="$dispatchTo('modals.new-mikrotik','show_modal')"> {{__('New Mikrotik')}}</a>
+                    <a href="#" class="btn btn-sm btn-success tx-bold" wire:click="$dispatchTo('modals.new-olt','show_modal')"> {{__('New Olt')}}</a>
                   </nav>
             </div>
             <div class="content-body">
@@ -21,4 +21,5 @@
                 </div>
             </div>
         </div>
+        <livewire:modals.new-olt @saved="$refresh" />
 </div>

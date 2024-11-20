@@ -15,22 +15,29 @@
                                 <tr>
                                     <th>{{__('Interface')}}</th>
                                     <th class="tx-center" >{{__('State')}}</th>
+                                    <th class="tx-center">{{__('Onus')}}</th>
                                 </tr>
                             </thead>
                             <tbody class="tx-11">
                                 @foreach ($olt->OltIfaces as $item)
-                                <tr>
+                                <tr @if ($item->pon_index)
+                                    wire:click="select_pon({{$item->id}})"
+                                @endif >
                                     <td>{{$item->iface}}</td>
-                                    <td align="center"><span class="d-block wd-10 ht-10 @if ($item->state)
+                                    <td align="center"><span class="d-block wd-10 ht-10 @if ($item->is_up)
                                         bg-success
                                         @else 
                                         bg-danger
                                     @endif  rounded mg-r-5"></span> </td>
+                                    <td align="center">{{($item->onu->count()==0)?"--":$item->onu->count()}}</td>
                                 </tr>
                                     
                                 @endforeach
                             </tbody>
                         </table>
+                    </div>
+                    <div class="col-4 table-resposive">
+                        <livewire:pon.onu-list  :olt_id="$olt->id"/>
                     </div>
                 </div>
             </div>

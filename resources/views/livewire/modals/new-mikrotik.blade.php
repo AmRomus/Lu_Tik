@@ -2,7 +2,7 @@
     <div class="modal-dialog modal-dialog-centered" role="document">        
       <div class="modal-content">
         <div class="modal-header">
-            <h4 class="tx-18 tx-sm-20 mg-b-3">Նոր Mikrotik </h4>  
+            <h4 class="tx-18 tx-sm-20 mg-b-3">{{__('New Mikrotik')}} </h4>  
             <a href="" class="close pos-absolute t-15 r-15" wire:click.prevent="show_modal" >
                 <span aria-hidden="true">&times;</span>
               </a>
@@ -13,15 +13,15 @@
             @endforeach
             <div class="input-group mb-3">
                 <div class="input-group-prepend">
-                  <span class="input-group-text" >Անվանում</span>
+                  <span class="input-group-text" >{{__('Name')}}</span>
                 </div>
-                <input type="text" class="form-control" placeholder="Անվանում" aria-label="name" name="name" wire:model.defer="name">
+                <input type="text" class="form-control" placeholder="{{__('Name')}}" aria-label="name" name="name" wire:model.defer="name">
             </div>
             <div class="input-group mb-3">
                 <div class="input-group-prepend">
-                  <span class="input-group-text" >Հասցե կամ IP</span>
+                  <span class="input-group-text" >{{__('Host or IP')}}</span>
                 </div>
-                <input type="text" class="form-control" placeholder="Հասցե կամ IP" aria-label="host" name="host" wire:model.live="hostname">
+                <input type="text" class="form-control" placeholder="{{__('Host or IP')}}" aria-label="host" name="host" wire:model.live="hostname">
             </div>
             <div class="input-group mb-3">
                 <div class="input-group-prepend">

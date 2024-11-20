@@ -19,6 +19,7 @@ class Olt extends Model
     {        
         $snmp = new SnmpClient([
             'host' => $this->ip,
+            'port'=> $this->port,
             'version' => 2,
             'community' => $this->ro_community,
         ]);

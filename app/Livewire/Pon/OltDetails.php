@@ -60,4 +60,8 @@ class OltDetails extends Component
              }
          }
     }
+    public function select_pon(int $face)
+    {       
+        $this->dispatch('show_pon',["pon"=>$face])->to(OnuList::class);
+    }
 }
