@@ -10,10 +10,11 @@ class OnuList extends Component
 {
     public $pon;
     #[On('show_pon')]
-    public function show_pon(OltIfaces $pon)
+    public function show_pon($pon)
     {
-        $this->pon = null;
-        $this->pon=$pon;
+      
+        $this->pon=OltIfaces::find($pon)?->first();
+      
     }
     public function render()
     {

@@ -181,8 +181,8 @@ class Mikrotik extends Model
         $lease = $link?->q((new Query('/ip/dhcp-server/lease/print'))->where('mac-address',$mac_address))->r();
       
          foreach($lease as $item){      
-             $delobj=(object)$item;
-             if(!str_contains($delobj->comment,"MikroBill")){
+             $delobj=(object)$item;         
+             if(!property_exists($delobj,"comment")||!str_contains($delobj->comment,"MikroBill")){
                 $id=".id";
                 $this->Link?->qr((new Query('/ip/dhcp-server/lease/remove'))->equal('.id',$delobj->$id));
              }

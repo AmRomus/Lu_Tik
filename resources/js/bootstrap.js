@@ -19,7 +19,8 @@ feather.replace();
 window.feather =feather;
 
 import Cleave from 'cleave.js'
-
+import select2 from 'select2';
+select2();
 
 /**
  * Echo exposes an expressive API for subscribing to channels and listening

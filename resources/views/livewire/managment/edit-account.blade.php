@@ -9,6 +9,102 @@
             </div>
             <div class="content-body">
                 <div class="row">
+                  <div class="col-12">
+                    <ul class="nav nav-line" id="myTab5" role="tablist">
+                      <li class="nav-item" role="presentation">
+                        <a class="nav-link active" id="home-tab5" data-bs-toggle="tab" href="#home5" role="tab" aria-controls="home" area-selected="true" >{{__('Technical information')}}</a>
+                      </li>
+                      <li class="nav-item" role="presentation">
+                        <a class="nav-link" id="profile-tab5" data-bs-toggle="tab" href="#profile5" role="tab" aria-controls="profile" >Profile</a>
+                      </li>
+                      <li class="nav-item" role="presentation">
+                        <a class="nav-link " id="contact-tab5" data-bs-toggle="tab" href="#contact5" role="tab" aria-controls="contact" >Contact</a>
+                      </li>
+                    </ul>
+                    <div class="tab-content mg-t-20" id="myTabContent5">
+                      <div class="tab-pane fade active show" id="home5" role="tabpanel" aria-labelledby="home-tab5">
+                        <div class="row">
+                          <div class="col-4">
+                            <div class="card ">                              
+                              <div class="card-body"> 
+                                <div class="d-flex w-100">
+                                  <h6>{{__('Routers')}}</h6>  
+                                  <div class="w-100 text-end">
+                                    <span style="cursor: pointer"  wire:click="$dispatchTo('modals.add-inet-device-to-account','show_modal')">
+                                      <i class="fa fa-plus"></i>{{__('Add')}}
+                                    </span>
+                                  </div>
+                                </div>
+                                <div class="row">
+                                @foreach ($account->InetDevices as $dev) 
+                                <div class="d-flex mb-3 bd bd-2 bd-primary px-3 col">
+                                  <div class="media align-items-center">
+                                    <div class=" bd bd-2 bd-primary tx-primary  align-items-center justify-content-center op-6 d-none d-sm-flex"
+                                    wire:click="$dispatchTo('modals.add-inet-device-to-account','show_modal',{device_id:{{$dev->id}}})"
+                                    >
+                                      <i data-feather="hard-drive" style="cursor: pointer"></i>
+                                    </div>
+                                    <div class="media-body mg-sm-l-15">
+                                      <livewire:network.inet-dev-detail :dev='$dev->id' :wire:key="$loop->index">
+                                    </div><!-- media-body -->                                         
+                                  </div><!-- media -->
+                                  <div class="text-end tx-rubik">                                            
+                                      <span style="cursor: pointer" wire:confirm="{{__('Are you whant unlink this device ?')}}" wire:click="unlik_dev({{$dev->id}})"><i data-feather="trash" style="height: 16px; color:red"></i></span>
+                                  </div>
+                                </div>
+                              @endforeach 
+                                </div>                     
+                              </div>
+                            </div>
+                          </div>                        
+                          <div class="col-4">
+                            <div class="card ">                              
+                              <div class="card-body"> 
+                                <div class="d-flex w-100">
+                                <h6>{{__('Onus')}}</h6>  
+                                  <div class="w-100 text-end">
+                                    <span style="cursor: pointer"  wire:click="$dispatchTo('modals.add-onu-to-account','show_modal')">
+                                      <i class="fa fa-plus"></i>{{__('Add')}}
+                                    </span>
+                                  </div>
+                                </div>
+                                <div class="row">
+                                @foreach ($account->onu as $dev) 
+                                <div class="d-flex mb-3 bd bd-2 bd-primary px-3 col">
+                                  <div class="media align-items-center">
+                                    <div class=" bd bd-2 bd-primary tx-primary  align-items-center justify-content-center op-6 d-none d-sm-flex">
+                                      <i data-feather="hard-drive" style="cursor: pointer"></i>
+                                    </div>
+                                    <div class="media-body mg-sm-l-15">
+                                      <p class="tx-12 mg-b-0"><strong>MAC:</strong> {{$dev->mac}}</p> 
+                                     
+                                      <p class="tx-12 mg-b-0"><strong>{{__('Access Server')}}:</strong> {{$dev->OltIfaces?->olt?->name}} </p>
+                                      <p class="tx-12 mg-b-0"><strong>{{__('Interface')}}:</strong> {{$dev->OltIfaces?->iface}}  </p>
+                                      <p class="tx-12 mg-b-0"><strong>{{__('Signal')}}:</strong> {{$dev->signal}}  </p>     
+                                     
+                                    </div><!-- media-body -->                                         
+                                  </div><!-- media -->
+                                  <div class="text-end tx-rubik">                                            
+                                      <span style="cursor: pointer" wire:confirm="{{__('Are you whant unlink this device ?')}}" wire:click="unlik_dev({{$dev->id}})"><i data-feather="trash" style="height: 16px; color:red"></i></span>
+                                  </div>
+                                </div>
+                              @endforeach 
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="tab-pane fade" id="profile5" role="tabpanel" aria-labelledby="profile-tab5">
+                        <h6>Profile</h6>
+                        <p class="mg-b-0">Fugiat veniam incididunt anim aliqua enim pariatur veniam sunt est aute sit dolor anim. Velit non irure adipisicing aliqua ullamco irure incididunt irure non esse consectetur nostrud minim non minim occaecat.</p>
+                      </div>
+                      <div class="tab-pane fade " id="contact5" role="tabpanel" aria-labelledby="contact-tab5">
+                        <h6>Contact</h6>
+                        <p class="mg-b-0">Amet duis do nisi duis veniam non est eiusmod tempor incididunt tempor dolor ipsum in qui sit. Exercitation mollit sit culpa nisi culpa non adipisicing reprehenderit do dolore. Duis reprehenderit occaecat anim ullamco ad duis occaecat ex.</p>
+                      </div>
+                    </div>
+                  </div>
                     <div class="col-4">
                     <div class="card ht-md-100p">
                         <div class="card-header d-flex justify-content-between">
@@ -268,10 +364,16 @@
         <livewire:modals.change-tarif @saved="$refresh" :account_id="$account->id" >
         <livewire:modals.set-service-api @saved="$refresh" >
         <livewire:modals.add-inet-device-to-account @saved="$refresh" :account_id="$account->id">
+        <livewire:modals.add-onu-to-account @saved="$refresh" :account_id="$account->id">
         <livewire:modals.subscription-cencel @saved="$refresh" :account_id="$account->id">
           @push('js')
               <script type="module">
                 var cleaveII = new Cleave('#new_mac', {
+                                    delimiters: [':', ':', ':',':',':'],
+                                        blocks: [2, 2, 2, 2, 2, 2],
+                                        uppercase: true
+                                    });
+                var cleaveclasss = new Cleave('.style_mac', {
                                     delimiters: [':', ':', ':',':',':'],
                                         blocks: [2, 2, 2, 2, 2, 2],
                                         uppercase: true

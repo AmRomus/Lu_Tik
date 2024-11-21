@@ -8,6 +8,6 @@ import "@fontsource/ibm-plex-sans/latin.css"; // Specify weight and style
 import "inter-ui/inter-display.scss";
 import "inter-ui/inter.css";
 import "perfect-scrollbar";
-
+import "select2/dist/css/select2.css";
 
 import './dashforge.aside';

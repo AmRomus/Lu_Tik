@@ -50,7 +50,10 @@ class BillingAccount extends Model implements Customer
     public function InetDevices(){
         return $this->hasMany(InetDevices::class);
     }
-
+    public function Onu()
+    {
+        return $this->hasMany(Onu::class);
+    }
     public function Subscriptions(){
         return $this->hasMany(AccountSubscription::class);
     }

@@ -1,7 +1,9 @@
 <div>
-    <p class="tx-12 mg-b-0"> {{$mac}}</p> 
-    @if ($interface)    
-     <span>{{($mk->name)?$mk->name:$mk->hostname}}</span> <span class="tx-gray-500">/</span><span>{{$interface}}</span><span class="tx-gray-500">/</span><span class="tx-12 tx-bold">{{$ip}}</span>     
+    <p class="tx-12 mg-b-0"><strong>MAC:</strong> {{$mac}}</p> 
+    @if ($interface) 
+    <p class="tx-12 mg-b-0"><strong>{{__('Access Server')}}:</strong> {{($mk->name)?$mk->name:$mk->hostname}}  </p>
+    <p class="tx-12 mg-b-0"><strong>{{__('Interface')}}:</strong> {{$interface}}  </p>
+    <p class="tx-12 mg-b-0"><strong>{{__('Ip Address')}}:</strong> {{$ip}}  </p>     
     @else
         <div class="tx-danger tx-bold">
             {{__('Not Registred')}}
