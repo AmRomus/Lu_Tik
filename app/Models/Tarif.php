@@ -29,6 +29,10 @@ class Tarif extends Model implements ProductLimitedInterface
         {
             $price+=$this->InetService->price;
         }
+        if($this->CatvService)
+        {
+            $price+=$this->CatvService->price;
+        }
           
         return $price;
     }
@@ -53,6 +57,10 @@ class Tarif extends Model implements ProductLimitedInterface
     public function InetService()
     {
         return $this->hasOne(InetService::class);
+    }
+    public function CatvService()
+    {
+        return $this->hasOne(CatvService::class);
     }
     public function BillingAccount(){
         return $this->hasMany(BillingAccount::class);

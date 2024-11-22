@@ -2,6 +2,7 @@
 
 namespace App\Observers;
 
+use App\Models\AccountCatvService;
 use App\Models\AccountInetService;
 use App\Models\BillingAccount;
 use App\Models\Tarif;
@@ -14,6 +15,7 @@ class BillingAccountObserver
     public function created(BillingAccount $billingAccount): void
     {
         $billingAccount->AccountInetService()->save(new AccountInetService());
+        $billingAccount->AccountCatvService()->save(new AccountCatvService());
     }
 
     /**
@@ -24,6 +26,7 @@ class BillingAccountObserver
        if($billingAccount->wasChanged('tarif_id'))
        {
           $tarif =Tarif::find($billingAccount->tarif_id);
+          //CHECK INET ACCOUNT 
           if($billingAccount->AccountInetService)
           {
             if($tarif?->InetService)
@@ -36,7 +39,7 @@ class BillingAccountObserver
                 $billingAccount->AccountInetService->save();
             }
           }else
-          {
+          {           
             $billingAccount->AccountInetService()->save(new AccountInetService());
             if($tarif?->InetService)
             {               
@@ -46,6 +49,32 @@ class BillingAccountObserver
                 $billingAccount->AccountInetService->inet_service_id=null;
                 $billingAccount->AccountInetService->mikro_bill_api_id=null;
                 $billingAccount->AccountInetService->save();
+            }
+          }
+          //CHECK CATV ACCOUNT
+          if($billingAccount->AccountCatvService)
+          {
+            if($tarif?->CatvService)
+            {               
+                $tarif->CatvService->AccountCatvService()->save($billingAccount->AccountCatvService);               
+            }else 
+            {
+                $billingAccount->AccountCatvService->catv_service_id=null;
+                $billingAccount->AccountCatvService->mikro_bill_api_id=null;
+                $billingAccount->AccountCatvService->save();
+            }
+          }
+          else
+          {
+            $billingAccount->AccountCatvService()->save(new AccountCatvService());
+            if($tarif?->CatvService)
+            {               
+                $tarif->CatvService->AccountCatvService()->save($billingAccount->AccountCatvService);               
+            }else 
+            {
+                $billingAccount->AccountCatvService->catv_service_id=null;
+                $billingAccount->AccountCatvService->mikro_bill_api_id=null;
+                $billingAccount->AccountCatvService->save();
             }
           }
        }

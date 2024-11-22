@@ -42,11 +42,15 @@ class BillingAccount extends Model implements Customer
     {
         return $this->belongsTo(Tarif::class);
     }
+    /* SERVISES */
     public function AccountInetService()
     {
         return $this->hasOne(AccountInetService::class);
     }
-
+    public function AccountCatvService()
+    {
+        return $this->hasOne(AccountCatvService::class);
+    }
     public function InetDevices(){
         return $this->hasMany(InetDevices::class);
     }
