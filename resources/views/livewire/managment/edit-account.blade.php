@@ -175,6 +175,7 @@
         </div>
         <livewire:modals.change-tarif @saved="$refresh" :account_id="$account->id" >
         <livewire:modals.set-service-api @saved="$refresh" >
+        <livewire:modals.set-catv-service-api @saved="$refresh" >
         <livewire:modals.add-inet-device-to-account @saved="$refresh" :account_id="$account->id">
         <livewire:modals.add-onu-to-account @saved="$refresh" :account_id="$account->id">
         <livewire:modals.subscription-cencel @saved="$refresh" :account_id="$account->id">

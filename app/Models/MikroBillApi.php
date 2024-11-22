@@ -160,5 +160,9 @@ class MikroBillApi extends Model
     {
         return $this->hasMany(AccountInetService::class);
     }
+    public function AccountCatvService()
+    {
+        return $this->hasMany(AccountCatvService::class);
+    }
 
 }

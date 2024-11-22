@@ -56,6 +56,36 @@
             @endif
             
         </div>
+        <div class="col-12  justify-content-end">
+            @if ($cur_tarif?->CatvService)
+            <h6>CATV Service</h6>
+                <div class="row ">
+                    <div class="col-auto table-responsive">
+                        <table class="table table-dashboard">
+                            <thead>
+                                <tr>                                   
+                                    <th>{{__('State')}}</th>
+                                    <th>{{__('Price')}}</th>
+                                    <th></th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr align="middle">                                                                    
+                                    <td>{{__('CATV Enabled')}}</td>
+                                    <td>{{$cur_tarif?->CatvService->price}}</td>
+                                    <td><i class="fa fa-edit" style="cursor: pointer" wire:click.prevent="$dispatchTo('modals.new-catv-services','show_modal',{ tarif: {{$cur_tarif->id}} })"></i></td>
+                                    <td><i class="fa fa-trash tx-danger" style="cursor: pointer" wire:confirm="{{__('Delete service from tarif?')}}" wire:click="del_catv_service({{$cur_tarif?->CatvService->id}})"></i></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            @else
+            <button class="btn btn-sm btn-primary" wire:click.prevent="$dispatchTo('modals.new-catv-services','show_modal',{ tarif: {{$cur_tarif->id}} })">{{__('New CATV Service')}}</button>    
+            @endif
+            
+        </div>
     </div>
 
     <div class="card-footer text-end mt-3">
@@ -64,4 +94,5 @@
 </div>
 @endif
 <livewire:modals.new-inet-services ::wire:key="$cur_tarif->id">
+<livewire:modals.new-catv-services ::wire:key="$cur_tarif->id">
 </div>

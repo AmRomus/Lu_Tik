@@ -124,11 +124,11 @@
               @endif
              
               <li class="list-label">{{__('Tv Service')}}</li>
-              @if ($account->Tarif?->TvService)
+              @if ($account->Tarif?->CatvService)
               <li class="list-item">
                   <div class="media align-items-center">
                     <div class="wd-35 ht-35 bd bd-2 bd-primary tx-primary rounded-circle align-items-center justify-content-center op-6 d-none d-sm-flex" 
-                    wire:click="$dispatchTo('modals.set-service-api','show_modal',{ service_id:{{$account->AccountInetService?->id}}})">
+                    wire:click="$dispatchTo('modals.set-catv-service-api','show_modal',{ service_id:{{$account->AccountCatvService?->id}}})">
                       <i data-feather="briefcase" style="cursor: pointer"></i>
                     </div>
                     <div class="media-body mg-sm-l-15">
@@ -136,8 +136,8 @@
                     </div><!-- media-body -->
                   </div><!-- media -->
                   <div class="text-end tx-rubik">                                            
-                      @if ($account->AccountTvService?->MikroBillApi)                                          
-                          Mikro-Bill({{$account->AccountInetService?->MikroBillApi?->name}})
+                      @if ($account->AccountCatvService?->MikroBillApi)                                          
+                          Mikro-Bill({{$account->AccountCatvService?->MikroBillApi?->name}})
                       @else
                           {{__('Internal')}}
                       @endif                                         
