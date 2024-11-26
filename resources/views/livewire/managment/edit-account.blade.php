@@ -81,11 +81,13 @@
                                       <p class="tx-12 mg-b-0"><strong>{{__('Access Server')}}:</strong> {{$dev->OltIfaces?->olt?->name}} </p>
                                       <p class="tx-12 mg-b-0"><strong>{{__('Interface')}}:</strong> {{$dev->OltIfaces?->iface}}  </p>
                                       <p class="tx-12 mg-b-0"><strong>{{__('Signal')}}:</strong> {{$dev->signal}}  </p>     
-                                     
+                                     @if (!$dev->online)
+                                     <p class="tx-12 mg-b-0"><strong>{{__('Action')}}:</strong> {{$dev->msg}}  </p>     
+                                     @endif
                                     </div><!-- media-body -->                                         
                                   </div><!-- media -->
                                   <div class="text-end tx-rubik">                                            
-                                      <span style="cursor: pointer" wire:confirm="{{__('Are you whant unlink this device ?')}}" wire:click="unlik_dev({{$dev->id}})"><i data-feather="trash" style="height: 16px; color:red"></i></span>
+                                      <span style="cursor: pointer" wire:confirm="{{__('Are you whant unlink this device ?')}}" wire:click="unlik_catv_dev({{$dev->id}})"><i data-feather="trash" style="height: 16px; color:red"></i></span>
                                   </div>
                                 </div>
                               @endforeach 

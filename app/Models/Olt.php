@@ -11,8 +11,9 @@ use Illuminate\Database\Eloquent\Model;
 class Olt extends Model
 {
     use HasFactory;
-    public function OltTemplate(){
-        return $this->belongsTo(OltTemplate::class);
+    public function getOltTemplateAttribute(){
+       // return $this->belongsTo(OltTemplate::class);
+       return $this->morphOne(SnmpTemplateRel::class,'device')->first()->SnmpTemplate;
     }
 
     public function Read()
@@ -95,4 +96,32 @@ class Olt extends Model
         return $this->hasMany(OltIfaces::class);
     }
 
+    public function getOnusAttribute()
+    {
+        return Onu::whereIn('olt_interface_id',$this->OltIfaces->pluck('id'));
+    }
+
+    public function Onu($mac)
+    {
+        if(!is_array($mac)){
+            return Onu::where(function ($q)use($mac){
+                $q->whereIn('olt_ifaces_id',$this->OltIfaces->pluck('id'));
+                $q->where('mac',$mac);
+            })->first();
+        }else 
+        {
+            $iface_id=$this->OltIfaces()->where('pon_index',$mac[1])->first()?->id;
+            if($iface_id){
+            return Onu::where(function($q)use($mac,$iface_id){
+                $q->where('olt_ifaces_id',$iface_id);
+                $q->where('onu_index','.'.$mac[2]);
+            })->first();
+            } else 
+            {
+                return null;
+            }
+
+        }
+    }
+    
 }

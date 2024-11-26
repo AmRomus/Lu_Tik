@@ -11,9 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('olt_templates', function (Blueprint $table) {
+        Schema::create('snmp_signals', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
+            $table->unsignedBigInteger('snmp_template_id');
+            $table->foreign('snmp_template_id','templ_signals')->references('id')->on('snmp_templates')->cascadeOnDelete();           
+            $table->text('signal')->nullable();
+            $table->text('action')->nullable();
             $table->timestamps();
         });
     }
@@ -23,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('olt_templates');
+        Schema::dropIfExists('snmp_signals');
     }
 };

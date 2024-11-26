@@ -11,12 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('snmp_oids', function (Blueprint $table) {
+        Schema::create('snmp_templates', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('olt_template_id');
-            $table->foreign('olt_template_id','templ_snmp')->references('id')->on('snmp_templates')->cascadeOnDelete();           
-            $table->text('cmd')->nullable();
-            $table->text('oid')->nullable();            
+            $table->string('Vendor');
+            $table->morphs("device");            
             $table->timestamps();
         });
     }
@@ -26,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('snmp_oids');
+        Schema::dropIfExists('snmp_templates');
     }
 };

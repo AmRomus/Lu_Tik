@@ -8,4 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 class SnmpOids extends Model
 {
     use HasFactory;
+    public function SnmpTemplate()
+    {
+        return $this->belongsTo(SnmpTemplate::class);
+    }
 }

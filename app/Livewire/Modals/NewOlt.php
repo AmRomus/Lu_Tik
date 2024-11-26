@@ -3,7 +3,8 @@
 namespace App\Livewire\Modals;
 
 use App\Models\Olt;
-use App\Models\OltTemplate;
+
+use App\Models\SnmpTemplate;
 use Livewire\Attributes\Rule;
 use Livewire\Attributes\On;
 
@@ -27,7 +28,7 @@ class NewOlt extends Component
     public $valid=false;
     public function mount()
     {
-        $this->templates = OltTemplate::all();
+        $this->templates = SnmpTemplate::all();
     }
     #[On('show_modal')]
     public function show_modal()

@@ -137,7 +137,7 @@
                   </div><!-- media -->
                   <div class="text-end tx-rubik">                                            
                       @if ($account->AccountCatvService?->MikroBillApi)                                          
-                          Mikro-Bill({{$account->AccountCatvService?->MikroBillApi?->name}})
+                          Mikro-Bill({{$account->AccountCatvService?->MikroBillApi?->name}}) - login {{$account->AccountCatvService?->MikroBillApi?->ident}}
                       @else
                           {{__('Internal')}}
                       @endif                                         

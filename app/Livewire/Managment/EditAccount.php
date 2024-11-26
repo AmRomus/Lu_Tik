@@ -5,6 +5,7 @@ namespace App\Livewire\Managment;
 use App\Models\BillingAccount;
 use App\Models\InetDevices;
 use App\Models\Mikrotik;
+use App\Models\Onu;
 use Livewire\Attributes\On;
 use Livewire\Component;
 
@@ -32,4 +33,8 @@ class EditAccount extends Component
        $dev->ip=null;
        $dev->save();
     }
+    public function unlik_catv_dev(Onu $dev){
+        $dev->billing_account_id=null;       
+        $dev->save();
+     }
 }
