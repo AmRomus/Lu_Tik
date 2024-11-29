@@ -28,6 +28,7 @@ class AccountInetService extends Model
     {
         return $this->hasMany(InetDevices::class);
     }
+  
     public function getBillingStateAttribute()
     {
         

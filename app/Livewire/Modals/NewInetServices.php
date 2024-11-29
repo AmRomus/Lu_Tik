@@ -5,6 +5,7 @@ namespace App\Livewire\Modals;
 use App\Livewire\Finances\Tarifs;
 use App\Livewire\Finances\TarifServices;
 use App\Models\InetService;
+use App\Models\ServiceCompanies;
 use App\Models\Tarif;
 use Livewire\Attributes\On;
 use Livewire\Attributes\Rule;
@@ -25,16 +26,23 @@ class NewInetServices extends Component
     public $burst_time;
     #[Rule('required|integer|gte:0')]
     public $price;
+    public $companyes;
+    
     public $cur_service;
+    public $selected_company;
+    public function mount()
+    {
+      $this->companyes = ServiceCompanies::all();
 
+    }
     #[On('show_modal')]
     public function show_modal($tarif=null)
     {      
       $this->show=!$this->show;      
       if($tarif)
       {
-        $this->cur_service=Tarif::find($tarif)->InetService;
-        if(!$this->cur_service){
+        $this->cur_service=Tarif::find($tarif)->InetService;        
+        if(!$this->cur_service){         
           $this->service_tarif=$tarif;
           $this->price=0;
           $this->speed_up=0;
@@ -45,6 +53,7 @@ class NewInetServices extends Component
         }else 
         {
           $this->service_tarif=$tarif;
+          $this->selected_company=$this->cur_service->ServiceCompanies->id;
           $this->price=$this->cur_service->price;
           $this->speed_up=$this->cur_service->speed_up;
           $this->speed_up_unit = $this->cur_service->speed_up_unit;
@@ -72,6 +81,7 @@ class NewInetServices extends Component
               'speed_down_unit'=>$this->speed_down_unit,
               'burst_percent'=>$this->burst_percent,
               'burst_time'=>$this->burst_time,
+              'service_companies_id'=>$this->selected_company,
               'price'=>$this->price,
           ]);
         }else {
@@ -82,6 +92,7 @@ class NewInetServices extends Component
           $this->cur_service->burst_percent=$this->burst_percent;
           $this->cur_service->burst_time=$this->burst_time;
           $this->cur_service->price=$this->price;
+          $this->cur_service->service_companies_id=$this->selected_company;
           $this->cur_service->save();
           $this->cur_service->refresh();
         }

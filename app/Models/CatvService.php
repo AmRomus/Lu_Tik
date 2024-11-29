@@ -23,5 +23,8 @@ class CatvService extends Model
         return $this->hasMany(AccountCatvService::class);
     }
 
-   
+    public function ServiceCompanies()
+    {
+        return $this->belongsTo(ServiceCompanies::class);
+    }
 }

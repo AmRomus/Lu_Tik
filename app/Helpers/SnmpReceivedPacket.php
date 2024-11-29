@@ -57,7 +57,7 @@ class SnmpReceivedPacket
        $mac=$this->packet->where('oid',$oid->oid)->first()?->value;
        if($mac)
        {
-        $this->mac=$this->findMacAddresses($mac)[0];
+        $this->mac=$this->findMacAddresses($mac);
        }
        $oid=$this->server->OltTemplate?->SnmpOids?->where('cmd','onu_msg_ident')->first();
        $this->msg=$this->packet->where('oid',$oid->oid)->first()?->value;
@@ -90,29 +90,19 @@ class SnmpReceivedPacket
         return array($board, $pon, $unit);
     }
     function findMacAddresses($text) {
-        $text=ltrim($text,"mac:");
-        // Регулярное выражение для поиска MAC-адресов в различных форматах
-        $pattern = '/([0-9A-Fa-f]{2}[:\-]){5}[0-9A-Fa-f]{2}|([0-9A-Fa-f]{4}[.]){2}[0-9A-Fa-f]{4}/';
+        $patterns = [
+            '/(?:mac:)?([a-f0-9]{2}(:[a-f0-9]{2}){5})/i',      // Формат mac:xx:xx:xx:xx:xx:xx
+            '/([a-f0-9]{2}([-])[a-f0-9]{2}([-])[a-f0-9]{2}([-])[a-f0-9]{2}([-])[a-f0-9]{2}([-])[a-f0-9]{2})/i', // Формат xx-xx-xx-xx-xx-xx
+            '/([a-f0-9]{4}(\.)[a-f0-9]{4}(\.)[a-f0-9]{4})/i'    // Формат xxxx.xxxx.xxxx
+        ];
         
-        // Используем preg_match_all для поиска всех совпадений
-        preg_match_all($pattern, $text, $matches);
-        
-        // Преобразуем все найденные MAC-адреса в формат с двоеточиями
-        $macAddresses = array_map(function($mac) {
-            // Заменяем дефисы и точки на двоеточия
-            $mac = str_replace(['-', '.'], ':', $mac);
-            
-            // Убедимся, что MAC-адрес состоит из правильных групп
-            $parts = explode(':', $mac);
-            
-            // Если MAC-адрес был в формате xxxx.xxxx.xxxx, преобразуем его в xx:xx:xx:xx:xx:xx
-            if (count($parts) == 3) {
-                $mac = implode(':', str_split($mac, 4));
+        // Перебираем все регулярные выражения
+        foreach ($patterns as $pattern) {
+            if (preg_match($pattern, $text, $matches)) {
+                return str_replace(['-', '.'], ':', $matches[1]); // Преобразуем все разделители в двоеточие
             }
-            
-            return $mac;
-        }, $matches[0]);
-    
-        return $macAddresses;
+        }
+        
+        return null; // Если MAC-адрес не найден
     }
 }

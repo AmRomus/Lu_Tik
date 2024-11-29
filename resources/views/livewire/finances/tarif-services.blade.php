@@ -33,6 +33,7 @@
                                     <th>{{__('Burst %')}}</th>
                                     <th>{{__('Burst Time (s)')}}</th>
                                     <th>{{__('Price')}}</th>
+                                    <th>{{__('Company')}}</th>
                                     <th></th>
                                     <th></th>
                                 </tr>
@@ -44,6 +45,7 @@
                                     <td>{{$cur_tarif?->InetService->burst_percent}}</td>
                                     <td>{{$cur_tarif?->InetService->burst_time}}</td>
                                     <td>{{$cur_tarif?->InetService->price}}</td>
+                                    <td>{{$cur_tarif?->InetService->ServiceCompanies?->Name}}</td>
                                     <td><i class="fa fa-edit" style="cursor: pointer" wire:click.prevent="$dispatchTo('modals.new-inet-services','show_modal',{ tarif: {{$cur_tarif->id}} })"></i></td>
                                     <td><i class="fa fa-trash tx-danger" style="cursor: pointer" wire:confirm="{{__('Delete service from tarif?')}}" wire:click="del_inet_service({{$cur_tarif?->InetService->id}})"></i></td>
                                 </tr>
@@ -66,6 +68,7 @@
                                 <tr>                                   
                                     <th>{{__('State')}}</th>
                                     <th>{{__('Price')}}</th>
+                                    <th>{{__('Company')}}</th>
                                     <th></th>
                                     <th></th>
                                 </tr>
@@ -74,6 +77,7 @@
                                 <tr align="middle">                                                                    
                                     <td>{{__('CATV Enabled')}}</td>
                                     <td>{{$cur_tarif?->CatvService->price}}</td>
+                                    <td>{{$cur_tarif?->CatvService->ServiceCompanies?->Name}}</td>
                                     <td><i class="fa fa-edit" style="cursor: pointer" wire:click.prevent="$dispatchTo('modals.new-catv-services','show_modal',{ tarif: {{$cur_tarif->id}} })"></i></td>
                                     <td><i class="fa fa-trash tx-danger" style="cursor: pointer" wire:confirm="{{__('Delete service from tarif?')}}" wire:click="del_catv_service({{$cur_tarif?->CatvService->id}})"></i></td>
                                 </tr>

@@ -36,4 +36,21 @@ class Onu extends Model
     {
         return $this->belongsTo(BillingAccount::class);
     }
+    public function getCatvBillingStateAttribute()
+    {
+        $service=$this->BillingAccount->Tarif->CatvService;
+        return $service;
+    }
+    public function CatvOn()
+    {
+        $olt=$this->OltIfaces->Olt;
+        if($olt)
+        {
+            $oid=$olt->OltTemplate?->SnmpOids?->where('cmd','onu_catv')->first()?->oid;
+            if($oid){               
+                $oid=$oid.".".$this->OltIfaces->pon_index.$this->onu_index;         
+                $olt->Write($oid,"i", 1);                  
+            }
+        }
+    }
 }

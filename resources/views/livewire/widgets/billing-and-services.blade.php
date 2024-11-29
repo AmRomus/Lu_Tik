@@ -41,21 +41,24 @@
                                 
                               </div>
                             </li>
+                            @foreach ($account->wallets as $item)
                             <li class="list-item">
                               <div class="media align-items-center">
                                 <div class="wd-35 ht-35 bd bd-2 bd-primary tx-primary rounded-circle align-items-center justify-content-center op-6 d-none d-sm-flex">
-                                 <i data-feather="dollar-sign"></i>
+                                  <a href="#" wire:click.prevent="$dispatchTo('modals.cash-pay','show_modal',{ wallet_name:'{{$item->slug}}'})"><i data-feather="dollar-sign"></i></a>
                                 </div>
                                 <div class="media-body mg-sm-l-15">
-                                  <p class="tx-medium mg-b-0">{{__('Balance')}}</p>
+                                  <p class="tx-medium mg-b-0">{{__('Balance')}} - {{$item->name}}</p>
                                  
                                 </div><!-- media-body -->
                               </div><!-- media -->
                               <div class="text-end tx-rubik">
-                                <p class="mg-b-0">{{$account->balance}} AMD</p>
+                                <p class="mg-b-0">{{$item->balance}} AMD</p>
                                 
                               </div>
                             </li>
+                            @endforeach
+                           
                             <li class="list-item">
                               <div class="media align-items-center">
                                 <div class="wd-35 ht-35 bd bd-2 bd-primary tx-primary rounded-circle align-items-center justify-content-center op-6 d-none d-sm-flex" wire:click="$dispatchTo('modals.change-tarif','show_modal')">
@@ -104,7 +107,7 @@
                   </div><!-- media -->
                   <div class="text-end tx-rubik">                                            
                       @if ($account->AccountInetService?->MikroBillApi)                                          
-                          Mikro-Bill({{$account->AccountInetService?->MikroBillApi?->name}})
+                          Mikro-Bill({{$account->AccountInetService?->MikroBillApi?->name}}) Login: {{$account->AccountInetService?->api_ident}}
                       @else
                           {{__('Internal')}}
                       @endif                                         
@@ -137,7 +140,7 @@
                   </div><!-- media -->
                   <div class="text-end tx-rubik">                                            
                       @if ($account->AccountCatvService?->MikroBillApi)                                          
-                          Mikro-Bill({{$account->AccountCatvService?->MikroBillApi?->name}}) - login {{$account->AccountCatvService?->MikroBillApi?->ident}}
+                          Mikro-Bill({{$account->AccountCatvService?->MikroBillApi?->name}})  Login {{$account->AccountCatvService?->api_ident}}
                       @else
                           {{__('Internal')}}
                       @endif                                         

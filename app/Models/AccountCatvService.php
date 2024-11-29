@@ -15,7 +15,7 @@ class AccountCatvService extends Model
     }
     public function scopeActive(Builder $query)
     {
-        $query->whereNotNull('inet_service_id');
+        $query->whereNotNull('catv_service_id');
     }
     public function CatvService()
     {
@@ -43,15 +43,17 @@ class AccountCatvService extends Model
                 
                 return $this->service_state;
             }
-	    if($this->service_state>=0){
+	        if($this->service_state>=0){
                 $this->api_check=Carbon::now()->addMinutes(-6);
-		$this->save();
-		$this->refresh();                
+                $this->save();
+                $this->refresh();                
             }
               /// Данные устарели
-            if(Carbon::parse($this->api_check)->diffInMinutes(Carbon::now(),false)>5){
+            if(Carbon::parse($this->api_check)->diffInMinutes(Carbon::now(),false)>5)
+            {
                 Log::debug('$this->bill_update (timeout) :'.$this->id.' INTERVAL '.Carbon::parse($this->api_check)->diffInMinutes(Carbon::now()));
                 // Апи назначено Данные устарели
+                $this->service_state=$this->get_bill_state_from_api();
                 if($this->service_state<0)
                 {
                     $next_check=Carbon::now()->addDay();
@@ -61,11 +63,10 @@ class AccountCatvService extends Model
                     Log::debug('$this->bill_update (timeout) :'.$next_check);
                 }else {
             	    $this->api_check=Carbon::now()->addMinutes(5);
-		}
-                $this->service_state=$this->get_bill_state_from_api();
+		        }
+               
                 $this->save();
-                $this->refresh();
-                
+                $this->refresh();                
                 return $this->service_state;
             }
           

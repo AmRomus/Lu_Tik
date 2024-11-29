@@ -27,7 +27,7 @@ def cbFun(snmpEngine, stateReference, contextEngineId, contextName,
     for name, val in varBinds:   
         p+=name.prettyPrint()+"="
         p+=val.prettyPrint()+"|"
-    pprint(p)   
+    #pprint(p)   
     subprocess.call(['php', 'artisan','app:from-snmp',p])
 ntfrcv.NotificationReceiver(snmpEngine, cbFun)
 

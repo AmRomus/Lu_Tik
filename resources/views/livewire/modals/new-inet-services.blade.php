@@ -12,7 +12,13 @@
                 <div>{{ $error }}</div>
             @endforeach
      
-            
+            <select name="comapny_service" wire:model.live="selected_company" class="form-select">              
+              @forelse ($companyes as $item)
+                  <option value="{{$item->id}}" @if ($item->id==$selected_company) @selected(true) @endif >{{$item->Name}}</option>
+              @empty
+                  
+              @endforelse
+          </select>          
             <div class="input-group mb-3">
                 <div class="input-group-prepend">
                   <span class="input-group-text" >{{__('Speed UP')}}</span>

@@ -5,6 +5,7 @@ namespace App\Observers;
 use App\Models\AccountCatvService;
 use App\Models\AccountInetService;
 use App\Models\BillingAccount;
+use App\Models\ServiceCompanies;
 use App\Models\Tarif;
 
 class BillingAccountObserver
@@ -16,6 +17,16 @@ class BillingAccountObserver
     {
         $billingAccount->AccountInetService()->save(new AccountInetService());
         $billingAccount->AccountCatvService()->save(new AccountCatvService());
+        foreach(ServiceCompanies::all() as $company)
+        {
+            if(!$billingAccount->hasWallet("wallet_".$company->id))
+            {
+                $billingAccount->createWallet([
+                    'name' => $company->Name,
+                    'slug' => "wallet_".$company->id,
+                ]);
+            }
+        }
     }
 
     /**

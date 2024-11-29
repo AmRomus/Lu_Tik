@@ -46,12 +46,58 @@ class Tarif extends Model implements ProductLimitedInterface
          */
         //dd($customer->paid($this));
         //return true;
-        $ret =false;
-        if($customer->Tarif){
-            if (!$customer->Subscription){
-                $ret=true;
+        $ret =true;
+        ///CHEK API ACTIVE
+        if($this->InetService)
+        {
+            if($customer->AccountInetService->BillingState<0)
+            {
+                return false;
             }
         }
+        if($this->CatvService)
+        {
+            if($customer->AccountCatvService->BillingState<0)
+            {
+               return false;
+            }
+        }
+        ///CHECK SUBSCRIPTION ACTIVE
+        if($customer->Tarif){
+            if ($customer->Subscription){
+                return false;
+            }
+        }
+        
+        //CHECK CAN PAY FOR SERVICES
+        if($this->InetService)
+        {
+            $w=$customer->getWallet("wallet_".$this->InetService->ServiceCompanies->id);
+            
+            if($w){
+                if($w->balance<$this->InetService->price)
+                {
+                    $ret=false;
+                }
+             }else 
+             {
+                $ret=false;
+             }
+        }
+        if($this->CatvService)
+        {
+            $w=null;
+            $w=$customer->getWallet("wallet_".$this->CatvService->ServiceCompanies->id);          
+            if($w){
+                if($w->balance<$this->CatvService->price)
+                {
+                    $ret=false;
+                }
+             }else 
+             {
+                $ret=false;
+             }
+        }           
         return $ret;
     }
     public function InetService()

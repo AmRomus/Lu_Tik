@@ -26,14 +26,15 @@ class Olt extends Model
         ]);
         return $snmp;
     }
-    public function Write() 
+    public function Write($oid,$tipe,$val) 
     {
-        $snmp = new SnmpClient([
-            'host' => $this->ip,
-            'version' => 2,
-            'community' => $this->rw_community,
-        ]);
-        return $snmp;
+        // $snmp = new SnmpClient([
+        //     'host' => $this->ip,
+        //     'version' => 2,
+        //     'community' => $this->rw_community,
+        // ]);
+        //return $snmp;
+        snmpset($this->ip,$this->rw_community,$oid,$tipe,$val);
     } 
     public function getSystemNameAttribute()
     {

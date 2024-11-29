@@ -19,6 +19,7 @@ class InetService extends Model
         'speed_down_unit',
         'bust_percent',
         'burst_time',
+        'service_companies_id',
         'price',
     ];
 
@@ -31,6 +32,9 @@ class InetService extends Model
     {
         return $this->hasMany(AccountInetService::class);
     }
-
+    public function ServiceCompanies()
+    {
+        return $this->belongsTo(ServiceCompanies::class);
+    }
    
 }

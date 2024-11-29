@@ -16,6 +16,8 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('tarif_id');
             $table->foreign('tarif_id','tarif_inet_service')->references('id')->on('tarifs')->cascadeOnDelete();          
+            $table->unsignedBigInteger('service_companies_id');
+            $table->foreign('service_companies_id','company_inet_service')->references('id')->on('service_companies')->cascadeOnDelete();          
             $table->unsignedBigInteger('speed_up')->default(0);
             $table->unsignedBigInteger('speed_up_unit')->nullable()->default('M');
             $table->unsignedBigInteger('speed_down')->default(0);

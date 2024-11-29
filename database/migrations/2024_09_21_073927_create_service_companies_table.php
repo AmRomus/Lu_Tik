@@ -11,11 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('catv_services', function (Blueprint $table) {
+        Schema::create('service_companies', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('tarif_id');
-            $table->foreign('tarif_id','tarif_catv_service')->references('id')->on('tarifs')->cascadeOnDelete();          
-            $table->integer('price')->default(0);
+            $table->string('Name')->unique();
             $table->timestamps();
         });
     }
@@ -25,6 +23,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('catv_services');
+        Schema::dropIfExists('service_companies');
     }
 };

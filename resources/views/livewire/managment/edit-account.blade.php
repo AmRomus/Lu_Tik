@@ -181,6 +181,7 @@
         <livewire:modals.add-inet-device-to-account @saved="$refresh" :account_id="$account->id">
         <livewire:modals.add-onu-to-account @saved="$refresh" :account_id="$account->id">
         <livewire:modals.subscription-cencel @saved="$refresh" :account_id="$account->id">
+        <livewire:modals.cash-pay @saved="$refresh" :account_id="$account->id">
           @push('js')
               <script type="module">
                 var cleaveII = new Cleave('#new_mac', {

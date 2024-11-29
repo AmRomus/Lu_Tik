@@ -54,14 +54,20 @@ class FromSnmp extends Command
                      case "Online":
                         if($p->onu_by_mac)
                         {
+                            printf("Onu %s Online \n",$p->onu_by_mac?->mac);
                             $p->onu_by_mac->online=1;
                             $p->onu_by_mac->msg=null;
                             $p->onu_by_mac->save();
+                            if($p->onu_by_mac->BillingAccount?->CatvAccess&&$p->onu_by_mac->BillingAccount?->CatvAccess<0)
+                            {
+                                $p->onu_by_mac->CatvOn();
+                            }
                         }
                          break;
                       case "PowerOff":
                         if($p->onu_by_mac)
                         {
+                            printf("Onu %s Power Off \n",$p->onu_by_mac?->mac);
                             $p->onu_by_mac->online=0;
                             $p->onu_by_mac->msg="Power Off";
                             $p->onu_by_mac->save();
@@ -69,7 +75,8 @@ class FromSnmp extends Command
                          break;
                          case "SignalLoss":
                             if($p->onu_by_mac)
-                            {                               
+                            {   
+                                printf("Onu %s Signal lost \n",$p->onu_by_mac?->mac);                            
                                 if( $p->onu_by_mac->online>0) {
                                     $p->onu_by_mac->Online=0;
                                     $p->onu_by_mac->msg="Loss Signal";

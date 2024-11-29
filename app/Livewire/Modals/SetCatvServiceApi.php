@@ -62,11 +62,15 @@ class SetCatvServiceApi extends Component
             $this->sapi->AccountCatvService()->save($this->service_id);          
            $this->service_id->api_ident= $this->api_ident;
            $this->service_id->api_ssid=$this->api_uuid;
+           $this->service_id->api_check=null;
+
           }else 
           {
             $this->service_id->mikro_bill_api_id=null;
             $this->service_id->api_ident=null;
             $this->service_id->api_ssid=null;
+            $this->service_id->api_check=null;
+
           }
           
           $this->service_id->save();

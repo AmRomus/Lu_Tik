@@ -16,7 +16,7 @@
                                     <th style="width:100px;"></th>
                                    
                                     <th style="width: 250px">{{__('Full Name')}}</th>
-                                    <th>{{__('Balance')}}</th>
+                                    
                                     <th style="width: 300px">{{__('Address')}}</th>
                                     <th style="width: 150px;">{{__('Phone')}}</th>
                                     <th>{{__('Tarif')}}</th>
@@ -34,9 +34,7 @@
                                         <td>
                                             {{$item->FullName}}                                     
                                         </td>
-                                        <td>
-                                           {{$item->balance}}
-                                        </td>
+                                        
                                         <td>
                                             {{$item->address}}
                                         </td>
@@ -58,7 +56,7 @@
                                                 @else 
                                                 <span class="badge rounded-pill text-bg-danger">{{__('Inet Suspended')}}</span>
                                                 @endif
-                                                @if ($item->TvAccess<0)
+                                                @if ($item->CatvAccess<0)
                                                 <span class="badge rounded-pill text-bg-success">{{__('TV Api Active')}}</span>
                                                 @else
                                                 <span class="badge rounded-pill text-bg-danger">{{__('TV Suspended')}}</span>
@@ -70,7 +68,7 @@
                                         </td>
                                         <td>{{$item->Subscription?->acct_end}}</td>
                                         <td>{{$item->coment}}</td> 
-                                        <td><a href="#" wire:click.prevent="$dispatchTo('modals.cash-pay','show_modal',{account:{{$item->id}}})"><i class="fa fa-money strong"></i></a></td>                                      
+                                        <td></td>                                      
                                         <td ><a href="{{route('account.edit',$item->id)}}"><i class="fa fa-arrow-right"></i></a></td>
                                     </tr>
                                 @endforeach
@@ -81,5 +79,5 @@
             </div>
         </div>
         <livewire:modals.new-billing-account @saved="$refresh">
-        <livewire:modals.cash-pay @saved="$refresh">
+       
 </div>
