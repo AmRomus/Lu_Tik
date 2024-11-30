@@ -5,6 +5,8 @@ namespace App\Livewire\Servers;
 use App\Models\ControlInterface;
 use App\Models\Mikrotik;
 
+use App\Models\SnmpTemplate;
+use App\Models\SnmpTemplateRel;
 use Livewire\Attributes\On;
 use Livewire\Attributes\Rule;
 use Livewire\Component;
@@ -14,18 +16,20 @@ class EditMikrotik extends Component
     public $mikrotik;
     public $name;
     #[Rule('required')]
-    public $hostname;
+    public $ip;
     #[Rule('required')]
     public $login;
     public $password;
     public $port;
     public $ssl;
     public $uncontroled;
+    public $tmpl;
+    public $tmpls;
     public function mount(Mikrotik $mikrotik)
     {
         $this->mikrotik=$mikrotik;
         $this->name=$mikrotik->name;
-        $this->hostname=$mikrotik->hostname;
+        $this->ip=$mikrotik->ip;
         $this->login = $mikrotik->login;
         $this->password = $mikrotik->password;
         $this->port = $mikrotik->port;
@@ -38,6 +42,8 @@ class EditMikrotik extends Component
             }
         }
         $this->uncontroled=$uncontroled;
+        $this->tmpls=SnmpTemplate::all();
+        $this->tmpl=$mikrotik->SnmpTemplateRel?->SnmpTemplate?->id;
     }
     public function render()
     {        
@@ -48,13 +54,27 @@ class EditMikrotik extends Component
         $this->validate();
         $mk=[
             'name'=>$this->name,
-            'hostname'=>$this->hostname,
+            'ip'=>$this->ip,
             'login'=>$this->login,
             'password'=>$this->password,
             'port'=>$this->port,
             'ssl'=>$this->ssl
         ];
         $this->mikrotik->update($mk);
+        if(!$this->mikrotik->SnmpTemplateRel)
+        {
+            $snmptmpl= new SnmpTemplateRel();
+            $snmptmpl->snmp_template_id=$this->tmpl;
+            $this->mikrotik->SnmpTemplateRel()->save($snmptmpl);
+        }else 
+        {
+            if($this->tmpl!=$this->mikrotik->SnmpTemplateRel->snmp_template_id)
+            {
+                $this->mikrotik->SnmpTemplateRel->snmp_template_id=$this->tmpl;
+                $this->mikrotik->SnmpTemplateRel->save();
+            }
+        }
+        
     }
     // #[On('changed')]
     // public function refresh(){}

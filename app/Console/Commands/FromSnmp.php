@@ -57,10 +57,11 @@ class FromSnmp extends Command
                             printf("Onu %s Online \n",$p->onu_by_mac?->mac);
                             $p->onu_by_mac->online=1;
                             $p->onu_by_mac->msg=null;
-                            $p->onu_by_mac->save();
-                            if($p->onu_by_mac->BillingAccount?->CatvAccess&&$p->onu_by_mac->BillingAccount?->CatvAccess<0)
+                            $p->onu_by_mac->save();                          
+                            if($p->onu_by_mac->BillingAccount?->CatvAccess&&$p->onu_by_mac->BillingAccount?->CatvAccess<0&&$p->onu_by_mac->BillingAccount?->Access<0)
                             {
                                 $p->onu_by_mac->CatvOn();
+                                print("CATV_ON!\n");
                             }
                         }
                          break;
@@ -88,8 +89,6 @@ class FromSnmp extends Command
                        break;  
                  }
             }
-            // dd($p);
-          //  dd($packet->where('oid','1.3.6.1.6.3.1.1.4.1.0'));
         }
         
     }

@@ -18,18 +18,22 @@ class Mikrotik extends Model
     use HasFactory;
     protected $fillable =[
         'name',
-        'hostname',
+        'ip',
         'login',
         'password',
         'port',
         'ssl'
     ];
+    public function SnmpTemplateRel()
+    {
+        return $this->morphOne(SnmpTemplateRel::class,'device');
+    }
     public function getLinkAttribute() : Client | null
     {
         
         try {
             $client = new Client([
-                'host' => $this->hostname,
+                'host' => $this->ip,
                 'user' => $this->login,
                 'pass' => $this->password,
                 'port' => $this->port,
@@ -204,7 +208,7 @@ class Mikrotik extends Model
         $link=$this->Link;
         $lease = $link?->q((new Query('/ip/dhcp-server/lease/print'))->where('mac-address',$device->mac))->r();          
         if(count($lease)>0){
-            dd($lease);
+           
         foreach($lease as $item){      
             $delobj=(object)$item;
             if(!str_contains($delobj->comment,"MikroBill")){

@@ -18,7 +18,7 @@
                             <div class="input-group-prepend">
                               <span class="input-group-text" >Հասցե կամ IP</span>
                             </div>
-                            <input type="text" class="form-control" placeholder="Հասցե կամ IP" aria-label="host" name="host" wire:model.live="hostname">
+                            <input type="text" class="form-control" placeholder="Հասցե կամ IP" aria-label="ip" name="ip" wire:model.live="ip">
                         </div>
                         <div class="input-group mb-3">
                             <div class="input-group-prepend">
@@ -42,6 +42,13 @@
                             <input class="form-check-input ms-0 me-2" type="checkbox" wire:model.defer="ssl" @if ($ssl==1) checked @endif>
                             <label class="form-check-label">SSL</label>
                         </div>
+                        <select class="form-control" wire:model.defer="tmpl">       
+                          @foreach ($tmpls as $item)
+                              <option value={{$item->id}} @if ($item->id==$mikrotik->SnmpTemplateRel?->SnmpTemplate->id)
+                                  @selected(true)
+                              @endif> {{$item->name}}</option>
+                          @endforeach
+                      </select>    
                       <div class="d-flex justify-content-end mg-t-30 mg-b-0">
                         <button type="button" class="btn btn-xs btn-white" data-dismiss="modal" wire:click="show_modal">Չեղարկել</button>
                         <button type="button" class="btn  btn-xs btn-primary mg-l-5" wire:click="save">Պահպանել</button>

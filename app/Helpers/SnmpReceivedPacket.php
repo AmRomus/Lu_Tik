@@ -28,12 +28,14 @@ class SnmpReceivedPacket
     private function get_vendor($pair){
         
        $item_ident=SnmpOids::where('cmd','ident')->where('oid',$pair->value)->first();
+       printf("Pair value %s \n",$pair->value);
        
        if($item_ident){
         $this->template=$item_ident->SnmpTemplate;
         $this->server=$item_ident->SnmpTemplate->Rels->where(function($item){
             return $item->device->ip==$this->server_ip;
         })->first()?->device;
+       
         if($this->server)
         {
             switch(class_basename($this->server))
@@ -42,6 +44,7 @@ class SnmpReceivedPacket
                     $this->parse_onu();
                     break;
                 case "Mikrotik":
+                    printf("Mikrotik Packet from %s \n",$this->server_ip);
                     break;
                 default:
                     break;

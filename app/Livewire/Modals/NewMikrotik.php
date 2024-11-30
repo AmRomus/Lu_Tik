@@ -19,7 +19,7 @@ class NewMikrotik extends Component
     }
 
     public $name;
-    #[Validate('required|unique:mikrotiks,hostname')]
+    #[Validate('required|unique:mikrotiks,ip')]
     public $hostname;
     public $login;
     public $password;
@@ -32,7 +32,7 @@ class NewMikrotik extends Component
         $this->validate();
         $serv = new Mikrotik();
         $serv->name=$this->name;
-        $serv->hostname=$this->hostname;
+        $serv->ip=$this->hostname;
         $serv->login=$this->login;
         $serv->password=$this->password;
         $serv->port=intval($this->port);

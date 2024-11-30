@@ -67,23 +67,26 @@ class BillingAccount extends Model implements Customer
     public function getSubscriptionAttribute(){
         return $this->Subscriptions()->whereDate('acct_end','>',Carbon::now())->latest()->first();
     }
-    public function getApiAccessAttribute():int
+    public function getAccessAttribute():int
     {
-        $state=0;
+        $state=-1;
         if($this->AccountInetService?->MikroBillApi&&$this->tarif?->InetService){
             // esli est' privyazka k API
-           if($this->AccountInetService->BillingState<0)
+           if($this->AccountInetService->BillingState>=0)
            {
                 $state=$this->AccountInetService->BillingState;
            }           
         }
         if($this->AccountCatvService?->MikroBillApi&&$this->tarif?->CatvService){
             // esli est' privyazka k API
-           if($this->AccountCatvService->BillingState<0){
+           if($this->AccountCatvService->BillingState>=0){
                 $state=$this->AccountCatvService->BillingState;
            }           
         }
-
+        if($this->Subscription)
+        {
+            $state=-1;
+        }
         return $state;
     }
     public function make_subscription()

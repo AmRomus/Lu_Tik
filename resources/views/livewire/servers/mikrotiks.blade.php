@@ -13,7 +13,8 @@
                     <div class="col-sm-6 col-lg-3 mt-2">
                         <div class="card card-body shadow-none">
                             <div class="marker marker-ribbon marker-top-right pos-absolute t-10 r-0"><a href="{{route('mikrotik.edit',$item->id)}}">{{$item->SysInfo?$item->SysInfo["board-name"]:"Mikrotik"}}</a></div>
-                            <h6 class="mg-b-15 mg-t-2 tx-10">{{$item->name}} - {{$item->hostname}}</h6>
+                            <div class="marker marker-ribbon marker-top-right pos-absolute t-40 r-0">{{__('Template')}}:{{$item->SnmpTemplateRel?->SnmpTemplate?->name}}</div>
+                            <h6 class="mg-b-15 mg-t-2 tx-10">{{$item->name}} - {{$item->ip}}</h6>
                             <p class="mg-b-0">Uptime: <span> {{$item->SysInfo?$item->SysInfo["uptime"]:"OFFLINE"}}</p>
                         </div>
                     </div>     

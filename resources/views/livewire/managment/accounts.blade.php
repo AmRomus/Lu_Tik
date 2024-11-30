@@ -50,7 +50,7 @@
                                             @if ($item->Subscription)
                                                 <span class="badge rounded-pill text-bg-success">{{__('Active')}}</span>
                                             @else
-                                            @if ($item->InetAccess<0 || $item->TvAccess<0)
+                                            @if ($item->InetAccess<0 || $item->CatvAccess<0)
                                                 @if ($item->InetAccess<0)
                                                 <span class="badge rounded-pill text-bg-success">{{__('Inet Api Active')}}</span>
                                                 @else 
