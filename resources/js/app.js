@@ -9,5 +9,5 @@ import "inter-ui/inter-display.scss";
 import "inter-ui/inter.css";
 import "perfect-scrollbar";
 import "select2/dist/css/select2.css";
-
+import 'livewire-sortable';
 import './dashforge.aside';

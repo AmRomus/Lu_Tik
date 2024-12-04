@@ -6,6 +6,9 @@ use App\Livewire\Auth\Login;
 use App\Livewire\Confs\InetServices;
 use App\Livewire\Dashboard;
 use App\Livewire\Finances\Tarifs;
+use App\Livewire\Iptv\EditStream;
+use App\Livewire\Iptv\ManagePlayLists;
+use App\Livewire\Iptv\Streams;
 use App\Livewire\Managment\Accounts;
 use App\Livewire\Managment\EditAccount;
 use App\Livewire\Misc\Addressbook;
@@ -60,4 +63,13 @@ Route::middleware('auth')->prefix('/network')->group(function(){
     Route::get('/inet_devices',InetDevices::class)->name('inetdevices');
 });
 
-
+#IPTV
+Route::middleware('auth')->prefix('/iptv')->group(function(){
+    Route::get('/streams',Streams::class)->name('iptv.streams');
+    Route::get('/stream/new',EditStream::class)->name('iptv.streams.new');
+    Route::get('/stream/{stream_id}/edit',EditStream::class)->name('iptv.streams.edit');
+    Route::get('/playlists',ManagePlayLists::class)->name('iptv.playlists');
+});
+Route::get('/logos/{logo?}.png',function($logo){
+    return File::get('storage/logos/'.$logo.'.png');
+});

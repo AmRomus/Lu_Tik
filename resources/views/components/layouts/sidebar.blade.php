@@ -47,6 +47,7 @@
             </a>
            </li>
           <li class="nav-label">{{__('Configurations')}}</li>
+          <li class="nav-label">{{__('Locations')}}</li>
           <li class="nav-item {{($activePage === 'Addresses')? 'active':''}}">
             <a href="{{route('addressbook')}}" class="nav-link">
               <i data-feather="navigation"></i> <span>{{__('Addresses')}}</span>
@@ -72,7 +73,17 @@
               <i data-feather="hard-drive"></i> <span>{{__('Routers')}}</span>
             </a>
           </li>
-          
+          <li class="nav-label">{{__('IPTV')}}</li>
+          <li class="nav-item {{($activePage ==='iptv_streams')? 'active':'' }}" >
+            <a href="{{route('iptv.streams')}}" class="nav-link"> 
+              <i data-feather="airplay"></i> <span>{{__('Streams')}}</span>
+            </a>
+          </li>
+          <li class="nav-item {{($activePage ==='iptv_playlists')? 'active':'' }}" >
+            <a href="{{route('iptv.playlists')}}" class="nav-link"> 
+              <i data-feather="list"></i> <span>{{__('Play Lists')}}</span>
+            </a>
+          </li>
         </ul>
     </div>
 </aside>

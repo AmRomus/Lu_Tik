@@ -23,10 +23,12 @@
         "@fortawesome/fontawesome-svg-core": "^6.6.0",
         "@ibm/plex-sans": "^1.0.0",
         "cleave.js": "^1.6.0",
+        "feather": "^0.0.5",
         "feather-icons": "^4.29.2",
         "font-awesome": "^4.7.0",
         "inter-ui": "^4.0.2",
         "jquery": "^3.7.1",
+        "livewire-sortable": "^1.0.0",
         "perfect-scrollbar": "^1.5.5",
         "rollup": "^4.22.4",
         "select2": "^4.1.0-rc.0"
