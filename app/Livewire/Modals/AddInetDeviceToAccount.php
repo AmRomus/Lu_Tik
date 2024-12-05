@@ -23,6 +23,7 @@ class AddInetDeviceToAccount extends Component
     public $ret=[];
     public $key;
     public $ipdevice;
+    public $ip;
     public function mount($account_id)
     {
         $this->account=BillingAccount::findOrFail($account_id);       
@@ -38,23 +39,25 @@ class AddInetDeviceToAccount extends Component
        
         if($device_id!=null){
             $this->ipdevice=InetDevices::find($device_id);
-            foreach(Mikrotik::all() as $mk)
-            {
-                $mcs=$mk->findDevice($this->ipdevice->mac);
-                if(count($mcs)>0){
-                    foreach($mcs as $m){
-                        array_push($this->ret,$m);
-                    }
-                }
+            $this->mac=$this->ipdevice->mac;
+            $this->ip=$this->ipdevice->ip;
+            // foreach(Mikrotik::all() as $mk)
+            // {
+            //     $mcs=$mk->findDevice($this->ipdevice->mac);
+            //     if(count($mcs)>0){
+            //         foreach($mcs as $m){
+            //             array_push($this->ret,$m);
+            //         }
+            //     }
                
-                $this->mac=$this->ipdevice->mac;
+            //     $this->mac=$this->ipdevice->mac;
                
-            }
+            // }
         }
         $this->show=!$this->show;        
        
     }
-    public function updatedMac()
+    public function search_mac()
     {
         $this->ret=[];
         $this->validate();        
@@ -69,8 +72,8 @@ class AddInetDeviceToAccount extends Component
             }
                     
         }
-      
     }
+  
     public function bind($key){
         if($this->bind_select){
         foreach($this->ret as $del=>$list)

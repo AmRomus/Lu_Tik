@@ -9,6 +9,49 @@
             </div>
             <div class="content-body">
                 <div class="row">
+                  <div class="col-4">
+                    <div class="df-example" data-label="{{__('Devices')}}">
+                      test
+                    </div>
+                  </div>
+                  <div class="col-4">
+                    <div class="df-example p-1" data-label="Account Devices">
+                    <ul class="list-unstyled mg-b-0">
+                      @foreach ($account->InetDevices as $dev)
+                      <li class="list-label">
+                        <div class="d-flex">
+                          <div class="col">
+                            {{__('Network Device')}}
+                          </div>
+                          <div class="col text-end">
+                            <div class="dropdown dropend">
+                              <a href=# class="dropdown-toggle tx-14"  id="droprightMenuButton" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                               <i class="fa fa-gear "></i>
+                              </a>
+                              <div class="dropdown-menu" aria-labelledby="droprightMenuButton">
+                               <a href="#" class="dropdown-item tx-10">{{__('Ping')}}</a>
+                               <a href="#" class="dropdown-item tx-10 disabled">{{__('----')}}</a>
+                               <a href="#" class="dropdown-item tx-10"  wire:click.prevent="$dispatchTo('modals.add-inet-device-to-account','show_modal',{device_id:{{$dev->id}}})">{{__('Edit')}}</a>
+                               <a href="#" class="dropdown-item tx-10 tx-danger">{{__('Delete')}}</a>
+                              </div>
+                            </div>  
+                          </div>
+                        </div>
+                      </li>
+                      <li class="list-item">
+                        <livewire:widgets.net-dev :dev='$dev->id' :wire:key="$loop->index">
+                      </li>
+                      @endforeach
+                      @foreach ($account->onu as $dev) 
+                      <li class="list-label">{{__('Optical Device')}}</li>
+                      <li class="list-item">
+                        <livewire:widgets.opt-dev :dev='$dev->id' :wire:key="$loop->index">
+                      </li>                      
+                    @endforeach 
+                    </ul>
+                    </div>
+                   
+                  </div>
                   <div class="col-12">
                     <ul class="nav nav-line" id="myTab5" role="tablist">
                       <li class="nav-item" role="presentation">

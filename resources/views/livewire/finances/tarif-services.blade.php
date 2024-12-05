@@ -19,7 +19,7 @@
     </div>
     
     <div class="row">
-        <div class="col-12  justify-content-end">
+        <div class="col-12  justify-content-end mb-2">
             @if ($cur_tarif?->InetService)
             <h6>Internet Service</h6>
                 <div class="row ">
@@ -58,7 +58,7 @@
             @endif
             
         </div>
-        <div class="col-12  justify-content-end">
+        <div class="col-12  justify-content-end mb-2">
             @if ($cur_tarif?->CatvService)
             <h6>CATV Service</h6>
                 <div class="row ">
@@ -90,6 +90,38 @@
             @endif
             
         </div>
+        <div class="col-12  justify-content-end">
+            @if ($cur_tarif?->IptvService)
+            <h6>IPTV Service</h6>
+                <div class="row ">
+                    <div class="col-auto table-responsive">
+                        <table class="table table-dashboard">
+                            <thead>
+                                <tr>                                   
+                                    <th>{{__('Play List')}}</th>
+                                    <th>{{__('Price')}}</th>
+                                    <th>{{__('Company')}}</th>
+                                    <th></th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr align="middle">                                                                    
+                                    <td>{{$cur_tarif?->IptvService?->PlayList?->name}}</td>
+                                    <td>{{$cur_tarif?->IptvService->price}}</td>
+                                    <td>{{$cur_tarif?->IptvService->ServiceCompanies?->Name}}</td>
+                                    <td><i class="fa fa-edit" style="cursor: pointer" wire:click.prevent="$dispatchTo('modals.new-iptv-service','show_modal',{ tarif: {{$cur_tarif->id}} })"></i></td>
+                                    <td><i class="fa fa-trash tx-danger" style="cursor: pointer" wire:confirm="{{__('Delete service from tarif?')}}" wire:click="del_iptv_service({{$cur_tarif?->IptvService->id}})"></i></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            @else
+            <button class="btn btn-sm btn-primary" wire:click.prevent="$dispatchTo('modals.new-iptv-service','show_modal',{ tarif: {{$cur_tarif->id}} })">{{__('New IPTV Service')}}</button>    
+            @endif
+            
+        </div>
     </div>
 
     <div class="card-footer text-end mt-3">
@@ -99,4 +131,5 @@
 @endif
 <livewire:modals.new-inet-services ::wire:key="$cur_tarif->id">
 <livewire:modals.new-catv-services ::wire:key="$cur_tarif->id">
+<livewire:modals.new-iptv-service ::wire:key="$cur_tarif->id">
 </div>

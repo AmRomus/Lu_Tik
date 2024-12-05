@@ -33,7 +33,10 @@ class Tarif extends Model implements ProductLimitedInterface
         {
             $price+=$this->CatvService->price;
         }
-          
+        if($this->IptvService)
+        {
+            $price+=$this->IptvService->price;
+        } 
         return $price;
     }
     public function canBuy(Customer $customer =null, int $quantity = 1, bool $force = false): bool
@@ -97,7 +100,21 @@ class Tarif extends Model implements ProductLimitedInterface
              {
                 $ret=false;
              }
-        }           
+        }
+        if($this->IptvService)
+        {
+            $w=null;
+            $w=$customer->getWallet("wallet_".$this->IptvService->ServiceCompanies->id);          
+            if($w){
+                if($w->balance<$this->IptvService->price)
+                {
+                    $ret=false;
+                }
+             }else 
+             {
+                $ret=false;
+             }
+        }                      
         return $ret;
     }
     public function InetService()
@@ -107,6 +124,10 @@ class Tarif extends Model implements ProductLimitedInterface
     public function CatvService()
     {
         return $this->hasOne(CatvService::class);
+    }
+    public function IptvService()
+    {
+        return $this->hasOne(IptvService::class);
     }
     public function BillingAccount(){
         return $this->hasMany(BillingAccount::class);

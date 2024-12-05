@@ -22,8 +22,8 @@
                                 @forelse ($playlists as $item)
                                 <tr class="align-middle">
                                 <td>{{$item->name}}</td>
-                                <td></td>   
-                                <td ><i class="fa fa-edit" style="cursor: pointer"></i></td>
+                                <td>{{$item->channels->count()}}</td>   
+                                <td ><a href="{{route('iptv.playlist.edit',$item->id)}}"><i class="fa fa-edit" style="cursor: pointer"></i></a></td>
                                 </tr>
                                 @empty
                                     <tr>

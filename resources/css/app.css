@@ -42699,3 +42699,38 @@ a.bg-twitter:hover, a.bg-twitter:focus, button.bg-twitter:hover, button.bg-twitt
 {
   display: block;
 }
+.df-example {
+  font-size: 0.875rem;
+  letter-spacing: normal;
+  padding: 10px;
+  background-color: #fff;
+  border: 1px solid rgba(72, 94, 144, 0.16);
+  position: relative; }
+  @media (min-width: 992px) {
+    .df-example {
+      padding: 20px; } }
+  @media (min-width: 1200px) {
+    .df-example {
+      padding: 25px; } }
+  .df-example::before {
+    content: attr(data-label);
+    display: block;
+    position: absolute;
+    top: -6px;
+    left: 5px;
+    font-size: 8px;
+    font-weight: 600;
+    font-family: -apple-system, BlinkMacSystemFont, "Inter UI", Roboto, sans-serif;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    background-color: inherit;
+    color: #8392a5;
+    padding: 0 5px; }
+  .df-example.df-inverse {
+    background-color: #1c273c;
+    color: rgba(255, 255, 255, 0.7);
+    border-width: 0; }
+    .df-example.df-inverse::before {
+      background-color: #3b4863;
+      top: -16px;
+      left: 0; }

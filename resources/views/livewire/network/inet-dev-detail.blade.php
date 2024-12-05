@@ -1,7 +1,7 @@
 <div>
     <p class="tx-12 mg-b-0"><strong>MAC:</strong> {{$mac}}</p> 
     @if ($interface) 
-    <p class="tx-12 mg-b-0"><strong>{{__('Access Server')}}:</strong> {{($mk->name)?$mk->name:$mk->hostname}}  </p>
+    <p class="tx-12 mg-b-0"><strong>{{__('Access Server')}}:</strong> {{($mk->name)?$mk->name:$mk->ip}}  </p>
     <p class="tx-12 mg-b-0"><strong>{{__('Interface')}}:</strong> {{$interface}}  </p>
     <p class="tx-12 mg-b-0"><strong>{{__('Ip Address')}}:</strong> {{$ip}}  </p>     
     @else

@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('iptv_streams_play_lists', function (Blueprint $table) {
+        Schema::create('iptv_streams_play_list', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('play_list_id');
             $table->unsignedBigInteger('iptv_streams_id');
@@ -26,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('iptv_streams_play_lists');
+        Schema::dropIfExists('iptv_streams_play_list');
     }
 };

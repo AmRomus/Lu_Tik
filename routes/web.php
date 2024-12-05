@@ -6,6 +6,7 @@ use App\Livewire\Auth\Login;
 use App\Livewire\Confs\InetServices;
 use App\Livewire\Dashboard;
 use App\Livewire\Finances\Tarifs;
+use App\Livewire\Iptv\EditPlayList;
 use App\Livewire\Iptv\EditStream;
 use App\Livewire\Iptv\ManagePlayLists;
 use App\Livewire\Iptv\Streams;
@@ -69,6 +70,7 @@ Route::middleware('auth')->prefix('/iptv')->group(function(){
     Route::get('/stream/new',EditStream::class)->name('iptv.streams.new');
     Route::get('/stream/{stream_id}/edit',EditStream::class)->name('iptv.streams.edit');
     Route::get('/playlists',ManagePlayLists::class)->name('iptv.playlists');
+    Route::get('/playlist/{playlist}/edit',EditPlayList::class)->name('iptv.playlist.edit');
 });
 Route::get('/logos/{logo?}.png',function($logo){
     return File::get('storage/logos/'.$logo.'.png');
