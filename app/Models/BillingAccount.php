@@ -61,6 +61,10 @@ class BillingAccount extends Model implements Customer
     {
         return $this->hasMany(Onu::class);
     }
+    public function IptvDevice()
+    {
+        return $this->hasMany(IptvDevice::class);
+    }
     public function Subscriptions(){
         return $this->hasMany(AccountSubscription::class);
     }

@@ -7,9 +7,9 @@ use Livewire\Component;
 
 class OptDev extends Component
 {
-    public $dev;
+    public $dev;    
     public function mount( $dev){
-        $this->dev = Onu::find($dev);          
+        $this->dev = Onu::find($dev);           
     }
     public function render()
     {

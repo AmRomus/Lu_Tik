@@ -21,7 +21,8 @@
                       <li class="list-label">
                         <div class="d-flex">
                           <div class="col">
-                            {{__('Network Device')}}
+                            @php $mk=$dev->ControlInterface?->Mikrotik; @endphp
+                            {{__('Network Device')}} @if($mk)  on {{($mk->name)?$mk->name:$mk->ip}} @endif
                           </div>
                           <div class="col text-end">
                             <div class="dropdown dropend">
@@ -32,7 +33,7 @@
                                <a href="#" class="dropdown-item tx-10">{{__('Ping')}}</a>
                                <a href="#" class="dropdown-item tx-10 disabled">{{__('----')}}</a>
                                <a href="#" class="dropdown-item tx-10"  wire:click.prevent="$dispatchTo('modals.add-inet-device-to-account','show_modal',{device_id:{{$dev->id}}})">{{__('Edit')}}</a>
-                               <a href="#" class="dropdown-item tx-10 tx-danger">{{__('Delete')}}</a>
+                               <a href="#" class="dropdown-item tx-10 tx-danger" wire:confirm="{{__('Are you whant unlink this device ?')}}" wire:click.prevent="unlik_dev({{$dev->id}})">{{__('Delete')}}</a>
                               </div>
                             </div>  
                           </div>
@@ -47,7 +48,13 @@
                       <li class="list-item">
                         <livewire:widgets.opt-dev :dev='$dev->id' :wire:key="$loop->index">
                       </li>                      
-                    @endforeach 
+                      @endforeach 
+                      @foreach ($account->IptvDevice as $dev) 
+                      <li class="list-label">{{__('Iptv Device')}}</li>
+                      <li class="list-item">
+                        <livewire:widgets.iptv-dev :dev='$dev->id' :wire:key="$loop->index">
+                      </li>                      
+                      @endforeach 
                     </ul>
                     </div>
                    

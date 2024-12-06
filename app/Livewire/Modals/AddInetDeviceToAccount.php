@@ -73,9 +73,28 @@ class AddInetDeviceToAccount extends Component
                     
         }
     }
+    public function search_ip()
+    {
+        $this->ret=[];
+             
+        $this->ipdevice=InetDevices::where('mac',$this->mac)->first();
+        foreach(Mikrotik::all() as $mk)
+        {          
+            $mcs=$mk->findDeviceByIp($this->ip);
+            if(count($mcs)>0){
+                foreach($mcs as $m){
+                    array_push($this->ret,$m);
+                }
+            }
+                    
+        }
+       // dd($this->ret);
+    }
   
     public function bind($key){
-        if($this->bind_select){
+        //dd($this->ret[$key]->{"mac-address"});
+        $this->mac=$this->ret[$key]->{"mac-address"};
+        if($this->bind_select){            
         foreach($this->ret as $del=>$list)
         {
             if($del!=$key) unset($this->ret[$del]);
@@ -83,12 +102,17 @@ class AddInetDeviceToAccount extends Component
         $this->key=$key; 
         } else {
             $this->key=null;
-            $this->updatedMac();
+          //  $this->updatedMac();
         }
-      
+        $iface=$this->ret[$key]->mk->ControlInterface->where('interface',$this->ret[$key]->interface)->first();
+        if(!$iface)
+        {
+            $this->addError("","Interface not monitored");
+        }
     }
     public function save()
     {
+        $this->validate();  
         if(!$this->ipdevice)
             $this->ipdevice=new InetDevices();
         $this->ipdevice->mac= $this->mac;
@@ -98,8 +122,11 @@ class AddInetDeviceToAccount extends Component
         if($this->key!==null){
            
             $this->ipdevice->bind=true;           
-            $this->ipdevice->ip=$this->ret[$this->key]->address;            
+            $this->ipdevice->ip=$this->ret[$this->key]->address; 
+            $iface=$this->ret[$this->key]->mk->ControlInterface->where('interface',$this->ret[$this->key]->interface)->first();
+            if($iface){         
             $this->ret[$this->key]->mk->ControlInterface->where('interface',$this->ret[$this->key]->interface)->first()->InetDevices()->save($this->ipdevice);
+            }
             $this->ipdevice->refresh();
             
         }else {

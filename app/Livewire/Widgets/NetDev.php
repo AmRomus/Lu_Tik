@@ -15,9 +15,9 @@ class NetDev extends Component
         $this->dev = InetDevices::find($dev);        
         // if($this->dev->bind==1){        
         $interface=($this->dev->ControlInterface?->interface)? $this->dev->ControlInterface->interface:"-";
-        $mk= $this->dev->ControlInterface->Mikrotik;
+        $mk= $this->dev->ControlInterface?->Mikrotik;
         // $this->ip= $this->dev->ip;        
-        $this->ret=$this->dev->ControlInterface->Mikrotik->findDevice($this->dev->mac)->toArray();
+        $this->ret=$this->dev->ControlInterface?->Mikrotik->findDevice($this->dev->mac)->toArray();
         if($this->ret){
             foreach($this->ret as $item){
                 if($item->mk->id==$mk->id&&$interface==$item->interface && $this->dev?->ip==$item->address && $item->complete=="true")

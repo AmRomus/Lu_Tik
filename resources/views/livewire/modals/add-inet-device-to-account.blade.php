@@ -21,7 +21,7 @@
             <div class="input-group mb-3">
               <span class="input-group-text" >{{__('IP ADDRESS')}}</span>
               <input type="text" class="form-control" id="new_ip" name="ip" wire:model.live.debounce.500ms="ip">
-              <button class="btn btn-success">{{__('Search')}}</button>               
+              <button class="btn btn-success"  wire:click="search_ip">{{__('Search')}}</button>               
           </div>
             <div wire:loading> {{__('Searching...')}}</div>
            @forelse ($ret as $key=>$item)

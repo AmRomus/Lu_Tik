@@ -79,6 +79,12 @@ class Mikrotik extends Model
         $dev=$this->ArpList->where('mac-address',$device);
         return $dev;
     }
+    public function findDeviceByIp($device)
+    {
+       
+        $dev=$this->ArpList->where('address',$device);
+        return $dev;
+    }
     public function getArpListAttribute()
     {
       
