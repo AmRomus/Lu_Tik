@@ -26,6 +26,7 @@
                   <i data-feather="chevron-down"></i>
                 </a>
                 <p class="tx-color-03 tx-12 mg-b-0">{{auth()->user()->roles?->first()?->name}} | {{__('Balance')}}:{{auth()->user()->balance}}</p>
+                <p class="tx-color-03 tx-12 mg-b-0">{{_('Company')}}:<strong class="text-black">{{(auth()->user()->ServiceCompany?->Name)}} </strong></p>
             </div>
             <div class="collapse" id="loggedinMenu">
                 <ul class="nav nav-aside mg-b-0">             
@@ -36,7 +37,7 @@
         <ul class="nav nav-aside">
           <li class="nav-label">{{__('Managment')}}</li>
           <li class="nav-item {{ ($activePage === 'Accounts') ? 'active' : '' }} ">
-            <a href="{{route('accounts.list')}}" class="nav-link"> 
+            <a href="{{route('accounts.list')}}" class="nav-link" wire:navigate> 
               <i data-feather="users"></i> <span>{{__('Accounts')}}</span>
             </a>
            </li>
@@ -69,7 +70,7 @@
             </a>
           </li>
           <li class="nav-item {{($activePage ==='inetdevices')? 'active':'' }}" >
-            <a href="{{route('inetdevices')}}" class="nav-link"> 
+            <a href="{{route('inetdevices')}}" class="nav-link" wire:navigate> 
               <i data-feather="hard-drive"></i> <span>{{__('Routers')}}</span>
             </a>
           </li>
@@ -82,6 +83,17 @@
           <li class="nav-item {{($activePage ==='iptv_playlists')? 'active':'' }}" >
             <a href="{{route('iptv.playlists')}}" class="nav-link"> 
               <i data-feather="list"></i> <span>{{__('Play Lists')}}</span>
+            </a>
+          </li>
+          <li class="nav-label">{{__('Company managment')}}</li>
+          <li class="nav-item {{($activePage ==='companies')? 'active':'' }}" >
+            <a href="{{route('companies.list')}}" class="nav-link"> 
+              <i data-feather="slack"></i> <span>{{__('Companies')}}</span>
+            </a>
+          </li>
+          <li class="nav-item {{($activePage ==='workers')? 'active':'' }}" >
+            <a href="{{route('companies.workers')}}" class="nav-link"> 
+              <i data-feather="user"></i> <span>{{__('Workers')}}</span>
             </a>
           </li>
         </ul>

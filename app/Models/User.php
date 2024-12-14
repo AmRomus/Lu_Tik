@@ -48,4 +48,8 @@ class User extends Authenticatable implements Wallet
             'password' => 'hashed',
         ];
     }
+    public function ServiceCompany()
+    {
+        return $this->belongsTo(ServiceCompanies::class,'service_companies_id');
+    }
 }

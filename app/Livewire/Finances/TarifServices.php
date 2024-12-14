@@ -4,6 +4,7 @@ namespace App\Livewire\Finances;
 
 use App\Models\CatvService;
 use App\Models\InetService;
+use App\Models\IptvService;
 use App\Models\Tarif;
 use Livewire\Attributes\On;
 use Livewire\Attributes\Rule;
@@ -39,6 +40,11 @@ class TarifServices extends Component
     public function del_catv_service($service_id)
     {
         CatvService::find($service_id)?->delete();
+        $this->cur_tarif->refresh();
+    }
+    public function del_iptv_service($service_id)
+    {
+        IptvService::find($service_id)?->delete();
         $this->cur_tarif->refresh();
     }
     public function save(){

@@ -3,6 +3,8 @@
 use App\Http\Controllers\AddressController;
 use App\Livewire\Apis\MikroBill;
 use App\Livewire\Auth\Login;
+use App\Livewire\Companies\ManageCompanies;
+use App\Livewire\Companies\ManageUsers;
 use App\Livewire\Confs\InetServices;
 use App\Livewire\Dashboard;
 use App\Livewire\Finances\Tarifs;
@@ -74,4 +76,10 @@ Route::middleware('auth')->prefix('/iptv')->group(function(){
 });
 Route::get('/logos/{logo?}.png',function($logo){
     return File::get('storage/logos/'.$logo.'.png');
+});
+
+#companies
+Route::middleware('auth')->prefix('/companies')->group(function(){
+    Route::get('/list',ManageCompanies::class)->name('companies.list');
+    Route::get('/workers',ManageUsers::class)->name('companies.workers');
 });

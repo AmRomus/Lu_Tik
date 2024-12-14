@@ -12,4 +12,21 @@ use Illuminate\Database\Eloquent\Model;
 class ServiceCompanies extends Model implements Wallet
 {
     use HasWallet;
+    public function InetServices()
+    {
+        return $this->hasMany(InetService::class);
+    }
+    public function CatvServices()
+    {
+        return $this->hasMany(CatvService::class);
+    }
+    public function IptvServices()
+    {
+        return $this->hasMany(IptvService::class);
+    }
+
+    public function Users()
+    {
+        return $this->hasMany(User::class);
+    }
 }

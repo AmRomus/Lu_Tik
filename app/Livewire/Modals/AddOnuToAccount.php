@@ -42,6 +42,11 @@ class AddOnuToAccount extends Component
     }
     public function bind(Onu $onu)
     {
+        if($onu->BillingAccount)
+        {
+            $this->addError("device",__("Device in use from")." ".$onu->BillingAccount?->ident);
+            return;
+        }
         $this->account->onu()->save($onu);
         //$onu->BillingAccount()->save($this->account);
         $this->dispatch('saved');

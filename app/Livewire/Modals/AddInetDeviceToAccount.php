@@ -77,7 +77,7 @@ class AddInetDeviceToAccount extends Component
     {
         $this->ret=[];
              
-        $this->ipdevice=InetDevices::where('mac',$this->mac)->first();
+       // $this->ipdevice=InetDevices::where('mac',$this->mac)->first();
         foreach(Mikrotik::all() as $mk)
         {          
             $mcs=$mk->findDeviceByIp($this->ip);
@@ -94,6 +94,7 @@ class AddInetDeviceToAccount extends Component
     public function bind($key){
         //dd($this->ret[$key]->{"mac-address"});
         $this->mac=$this->ret[$key]->{"mac-address"};
+        $this->ipdevice=InetDevices::where('mac',$this->mac)->first();
         if($this->bind_select){            
         foreach($this->ret as $del=>$list)
         {

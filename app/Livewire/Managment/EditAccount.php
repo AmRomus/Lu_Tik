@@ -13,10 +13,12 @@ class EditAccount extends Component
 {
     public $acc;
     public $account;
+    public $devli;
     public function mount($billing_account)
     {
         $this->account=BillingAccount::findOrFail($billing_account);
         $this->acc=$this->account?->toArray();
+        $this->devli=0;
     }
     public function render()
     {        
@@ -32,9 +34,12 @@ class EditAccount extends Component
        $dev->billing_account_id=null;
        $dev->ip=null;
        $dev->save();
+       return redirect(request()->header('Referer'));
+      // $this->account->refresh()->with('InetDevices');
     }
     public function unlik_catv_dev(Onu $dev){
         $dev->billing_account_id=null;       
         $dev->save();
+        return redirect(request()->header('Referer'));
      }
 }

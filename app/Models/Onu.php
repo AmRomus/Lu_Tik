@@ -26,8 +26,13 @@ class Onu extends Model
                 }
                 catch (\Exception $ign)
                 {
+                    $this->online=false;
+                    $this->save();
+                    $this->fresh();
                     return "No Signal";
                 }
+                $this->online=true;
+                $this->save();
                 return $ret->getValue();                
             }
         }

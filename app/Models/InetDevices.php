@@ -6,6 +6,7 @@ use App\Observers\InetDeviceObserver;
 use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use RouterOS\Query;
 #[ObservedBy(InetDeviceObserver::class)]
 class InetDevices extends Model
 {
@@ -36,6 +37,16 @@ class InetDevices extends Model
         }
         $speeds=$up_speed.'/'.$down_speed;
         return $speeds;
+    }
+
+    public function getPingAttribute()
+    {
+       //(new Query('/ping')))->equal('address',$this->ip)->equal( 'count', '10')->r();
+        $mq =(new Query('/ping'))->equal('address',$this->ip)->equal( 'count', '10');
+      //  $ping_ret = $this->Mikrotik->API->qr($mq);  
+      $ping_ret = $this->ControlInterface->Mikrotik->Link?->qr($mq); 
+     // dd($ping_ret);
+        return $ping_ret;
     }
     
 }
