@@ -52,6 +52,7 @@ class BillingAccountObserver
           }else
           {           
             $billingAccount->AccountInetService()->save(new AccountInetService());
+            $billingAccount->refresh();
             if($tarif?->InetService)
             {               
                 $tarif->InetService->AccountInetService()->save($billingAccount->AccountInetService);               
@@ -78,6 +79,7 @@ class BillingAccountObserver
           else
           {
             $billingAccount->AccountCatvService()->save(new AccountCatvService());
+            $billingAccount->refresh();
             if($tarif?->CatvService)
             {               
                 $tarif->CatvService->AccountCatvService()->save($billingAccount->AccountCatvService);               

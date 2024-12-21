@@ -13,11 +13,12 @@
                                        
           </div>
         @endif
-    <div class="media-body mg-sm-l-15">
+    <div class="media-body mg-sm-l-15" wire:poll.15s>
         <p class="tx-12 mg-b-0"><strong>MAC:</strong> {{$dev?->mac}}</p>   
         <p class="tx-12 mg-b-0"><strong>{{__('Signal')}}:</strong> {{$dev->signal}}  </p>     
         @if (!$dev->online)
         <p class="tx-12 mg-b-0"><strong>{{__('Action')}}:</strong> {{$dev->msg}}  </p>     
+        <p class="tx-12 mg-b-0"><strong>{{__('Time')}}:</strong> {{$timediff}}  </p>     
         @endif
     </div>
     </div>

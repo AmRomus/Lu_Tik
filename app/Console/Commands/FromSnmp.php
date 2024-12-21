@@ -3,8 +3,9 @@
 namespace App\Console\Commands;
 
 use App\Helpers\SnmpReceivedPacket;
+use Carbon\Carbon;
 use Illuminate\Console\Command;
-
+use Log;
 class FromSnmp extends Command
 {
     /**
@@ -52,17 +53,21 @@ class FromSnmp extends Command
                  switch ($p->server->OltTemplate->SnmpSignals->where('signal',$p->msg)->first()?->action)
                  {
                      case "Online":
+                       
                         if($p->onu_by_mac)
                         {
+                            Log::debug("Onu ".$p->onu_by_mac->mac." comes to online");
                             printf("Onu %s Online \n",$p->onu_by_mac?->mac);
                             $p->onu_by_mac->online=1;
+                            $p->onu_by_mac->last_state=Carbon::now();
                             $p->onu_by_mac->msg=null;
                             $p->onu_by_mac->save();                          
-                            if($p->onu_by_mac->BillingAccount?->CatvAccess&&$p->onu_by_mac->BillingAccount?->CatvAccess<0&&$p->onu_by_mac->BillingAccount?->Access<0)
+                            if($p->onu_by_mac->CatvAccess<0)
                             {
                                 $p->onu_by_mac->CatvOn();
                                 print("CATV_ON!\n");
                             }
+                            Log::debug("Onu ".$p->onu_by_mac->mac." processed");
                         }
                          break;
                       case "PowerOff":
@@ -70,6 +75,7 @@ class FromSnmp extends Command
                         {
                             printf("Onu %s Power Off \n",$p->onu_by_mac?->mac);
                             $p->onu_by_mac->online=0;
+                            $p->onu_by_mac->last_state=Carbon::now();
                             $p->onu_by_mac->msg="Power Off";
                             $p->onu_by_mac->save();
                         }
@@ -80,6 +86,7 @@ class FromSnmp extends Command
                                 printf("Onu %s Signal lost \n",$p->onu_by_mac?->mac);                            
                                 if( $p->onu_by_mac->online>0) {
                                     $p->onu_by_mac->Online=0;
+                                    $p->onu_by_mac->last_state=Carbon::now();
                                     $p->onu_by_mac->msg="Loss Signal";
                                     $p->onu_by_mac->save();
                                 }

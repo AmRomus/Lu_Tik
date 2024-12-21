@@ -110,6 +110,10 @@ class AddInetDeviceToAccount extends Component
         {
             $this->addError("","Interface not monitored");
         }
+        if($this->ipdevice&&$this->ipdevice->billing_account_id&&$this->ipdevice->billing_account_id!=$this->account->id)
+        {
+            $this->addError("","Device in use. Owner ident ".$this->ipdevice->BillingAccount->ident);
+        }
     }
     public function save()
     {

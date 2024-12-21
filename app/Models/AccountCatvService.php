@@ -1,11 +1,14 @@
 <?php
 
 namespace App\Models;
+use App\Observers\AccountCatvServiceObserver;
 use Carbon\Carbon;
 use Illuminate\Contracts\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Log;
+#[ObservedBy([AccountCatvServiceObserver::class])]
 class AccountCatvService extends Model
 {
     use HasFactory;
@@ -24,6 +27,10 @@ class AccountCatvService extends Model
     public function CatvDevices()
     {
         return $this->hasMany(Onu::class);
+    }
+    public function BillingAccount()
+    {
+        return $this->belongsTo(BillingAccount::class);
     }
     public function getBillingStateAttribute()
     {

@@ -70,6 +70,7 @@ class SetCatvServiceApi extends Component
             $this->service_id->api_ident=null;
             $this->service_id->api_ssid=null;
             $this->service_id->api_check=null;
+            $this->service_id->service_state=0;
 
           }
           

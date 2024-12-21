@@ -2,6 +2,7 @@
 
 namespace App\Helpers;
 
+use App\Models\Onu;
 use App\Models\SnmpOids;
 
 class SnmpReceivedPacket
@@ -25,6 +26,7 @@ class SnmpReceivedPacket
     public $msg;
     public $onu_by_mac;
     public $onu_by_place;
+    public $onu_from_db;
     private function get_vendor($pair){
         
        $item_ident=SnmpOids::where('cmd','ident')->where('oid',$pair->value)->first();
@@ -73,11 +75,74 @@ class SnmpReceivedPacket
        }
        if($this->mac){
         $this->onu_by_mac=$this->server->Onu($this->mac);
+        $this->onu_from_db=Onu::where('mac',$this->mac)->first();
        }
        if($onu_place)
        {
         $this->onu_by_place=$this->server->Onu($onu_place);
        }
+        ///Проверка соответдтвия порта 
+        if($this->mac&&$onu_place&&$this->onu_by_mac)
+        {
+            //За базу берем данные из пакета
+            //Есть мак адрес  в базе и в пакете 
+            //запись по адресу не соответствует мак адресу 
+            // запись по маку не соответствует адресу 
+            // 
+            // Если данные адреса ону не соответстует тому что в пакете 
+            // узнаем id интерфейса 
+            $iface_id=$this->server->OltIfaces()->where('pon_index',$onu_place[1])->first()?->id;
+            // сравниваем с данными о ону
+            if($this->onu_by_mac->olt_ifaces_id!=$iface_id)
+            {
+                /// Ону перемщено на другой интерфейс /проверяем не был ли занят адрес 
+                if($this->onu_by_place)
+                {
+                    //запись есть значит эта запись старая и изменится в дальнейшем , во избеание повторений сбрасываем ее адрес.
+                    //если старая запись активна , она обновится при следующем запросе
+                    $this->onu_by_place->olt_ifaces_id=null;
+                    $this->onu_by_place->save();
+                }
+                $this->onu_by_mac->olt_ifaces_id=$iface_id;
+                $this->onu_by_mac->onu_index=".".$onu_place[2];
+                $this->onu_by_mac->save();
+                $this->onu_by_mac->refresh();
+
+            }
+
+
+        }
+       ///Зарегистрированно ли в системе ?
+       if($this->mac&&!$this->onu_by_mac){
+          //Запрос мак адреса , но на этой олт он не найден
+
+          //проверяем есть ли такая запись вообще 
+          if($this->onu_from_db){
+             // Ону было зарегистрированно в системе но на другом устройстве, меняем адрес
+             if($onu_place){
+                $iface_id=$this->server->OltIfaces()->where('pon_index',$onu_place[1])->first()?->id;
+                if($iface_id){
+                    $this->onu_from_db->olt_ifaces_id=$iface_id;
+                    $this->onu_from_db->onu_index=".".$onu_place[2];
+                    $this->onu_from_db->save();
+                    $this->onu_from_db->refresh();
+                    $this->onu_by_mac=$this->onu_from_db;
+                }
+             }
+          } else {
+            //Onu не зарегистрированна , регистрируем
+            $iface_id=$this->server->OltIfaces()->where('pon_index',$onu_place[1])->first();
+            $onu= new Onu();
+            $onu->mac=$this->mac;
+            $onu->onu_index=".".$onu_place[2];
+            $iface_id->Onu()->save($onu);
+            $onu->refresh();
+            $this->onu_by_mac=$onu;
+          }          
+         
+       }
+      
+       
        
     }
     private function getPonId($hex) {

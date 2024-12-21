@@ -6,6 +6,7 @@
     "license": "MIT",
     "require": {
         "php": "^8.2",
+        "barryvdh/laravel-debugbar": "^3.14",
         "bavix/laravel-wallet": "^11.3",
         "evilfreelancer/routeros-api-php": "^1.5",
         "freedsx/snmp": "^0.5.0",

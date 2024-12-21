@@ -9,12 +9,14 @@
             </div>
             <div class="content-body">
                 <div class="row">
-                  <div class="col-12 col-sm-6 col-lg-4">
+                  <div class="col-12 col-sm-6 col-lg-6">
                     <div class="df-example p-1" data-label="{{__('Account information')}}">
                       <ul class="list-unstyled mg-b-0">
                         <li class="list-label">{{__('Personal Infromation')}}</li>
                         <li class="list-item">
-                          <div class="avatar"><span class="avatar-initial rounded-circle bg-gray-600">{{$account->Initials}}</span></div>
+                          <div class="avatar" style="cursor: pointer" wire:click="$dispatchTo('modals.edit-personal','show_modal',{ account:{{$account->id}}})">
+                            <span class="avatar-initial rounded-circle bg-gray-600">{{$account->Initials}}</span>
+                          </div>
                           <div class="media-body mg-sm-l-15">
                             <p class="tx-medium mg-b-0">{{__('Full Name')}}</p>                                 
                           </div><!-- media-body -->
@@ -24,13 +26,22 @@
                           </div>
                         </li>
                         <li class="list-item">
-                          <div class="avatar"><span class="avatar-initial rounded-circle bg-gray-600"><i class="fa fa-home"></i></span></div>
+                          <div class="avatar"  style="cursor: pointer" wire:click="$dispatchTo('modals.edit-contacts','show_modal',{ account:{{$account->id}}})"><span class="avatar-initial rounded-circle bg-gray-600"><i class="fa fa-home"></i></span></div>
                           <div class="media-body mg-sm-l-15">
                             <p class="tx-medium mg-b-0">{{__('Address')}}</p>                                 
                           </div><!-- media-body -->
                           <div class="pd-l-10 text-end">
                             <p class="tx-medium mg-b-0">{{$account->Address}}</p>
-                            <small class="tx-12 tx-color-03 mg-b-0">{{$account->phone}}</small>
+                            
+                          </div>
+                        </li>
+                        <li class="list-item">
+                          <div class="avatar"  style="cursor: pointer" wire:click="$dispatchTo('modals.edit-phone','show_modal',{ account:{{$account->id}}})"><span class="avatar-initial rounded-circle bg-gray-600"><i class="fa fa-phone"></i></span></div>
+                          <div class="media-body mg-sm-l-15">
+                            <p class="tx-medium mg-b-0">{{__('Phone')}}</p>                                 
+                          </div><!-- media-body -->
+                          <div class="pd-l-10 text-end">
+                            <p class="tx-medium mg-b-0">{{$account->phone}}</p>                           
                           </div>
                         </li>
                         <li class="list-item">
@@ -139,9 +150,9 @@
               @endif
               @else
               <li class="list-item">
-                <div class="avatar"><span class="avatar-initial rounded-circle bg-success"><i class="fa fa-paperclip"></i></span></div>
+                <div class="avatar" style="cursor: pointer" wire:click="$dispatchTo('modals.subscription-cencel','stop_subscription')"><span class="avatar-initial rounded-circle bg-success"><i class="fa fa-paperclip" style="cursor: pointer"></i></span></div>
                 <div class="pd-l-10 text-end">
-                  <p class="tx-medium mg-b-0">{{$account->Subscription->Tarif?->name}}</p>
+                  <p class="tx-medium mg-b-0">{{$account->Subscriptions()->first()->Tarif?->name}}</p>
                   <small class="tx-12 tx-color-03 mg-b-0">{{__('End date:')}} {{$account->Subscription->acct_end}}</small>
                 </div>
               </li>
@@ -151,12 +162,19 @@
                   </div>
                   <div class="col-12 col-sm-6 col-lg-4">
                     <div class="df-example mb-3" data-label="Active Services">
-                        <livewire:widgets.active-services :$account />
+                      @if ($subscr)
+                      <livewire:widgets.active-services :tarif="$subscr->tarif->id" />
+                        @elseif($account->Tarif)
+                        <livewire:widgets.active-services :tarif="$account->Tarif->id" />
+                      @endif
+                        
                     </div>
                     <div class="df-example p-1" data-label="Account Devices">
                       <div class="row d-flex">
                         <div class="col-12 text-end my-2">
-                          <button class="btn btn-xs btn-success" wire:click="$dispatchTo('modals.add-inet-device-to-account','show_modal')">{{__('Add Router')}}</button>
+                          @if ($subscr?->Tarif?->InetService||$account->Tarif?->InetService)
+                            <button class="btn btn-xs btn-success" wire:click="$dispatchTo('modals.add-inet-device-to-account','show_modal')">{{__('Add Router')}}</button>  
+                          @endif
                           <button class="btn btn-xs btn-success" wire:click="$dispatchTo('modals.add-onu-to-account','show_modal')">{{__('Add ONU')}}</button>
                         </div>                        
                       </div>
@@ -199,7 +217,7 @@
                                <i class="fa fa-gear "></i>
                               </a>
                               <div class="dropdown-menu" aria-labelledby="onu_button_{{$dev->id}}">
-                               <a href="#" class="dropdown-item tx-10">{{__('Ping')}}</a>
+                               <a href="#" class="dropdown-item tx-10" wire:click="reboot_onu({{$dev->id}})">{{__('reboot')}}</a>
                                <a href="#" class="dropdown-item tx-10 disabled">{{__('----')}}</a>
                                <a href="#" class="dropdown-item tx-10"  wire:click.prevent="$dispatchTo('modals.add-onu-to-account','show_modal')">{{__('Edit')}}</a>
                                <a href="#" class="dropdown-item tx-10 tx-danger" wire:confirm="{{__('Are you whant unlink this device ?')}}" wire:click="unlik_catv_dev({{$dev->id}})">{{__('Delete')}}</a>
@@ -213,7 +231,23 @@
                       </li>                      
                       @endforeach 
                       @foreach ($account->IptvDevice as $dev) 
-                      <li class="list-label">{{__('Iptv Device')}}</li>
+                      <li class="list-label">
+                        <div class="d-flex">
+                          <div class="col">
+                            {{__('Iptv Device')}}
+                          </div>
+                        <div class="col text-end">
+                          <div class="dropdown dropend">
+                            <a href=# class="dropdown-toggle tx-14"  id="iptvdev_button_{{$dev->id}}" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                             <i class="fa fa-gear "></i>
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="iptcdev_button_{{$dev->id}}">                             
+                             <a href="#" class="dropdown-item tx-10 tx-danger" wire:confirm="{{__('Are you whant unlink this device ?')}}" wire:click.prevent="unlik_iptv_dev({{$dev->id}})">{{__('Delete')}}</a>
+                            </div>
+                          </div>  
+                        </div>
+                        </div>
+                      </li>                      
                       <li class="list-item">
                         <livewire:widgets.iptv-dev :dev='$dev->id' :key="$loop->index">
                       </li>                      
@@ -235,7 +269,10 @@
         <livewire:modals.add-onu-to-account @saved="$refresh" :account_id="$account->id">
         <livewire:modals.subscription-cencel @saved="$refresh" :account_id="$account->id">
         <livewire:modals.cash-pay @saved="$refresh" :account_id="$account->id">
-          <livewire:modals.ping-modal>
+          <livewire:modals.ping-modal />
+            <livewire:modals.edit-personal @saved="$refresh"> 
+              <livewire:modals.edit-contacts @saved="$refresh"> 
+                <livewire:modals.edit-phone @saved="$refresh"> 
           @push('js')
               <script type="module">
                 var cleaveII = new Cleave('#new_mac', {

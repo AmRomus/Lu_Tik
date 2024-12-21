@@ -14,7 +14,7 @@ class Onu extends Model
     }
     public function getSignalAttribute()
     {
-        $olt=$this->OltIfaces->Olt;
+        $olt=$this->OltIfaces?->Olt;
         if($olt)
         {
             $oid=$olt->OltTemplate?->SnmpOids?->where('cmd','onu_signal')->first()?->oid;
@@ -41,6 +41,26 @@ class Onu extends Model
     {
         return $this->belongsTo(BillingAccount::class);
     }
+    
+    public function getCatvAccessAttribute()
+    {
+        if(!$this->BillingAccount)
+        {
+            return 0;
+        }       
+        $Subscribtion=$this->BillingAccount->Subscriptions->first();
+        if($Subscribtion)
+        {
+            if($Subscribtion->tarif->CatvService){
+                return -1;
+            }
+        }else {
+            if($this->BillingAccount->Tarif->CatvService){
+                return $this->BillingAccount->Access;
+            }
+        }
+        return 0;
+    }
     public function getCatvBillingStateAttribute()
     {
         $service=$this->BillingAccount->Tarif->CatvService;
@@ -48,10 +68,22 @@ class Onu extends Model
     }
     public function CatvOn()
     {
-        $olt=$this->OltIfaces->Olt;
+        $olt=$this->OltIfaces?->Olt;
         if($olt)
         {
             $oid=$olt->OltTemplate?->SnmpOids?->where('cmd','onu_catv')->first()?->oid;
+            if($oid){               
+                $oid=$oid.".".$this->OltIfaces->pon_index.$this->onu_index;         
+                $olt->Write($oid,"i", 1);                  
+            }
+        }
+    }
+    public function reboot()
+    {
+        $olt=$this->OltIfaces->Olt;
+        if($olt)
+        {
+            $oid=$olt->OltTemplate?->SnmpOids?->where('cmd','onu_reboot')->first()?->oid;
             if($oid){               
                 $oid=$oid.".".$this->OltIfaces->pon_index.$this->onu_index;         
                 $olt->Write($oid,"i", 1);                  

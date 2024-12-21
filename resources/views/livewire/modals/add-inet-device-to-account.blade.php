@@ -47,7 +47,10 @@
            
           <div class="d-flex justify-content-end mg-t-30 mg-b-0">
             <button type="button" class="btn btn-xs btn-white" data-dismiss="modal" wire:click="show_modal">{{__('Cencel')}}</button>
+            @if ($errors->count()==0)
             <button type="button" class="btn  btn-xs btn-primary mg-l-5" wire:click="save">{{__('Save')}}</button>
+            @endif
+            
           </div>
         </div><!-- modal-body -->
       </div><!-- modal-content -->

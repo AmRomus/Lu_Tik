@@ -12,6 +12,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Bavix\Wallet\Traits\CanPay;
 use Bavix\Wallet\Interfaces\Customer;
+use Log;
 
 #[ObservedBy([BillingAccountObserver::class])]
 class BillingAccount extends Model implements Customer
@@ -38,8 +39,14 @@ class BillingAccount extends Model implements Customer
     }
     public function getAddressAttribute()
     {
-       $addr=Address::find($this->address_id)?->rootAncestororSelf()->first();
-        return $addr?->FullAddress;
+        if($this->address_id){
+            $addr=Address::find($this->address_id)?->rootAncestororSelf()->first();
+            return $addr?->FullAddress;
+        }
+    }
+    public function Address()
+    {
+        return $this->belongsTo(Address::class);
     }
     public function Tarif()
     {
@@ -66,7 +73,7 @@ class BillingAccount extends Model implements Customer
         return $this->hasMany(IptvDevice::class);
     }
     public function Subscriptions(){
-        return $this->hasMany(AccountSubscription::class);
+        return $this->hasMany(AccountSubscription::class)->with('tarif')->Active();
     }
     public function getSubscriptionAttribute(){
         return $this->Subscriptions()->whereDate('acct_end','>',Carbon::now())->latest()->first();
@@ -98,6 +105,7 @@ class BillingAccount extends Model implements Customer
        
             if($this->Tarif?->canBuy($this)){
                 // PAY FOR INET
+                Log::debug("CAN PAY");
                 if($this->Tarif->InetService){
                     $w=$this->getWallet("wallet_".$this->Tarif->InetService->ServiceCompanies->id);
                     $s=$this->Tarif->InetService->ServiceCompanies;
@@ -146,28 +154,29 @@ class BillingAccount extends Model implements Customer
     }
     public function getInetAccessAttribute(): int
     {
-        $this->make_subscription();
+        //$this->make_subscription();
         $state=0;       
         if($this->AccountInetService?->MikroBillApi&&$this->tarif?->InetService){
             // esli est' privyazka k API
-           $state=$this->AccountInetService->BillingState;           
+           $state=$this->AccountInetService->service_state;           
         }
-        if($state>=0&&$this->Subscription?->tarif?->InetService){
+        if($state>=0&&$this->Subscriptions->first()?->tarif?->InetService){
             $state=-1;
         }        
         return $state;
     }
     public function getCatvAccessAttribute(): int
     {
-        $this->make_subscription();
+      //  $this->make_subscription();
         $state=0;       
+        
+        if($state>=0&&$this->Subscriptions->first()?->tarif?->CatvService){
+            return -1;
+        }
         if($this->AccountCatvService?->MikroBillApi&&$this->tarif?->CatvService){
             // esli est' privyazka k API
-           $state=$this->AccountCatvService->BillingState;
+           $state=$this->AccountCatvService->service_state;
            
-        }
-        if($state>=0&&$this->Subscription?->tarif?->CatvService){
-            $state=-1;
         }       
         return $state;
     }

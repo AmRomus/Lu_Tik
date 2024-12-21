@@ -4,7 +4,7 @@
             <div class="content-header">
                 <h4>{{__('Workers')}}</h4>
                 <nav class="nav">
-                    <a href="#" class="btn btn-sm btn-success tx-bold" wire:click="$dispatchTo('modals.new-inet-device','show_modal')"> {{__('New')}}</a>
+                    <a href="#" class="btn btn-sm btn-success tx-bold" wire:click="$dispatchTo('modals.new-worker-modal','show_modal')"> {{__('New')}}</a>
                 </nav>
             </div>
             <div class="content-body">
@@ -15,13 +15,15 @@
                                 <th>{{__('Name')}}</th>
                                 <th>{{__('Company')}}</th>
                                 <th>{{__('Role')}}</th>
+                                <th></th>
                             </thead>
                             <tbody>
                                 @foreach ($users as $user)
                                     <tr>
                                         <td>{{$user->name}}</td>
                                         <td>{{($user->ServiceCompany)?$user->ServiceCompany->Name:__('Not set')}}</td>
-                                        <td>{{$user->Role}}</td>
+                                        <td>{{$user->roles?->pluck('name')}}</td>
+                                        <td><i class="fa fa-trash" style="cursor: pointer" wire:confirm="{{__('Delete user ?')}}" wire:click="delete({{$user->id}})"></i></td>
                                     </tr>
                                 @endforeach
                             </tbody>
@@ -30,4 +32,5 @@
                 </div>
             </div>
         </div>
+        <livewire:modals.new-worker-modal @saved="$refresh" />
 </div>
