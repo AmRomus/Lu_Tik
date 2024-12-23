@@ -100,6 +100,16 @@ class BillingAccount extends Model implements Customer
         }
         return $state;
     }
+    public function getWarnInfoAttribute()
+    {
+        foreach($this->Onu as $onu)
+        {
+            if(Carbon::parse($onu->last_state)->diffInDays()>3){
+                return true;
+            }
+        }
+        return false;
+    }
     public function make_subscription()
     {
        

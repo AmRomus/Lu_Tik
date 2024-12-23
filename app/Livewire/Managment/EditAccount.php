@@ -10,31 +10,38 @@ use App\Models\Onu;
 use App\Models\ServiceCompanies;
 use Livewire\Attributes\On;
 use Livewire\Component;
+use Auth;
 
 class EditAccount extends Component
 {
     public $acc;
     public $account;
     public $devli;
-    public $subscr;   
+    public $subscr;
+    public $alowed_wallets= array();   
     public function mount($billing_account)
     {
-        $this->account=BillingAccount::with('tarif')
-        ->with('AccountInetService')
-        ->with('AccountCatvService')
-        ->with('Address')        
-        ->with('onu')
+        $companies=ServiceCompanies::all();
+        $this->account=BillingAccount::with(['tarif','AccountInetService','AccountCatvService','Address','onu'])
         ->findOrFail($billing_account);
         if($this->account){
-            foreach(ServiceCompanies::all() as $company)
-            if(!$this->account->hasWallet("wallet_".$company->id))
-            {
-                $this->account->createWallet([
-                    'name' => $company->Name,
-                    'slug' => "wallet_".$company->id,
-                ]);
+            foreach($companies as $company){
+                if(!$this->account->hasWallet("wallet_".$company->id))
+                {
+                    $this->account->createWallet([
+                        'name' => $company->Name,
+                        'slug' => "wallet_".$company->id,
+                    ]);
+                }
             }
         }
+        $alowed_wallets_id=Auth::user()->ServiceCompany->pluck('id')->toArray();
+        foreach($alowed_wallets_id as $cid)
+        {
+            $this->alowed_wallets[]='wallet_'.$cid;
+        //    array_push($this->alowed_wallets,'wallet_'.$cid);          
+        }
+       
         $this->subscr=$this->account->Subscriptions->first();
        // $this->acc=$this->account?->toArray();
         $this->devli=0;

@@ -26,7 +26,7 @@
                   <i data-feather="chevron-down"></i>
                 </a>
                 <p class="tx-color-03 tx-12 mg-b-0">{{auth()->user()->roles?->first()?->name}} | {{__('Balance')}}:{{auth()->user()->balance}}</p>
-                <p class="tx-color-03 tx-12 mg-b-0">{{_('Company')}}:<strong class="text-black">{{(auth()->user()->ServiceCompany?->Name)}} </strong></p>
+                
             </div>
             <div class="collapse" id="loggedinMenu">
                 <ul class="nav nav-aside mg-b-0">             

@@ -27,6 +27,6 @@ class ServiceCompanies extends Model implements Wallet
 
     public function Users()
     {
-        return $this->hasMany(User::class);
+        return $this->belongsToMany(User::class,'users_service_companies','users_id','service_companies_id');
     }
 }

@@ -51,7 +51,9 @@
                           </div><!-- media-body -->
                           <div class="pd-l-10 text-end">
                           @foreach ($account->wallets as $item)
+                            @if (in_array($item->slug,$alowed_wallets))
                             <p class="my-0"><small class="tx-12 tx-color-03 mg-b-0">{{$item->name}}:&nbsp;<strong class="text-black">{{$item->balance}}</strong><a href="#" wire:click.prevent="$dispatchTo('modals.cash-pay','show_modal',{ wallet_name:'{{$item->slug}}'})"><i class="fa fa-plus"></i></a></small></p>
+                            @endif                            
                           @endforeach
                           </div>
                         </li>

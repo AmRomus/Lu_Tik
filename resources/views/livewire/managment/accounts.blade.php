@@ -39,7 +39,9 @@
                             </thead>
                             <tbody>
                                 @foreach ($accs as $item)
-                                    <tr>
+                                    <tr @if ($item->WarnInfo)
+                                        class="bg-danger"
+                                    @endif>
                                         <td >{{$item->ident}}</td>                                        
                                         <td>
                                             {{$item->FullName}}                                     

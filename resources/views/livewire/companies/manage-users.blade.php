@@ -21,9 +21,12 @@
                                 @foreach ($users as $user)
                                     <tr>
                                         <td>{{$user->name}}</td>
-                                        <td>{{($user->ServiceCompany)?$user->ServiceCompany->Name:__('Not set')}}</td>
+                                        <td>{{($user->ServiceCompany->count()>0)?$user->ServiceCompany->pluck('Name'):__('Not set')}}</td>
                                         <td>{{$user->roles?->pluck('name')}}</td>
-                                        <td><i class="fa fa-trash" style="cursor: pointer" wire:confirm="{{__('Delete user ?')}}" wire:click="delete({{$user->id}})"></i></td>
+                                        <td class="d-flex">                                            
+                                            <i class="fa fa-trash" style="cursor: pointer" wire:confirm="{{__('Delete user ?')}}" wire:click="delete({{$user->id}})"></i>
+                                            <a href="{{route('company.user.edit',$user->id)}}" class="nav-link"><i class="fa fa-edit mx-3"  style="cursor: pointer"></i></a>
+                                        </td>
                                     </tr>
                                 @endforeach
                             </tbody>
