@@ -13,8 +13,9 @@ return new class extends Migration
     {
         Schema::create('mikro_bill_apis', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->string('host')->unique();
+            $table->unsignedBigInteger('service_companies_id');
+            $table->foreign('service_companies_id','company_mikrobill')->references('id')->on('service_companies')->cascadeOnDelete();          
+            $table->string('host');
             $table->string('login');
             $table->string('password')->nullable();
             $table->string('key1')->nullable();

@@ -89,7 +89,7 @@
                   </div><!-- media -->
                   <div class="text-end tx-rubik">                                            
                       @if ($account->AccountInetService?->MikroBillApi)                                          
-                          Mikro-Bill({{$account->AccountInetService?->MikroBillApi?->name}}) Login: {{$account->AccountInetService?->api_ident}}
+                          Mikro-Bill({{$account->AccountInetService?->MikroBillApi?->ServiceCompanies?->Name}}) Login: {{$account->AccountInetService?->api_ident}}
                       @else
                           {{__('Internal')}}
                       @endif                                         

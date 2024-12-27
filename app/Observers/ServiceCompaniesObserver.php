@@ -20,4 +20,16 @@ class ServiceCompaniesObserver
             }
         }
     }
+    public function deleted(ServiceCompanies $company): void
+    {
+        foreach(BillingAccount::all() as $account)
+        {
+            if($account->hasWallet("wallet_".$company->id))
+            {
+                $account->getWallet("wallet_".$company->id)->forceDelete();
+            }
+        }
+      
+    }
+
 }

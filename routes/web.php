@@ -3,6 +3,7 @@
 use App\Http\Controllers\AddressController;
 use App\Livewire\Apis\MikroBill;
 use App\Livewire\Auth\Login;
+use App\Livewire\Companies\EditCompany;
 use App\Livewire\Companies\EditUser;
 use App\Livewire\Companies\ManageCompanies;
 use App\Livewire\Companies\ManageUsers;
@@ -84,4 +85,5 @@ Route::middleware('auth')->prefix('/companies')->group(function(){
     Route::get('/list',ManageCompanies::class)->name('companies.list');
     Route::get('/workers',ManageUsers::class)->name('companies.workers');
     Route::get('/worker/{user}/edit',EditUser::class)->name('company.user.edit');
+    Route::get('/company/{company}/edit',EditCompany::class)->name('company.edit');
 });

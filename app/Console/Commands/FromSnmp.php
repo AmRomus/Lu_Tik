@@ -74,6 +74,7 @@ class FromSnmp extends Command
                         if($p->onu_by_mac)
                         {
                             printf("Onu %s Power Off \n",$p->onu_by_mac?->mac);
+                            $p->onu_by_mac->lockForUpdate();
                             $p->onu_by_mac->online=0;
                             $p->onu_by_mac->last_state=Carbon::now();
                             $p->onu_by_mac->msg="Power Off";
@@ -83,8 +84,9 @@ class FromSnmp extends Command
                          case "SignalLoss":
                             if($p->onu_by_mac)
                             {   
-                                printf("Onu %s Signal lost \n",$p->onu_by_mac?->mac);                            
+                                printf("Onu %s Signal lost \n",$p->onu_by_mac?->mac);
                                 if( $p->onu_by_mac->online>0) {
+                                    $p->onu_by_mac->lockForUpdate();
                                     $p->onu_by_mac->Online=0;
                                     $p->onu_by_mac->last_state=Carbon::now();
                                     $p->onu_by_mac->msg="Loss Signal";

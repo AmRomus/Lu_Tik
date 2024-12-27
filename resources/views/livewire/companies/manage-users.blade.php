@@ -21,7 +21,13 @@
                                 @foreach ($users as $user)
                                     <tr>
                                         <td>{{$user->name}}</td>
-                                        <td>{{($user->ServiceCompany->count()>0)?$user->ServiceCompany->pluck('Name'):__('Not set')}}</td>
+                                        <td>
+                                            @forelse ($user->ServiceCompany as $item)
+                                                {{$item->Name}},
+                                            @empty
+                                            {{__('Not set')}}
+                                            @endforelse
+                                            </td>
                                         <td>{{$user->roles?->pluck('name')}}</td>
                                         <td class="d-flex">                                            
                                             <i class="fa fa-trash" style="cursor: pointer" wire:confirm="{{__('Delete user ?')}}" wire:click="delete({{$user->id}})"></i>

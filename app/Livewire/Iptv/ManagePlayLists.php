@@ -13,4 +13,12 @@ class ManagePlayLists extends Component
         $playlists=PlayList::all();
         return view('livewire.iptv.manage-play-lists',compact('playlists'));
     }
+    public function del(PlayList $pl)
+    {
+        if($pl->IptvServices->count()==0)
+        {
+            $pl->delete();
+        }
+        
+    }
 }

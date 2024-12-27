@@ -23,7 +23,10 @@
                                 <tr class="align-middle">
                                 <td>{{$item->name}}</td>
                                 <td>{{$item->channels->count()}}</td>   
-                                <td ><a href="{{route('iptv.playlist.edit',$item->id)}}"><i class="fa fa-edit" style="cursor: pointer"></i></a></td>
+                                <td class="d-flex">
+                                    <a href="{{route('iptv.playlist.edit',$item->id)}}" class="nav-link"><i class="fa fa-edit" style="cursor: pointer"></i></a>
+                                    <a href="#" class="nav-link mx-2" wire:click.prevent="del({{$item->id}})" wire:confirm="{{__('Are you whant delete the playlist ?')}}"><i class="fa fa-trash" style="cursor: pointer"></i></a>
+                                </td>
                                 </tr>
                                 @empty
                                     <tr>

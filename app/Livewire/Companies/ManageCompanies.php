@@ -13,4 +13,12 @@ class ManageCompanies extends Component
         $this->companyes=ServiceCompanies::all();
         return view('livewire.companies.manage-companies');
     }
+    public function del(ServiceCompanies $company)
+    {
+        $company->delete();
+    }
+    public function edit($id)
+    {
+        $this->redirectRoute('company.edit',$id);
+    }
 }

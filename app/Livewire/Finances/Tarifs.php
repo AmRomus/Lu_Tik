@@ -12,7 +12,7 @@ class Tarifs extends Component
     public $tarif_list;
     public function render()
     {
-        $this->tarif_list=Tarif::all();
+        $this->tarif_list=Tarif::with(['CatvService','IptvService','InetService'])->get();
         return view('livewire.finances.tarifs');
     }
 }

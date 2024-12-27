@@ -19,7 +19,7 @@
                 <select class="form-control" wire:model.live="apis_id">
                   <option value=0>{{__('Internal')}}</option>
                   @foreach ($apis as $item)
-                      <option value={{$item->id}}> {{$item->name}}</option>
+                      <option value={{$item->id}}> {{$item->ServiceCompanies?->Name}}</option>
                   @endforeach
                 </select>                
             </div>

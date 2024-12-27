@@ -10,4 +10,8 @@ class PlayList extends Model
     {        
        return $this->belongsToMany(IptvStreams::class)->withPivot(['id','order_id'])->orderByPivot('order_id');
     }
+    public function IptvServices()
+    {
+        return $this->hasMany(IptvService::class);
+    }
 }

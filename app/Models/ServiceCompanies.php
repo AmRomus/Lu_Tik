@@ -29,4 +29,8 @@ class ServiceCompanies extends Model implements Wallet
     {
         return $this->belongsToMany(User::class,'users_service_companies','users_id','service_companies_id');
     }
+    public function MikroBillApi()
+    {
+        return $this->hasOne(MikroBillApi::class);
+    }
 }
