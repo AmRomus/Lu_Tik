@@ -46,10 +46,11 @@ class NewWorkerModal extends Component
         $user->name=$this->name;
         $user->email=$this->email;
         $user->password=Hash::make($this->password);
-        $user->service_companies_id=$this->service_company_id?$this->service_company_id:ServiceCompanies::first()?->id;
+        $cmpid=$this->service_company_id?$this->service_company_id:ServiceCompanies::first()?->id;
         $user->save();
         $user->refresh();
         $user->syncRoles($this->role);
+        $user->ServiceCompany()->sync($cmpid);
         $this->show_modal();
         $this->dispatch('saved');
     }

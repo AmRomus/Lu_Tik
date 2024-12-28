@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Managment;
 
+use App\Models\AccountNotes;
 use App\Models\BillingAccount;
 use App\Models\InetDevices;
 use App\Models\IptvDevice;
@@ -80,6 +81,14 @@ class EditAccount extends Component
         if($onu)
         {
             $onu->reboot();
+        }
+     }
+     public function del_note(AccountNotes $note)
+     {
+        if($note)
+        {
+            $note->delete();
+            $this->refresh();
         }
      }
 }

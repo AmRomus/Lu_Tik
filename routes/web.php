@@ -58,10 +58,7 @@ Route::middleware('auth')->prefix('/finances')->group(function(){
     Route::get('/tarifs',Tarifs::class)->name('tarifs');
 });
 
-#FROM API
-Route::middleware('auth')->prefix('/apis')->group(function(){
-    Route::get('/mikrobill',MikroBill::class)->name('mikrobill');
-});
+
 
 #Network
 Route::middleware('auth')->prefix('/network')->group(function(){

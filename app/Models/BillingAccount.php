@@ -48,6 +48,10 @@ class BillingAccount extends Model implements Customer
     {
         return $this->belongsTo(Address::class);
     }
+    public function AccountNotes()
+    {
+        return $this->hasMany(AccountNotes::class);
+    }
     public function Tarif()
     {
         return $this->belongsTo(Tarif::class);

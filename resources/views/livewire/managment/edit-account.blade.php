@@ -9,27 +9,31 @@
             </div>
             <div class="content-body">
                 <div class="row">
-                  <div class="col-12 col-sm-6 col-lg-6">
-                    <div class="df-example p-1" data-label="{{__('Account information')}}">
+                  <div class="col-12 col-sm-6 col-lg-4">
+                    <div class="df-example py-3 px-0" data-label="{{__('Account information')}}">
+                      <div class="marker marker-ribbon marker-top-right pos-absolute  r-0  bg-success tx-white" style="width:100px; cursor: pointer;">
+                        <i class="fa fa-phone" ></i> New Call
+                      </div>   
+                      <div class="marker marker-ribbon marker-top-right pos-absolute  r-0 t-45 bg-warning tx-white" 
+                      style="width:100px; cursor: pointer;" wire:click="$dispatchTo('modals.new-account-note','show_modal')">
+                        <i class="fa fa-bolt" ></i> New Note
+                      </div>
+                      <div class="marker marker-ribbon marker-top-right pos-absolute  r-0 t-75 bg-danger tx-white" style="width:100px; cursor: pointer;">
+                        <i class="fa fa-bookmark" ></i> New Ticket
+                      </div>      
                       <ul class="list-unstyled mg-b-0">
-                        <li class="list-label">{{__('Personal Infromation')}}</li>
-                        <li class="list-item">
-                          <div class="avatar" style="cursor: pointer" wire:click="$dispatchTo('modals.edit-personal','show_modal',{ account:{{$account->id}}})">
-                            <span class="avatar-initial rounded-circle bg-gray-600">{{$account->Initials}}</span>
-                          </div>
-                          <div class="media-body mg-sm-l-15">
-                            <p class="tx-medium mg-b-0">{{__('Full Name')}}</p>                                 
-                          </div><!-- media-body -->
+                        <li class="list-label d-flex w-100" >                         
+                          {{__('Personal Infromation')}}
+                        </li>
+                        <li class="list-item">                                                 
                           <div class="pd-l-10">
                             <p class="tx-medium mg-b-0">{{$account->FullName}}</p>
                             <small class="tx-12 tx-color-03 mg-b-0">Customer ID#{{$account->ident}}</small>
                           </div>
                         </li>
                         <li class="list-item">
-                          <div class="avatar"  style="cursor: pointer" wire:click="$dispatchTo('modals.edit-contacts','show_modal',{ account:{{$account->id}}})"><span class="avatar-initial rounded-circle bg-gray-600"><i class="fa fa-home"></i></span></div>
-                          <div class="media-body mg-sm-l-15">
-                            <p class="tx-medium mg-b-0">{{__('Address')}}</p>                                 
-                          </div><!-- media-body -->
+                          <div class="avatar"   style="cursor: pointer" wire:click="$dispatchTo('modals.edit-contacts','show_modal',{ account:{{$account->id}}})"><span class="avatar-initial rounded-circle bg-gray-600"><i class="fa fa-home"></i></span></div>
+                          
                           <div class="pd-l-10 text-end">
                             <p class="tx-medium mg-b-0">{{$account->Address}}</p>
                             
@@ -37,18 +41,14 @@
                         </li>
                         <li class="list-item">
                           <div class="avatar"  style="cursor: pointer" wire:click="$dispatchTo('modals.edit-phone','show_modal',{ account:{{$account->id}}})"><span class="avatar-initial rounded-circle bg-gray-600"><i class="fa fa-phone"></i></span></div>
-                          <div class="media-body mg-sm-l-15">
-                            <p class="tx-medium mg-b-0">{{__('Phone')}}</p>                                 
-                          </div><!-- media-body -->
+                          
                           <div class="pd-l-10 text-end">
                             <p class="tx-medium mg-b-0">{{$account->phone}}</p>                           
                           </div>
                         </li>
                         <li class="list-item">
                           <div class="avatar"><span class="avatar-initial rounded-circle bg-gray-600"><i class="fa fa-money"></i></span></div>
-                          <div class="media-body mg-sm-l-15">
-                            <p class="tx-medium mg-b-0">{{__('Balances')}}</p>                                 
-                          </div><!-- media-body -->
+                         
                           <div class="pd-l-10 text-end">
                           @foreach ($account->wallets as $item)
                             @if (in_array($item->slug,$alowed_wallets))
@@ -258,9 +258,31 @@
                     </div>
                    
                   </div>
-
-                   
-
+                  <div class="col-12 col-sm-6 col-lg-4">
+                    <div class="card card-body shadow-none bd-warning overflow-hidden py-3">
+                      <div class="marker-icon marker-warning pos-absolute t-0 l-0">
+                       <i data-feather="zap"></i> 
+                      </div>
+                      <h6 class="mg-b-15 mg-l-15">{{__('Account Notes')}}</h6>
+                      @forelse ($account->AccountNotes as $item)
+                      <div class="row border-top">
+                        <div class="col-12">
+                          <div class="pos-absolute r-0 bg-danger text-white px-1 rounded">
+                            <i class="fa fa-close" style="cursor: pointer" wire:click="del_note({{$item->id}})" wire:confirm="{{__('Are you whant delete note ?')}}"></i>
+                          </div>                       
+                        </div>   
+                        
+                        <p class="mg-b-0 pt-1">{{$item->note}}</p>
+                       
+                      </div> 
+                        <small class="text-end tx-color-03 mg-b-0 ">&copy; {{$item->User?->name}}</small>   
+                        <small class="text-end tx-color-03 mg-b-0 "> {{$item->created_at}}</small>   
+                    
+                      @empty
+                      <p class="mg-b-0">{{__('Notes is empty.')}}</p>
+                      @endforelse                  
+                    </div>
+                  </div>
                 </div>
             </div>
         </div>
@@ -271,10 +293,11 @@
         <livewire:modals.add-onu-to-account @saved="$refresh" :account_id="$account->id">
         <livewire:modals.subscription-cencel @saved="$refresh" :account_id="$account->id">
         <livewire:modals.cash-pay @saved="$refresh" :account_id="$account->id">
-          <livewire:modals.ping-modal />
-            <livewire:modals.edit-personal @saved="$refresh"> 
-              <livewire:modals.edit-contacts @saved="$refresh"> 
-                <livewire:modals.edit-phone @saved="$refresh"> 
+        <livewire:modals.ping-modal />
+        <livewire:modals.edit-personal @saved="$refresh"> 
+        <livewire:modals.edit-contacts @saved="$refresh"> 
+        <livewire:modals.edit-phone @saved="$refresh"> 
+        <livewire:modals.new-account-note :account="$account->id" @saved="$refresh">   
           @push('js')
               <script type="module">
                 var cleaveII = new Cleave('#new_mac', {

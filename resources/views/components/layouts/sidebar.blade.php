@@ -63,12 +63,7 @@
             <a href="{{route('olt.list')}}" class="nav-link"> 
               <i data-feather="server"></i> <span>{{__('Olts')}}</span>
             </a>
-          </li>
-          <li class="nav-item {{($activePage ==='Mikrobill')? 'active':'' }}" >
-            <a href="{{route('mikrobill')}}" class="nav-link"> 
-              <i data-feather="repeat"></i> <span>{{__('MikroBill')}}</span>
-            </a>
-          </li>
+          </li>          
           <li class="nav-item {{($activePage ==='inetdevices')? 'active':'' }}" >
             <a href="{{route('inetdevices')}}" class="nav-link" wire:navigate> 
               <i data-feather="hard-drive"></i> <span>{{__('Routers')}}</span>
