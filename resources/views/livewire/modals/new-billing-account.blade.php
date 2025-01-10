@@ -35,6 +35,7 @@
                   <span class="input-group-text" >{{__('Ident')}}</span>
                 </div>
                 <input type="text" class="form-control" placeholder="{{__('Ident')}}" aria-label="name" name="name" wire:model.live="ident">
+                <button class="btn btn-sm btn-success" wire:click="mk_ident">{{__('Gen')}}</button>
             </div>
           <div class="d-flex justify-content-end mg-t-30 mg-b-0">
             <button type="button" class="btn btn-xs btn-white" data-dismiss="modal" wire:click="show_modal">{{__('Cencel')}}</button>

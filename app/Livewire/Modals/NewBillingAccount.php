@@ -43,4 +43,27 @@ class NewBillingAccount extends Component
         $this->dispatch('saved');
         $this->show_modal();
     }
+    public function mk_ident()
+    {
+        $ident_array=BillingAccount::select('ident')->pluck('ident')->toArray();
+        $tmp_ident=$this->generate_numeric_string(4);
+        while(in_array($tmp_ident,$ident_array,true))
+        {
+            $tmp_ident=$this->generate_numeric_string(4);
+        }
+       $this->ident=$tmp_ident;
+    }
+    function generate_numeric_string($length) {
+        // Проверка на положительную длину
+        if ($length <= 0) {
+            throw new \InvalidArgumentException("Length must be a positive integer.");
+        }
+    
+        $numeric_string = '';
+        for ($i = 0; $i < $length; $i++) {
+            // Генерация случайной цифры от 0 до 9
+            $numeric_string .= random_int(0, 9);
+        }        
+        return $numeric_string;
+    }
 }

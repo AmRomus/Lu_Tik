@@ -11,8 +11,8 @@
                 <div class="row">
                   <div class="col-12 col-sm-6 col-lg-4">
                     <div class="df-example py-3 px-0" data-label="{{__('Account information')}}">
-                      <div class="marker marker-ribbon marker-top-right pos-absolute  r-0  bg-success tx-white" style="width:100px; cursor: pointer;">
-                        <i class="fa fa-phone" ></i> New Call
+                      <div class="marker marker-ribbon marker-top-right pos-absolute  r-0  bg-success tx-white" style="width:100px; cursor: pointer;" wire:click="$dispatchTo('modals.new-account-call','show_modal')">
+                        <i class="fa fa-phone" ></i> {{__('New Call')}}
                       </div>   
                       <div class="marker marker-ribbon marker-top-right pos-absolute  r-0 t-45 bg-warning tx-white" 
                       style="width:100px; cursor: pointer;" wire:click="$dispatchTo('modals.new-account-note','show_modal')">
@@ -258,7 +258,7 @@
                     </div>
                    
                   </div>
-                  <div class="col-12 col-sm-6 col-lg-4">
+                  <div class="col-12 col-sm-6 col-lg-4 mt-2">
                     <div class="card card-body shadow-none bd-warning overflow-hidden py-3">
                       <div class="marker-icon marker-warning pos-absolute t-0 l-0">
                        <i data-feather="zap"></i> 
@@ -282,6 +282,43 @@
                       <p class="mg-b-0">{{__('Notes is empty.')}}</p>
                       @endforelse                  
                     </div>
+                    <div class="card card-body shadow-none bd-warning overflow-hidden py-3 mt-2">
+                     
+
+                      <div class="marker-icon marker-success pos-absolute t-0 l-0">
+                       <i data-feather="phone"></i> 
+                      </div>
+                      <h6 class="mg-b-15 mg-l-15">{{__('Account Calls')}}</h6>
+                      @forelse ($account->AccountCalls()->actual()->get() as $item)
+                      @if ($item->call_type->value!=0)
+                      <div class="media align-items-center border-top py-2">
+                        <div class="wd-40 ht-40 bd bd-2 {{$item->solved?'bg-success':'bg-danger'}} tx-white rounded-circle align-items-center justify-content-center op-6 d-none d-sm-flex" >
+                            <i data-feather="phone" ></i>                                            
+                        </div>
+                        <div class="media-body mg-sm-l-15">
+                          <p class="tx-medium mg-b-0"><span class="badge text-bg-primary mx-2">{{$item->call_type->name}}</span> {{$item->theme}}</p>  
+                          <small class="text-end tx-color-03 mg-b-0 ">&copy; {{$item->User?->name}}</small>   
+                          <small class="text-end tx-color-03 mg-b-0 "> {{$item->created_at}}</small>                                         
+                        </div><!-- media-body -->
+                        
+                      </div><!-- media --> 
+                      @else
+                      <div class="media align-items-center border-top py-2">
+                        <div class="wd-40 ht-40 bd bd-2 bg-info tx-white rounded-circle align-items-center justify-content-center op-6 d-none d-sm-flex" >
+                            <i data-feather="info" ></i>                                            
+                        </div>
+                        <div class="media-body mg-sm-l-15">
+                          <p class="tx-medium mg-b-0"> {{$item->theme}}</p>  
+                          <small class="text-end tx-color-03 mg-b-0 ">&copy; {{$item->User?->name}}</small>   
+                          <small class="text-end tx-color-03 mg-b-0 "> {{$item->created_at}}</small>                                         
+                        </div><!-- media-body -->
+                        
+                      </div><!-- media --> 
+                      @endif
+                      @empty
+                      <p class="mg-b-0">{{__('No calls registred.')}}</p>
+                      @endforelse                  
+                    </div>
                   </div>
                 </div>
             </div>
@@ -298,6 +335,7 @@
         <livewire:modals.edit-contacts @saved="$refresh"> 
         <livewire:modals.edit-phone @saved="$refresh"> 
         <livewire:modals.new-account-note :account="$account->id" @saved="$refresh">   
+        <livewire:modals.new-account-call :account="$account->id" @saved="$refresh">   
           @push('js')
               <script type="module">
                 var cleaveII = new Cleave('#new_mac', {
@@ -310,6 +348,7 @@
                                         blocks: [2, 2, 2, 2, 2, 2],
                                         uppercase: true
                                     });
+              
               </script>
           @endpush
 </div>

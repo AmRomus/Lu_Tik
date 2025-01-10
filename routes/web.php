@@ -22,6 +22,7 @@ use App\Livewire\Pon\OltDetails;
 use App\Livewire\Pon\OltList;
 use App\Livewire\Servers\EditMikrotik;
 use App\Livewire\Servers\Mikrotiks;
+use App\Livewire\Support\NewsConnection;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', Dashboard::class)->middleware('auth');
@@ -83,4 +84,9 @@ Route::middleware('auth')->prefix('/companies')->group(function(){
     Route::get('/workers',ManageUsers::class)->name('companies.workers');
     Route::get('/worker/{user}/edit',EditUser::class)->name('company.user.edit');
     Route::get('/company/{company}/edit',EditCompany::class)->name('company.edit');
+});
+
+#support
+Route::middleware('auth')->prefix('/support')->group(function(){
+    Route::get('/new_cons',NewsConnection::class)->name('support.new');
 });

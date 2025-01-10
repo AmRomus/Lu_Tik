@@ -52,6 +52,10 @@ class BillingAccount extends Model implements Customer
     {
         return $this->hasMany(AccountNotes::class);
     }
+    public function AccountCalls()
+    {
+        return $this->hasMany(AccountCalls::class);
+    }
     public function Tarif()
     {
         return $this->belongsTo(Tarif::class);
@@ -108,7 +112,7 @@ class BillingAccount extends Model implements Customer
     {
         foreach($this->Onu as $onu)
         {
-            if(Carbon::parse($onu->last_state)->diffInDays()>3){
+            if(Carbon::parse($onu->last_state)->diffInDays()>3&&$onu->last_state==0){
                 return true;
             }
         }

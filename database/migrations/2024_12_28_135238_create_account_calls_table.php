@@ -18,6 +18,7 @@ return new class extends Migration
             $table->unsignedBigInteger('user_id')->nullable();
             $table->foreign('user_id','call_user')->references('id')->on('users')->nullOnDelete();
             $table->text('theme');
+            $table->integer('call_type')->default(0);
             $table->boolean('solved')->default(true);
             $table->boolean('ticket')->default(false);
             $table->timestamps();

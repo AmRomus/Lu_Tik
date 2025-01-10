@@ -52,4 +52,8 @@ class User extends Authenticatable implements Wallet
     {
         return $this->belongsToMany(ServiceCompanies::class,'users_service_companies','service_companies_id','users_id');
     }
+    public function SupportTicket()
+    {
+        return $this->belongsToMany(SupportTicket::class);
+    }
 }

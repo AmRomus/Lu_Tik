@@ -14,9 +14,14 @@
           window.feather.replace();
           if (typeof window.Livewire !== 'undefined') {
               window.Livewire.hook('morph.updating', (message, component) => {
+                let tooltipelements = document.querySelectorAll("[data-bs-toggle='tooltip']");
+                tooltipelements.forEach((el) => {
+                    new bootstrap.Tooltip(el);
+                });
                //   $('[data-bs-toggle="tooltip"]').tooltip();
                   window.feather.replace();
               });
+            
           }
         });
       </script>  

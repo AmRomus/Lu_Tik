@@ -41,6 +41,22 @@
               <i data-feather="users"></i> <span>{{__('Accounts')}}</span>
             </a>
            </li>
+           <li class="nav-label">{{__('Support')}}</li>
+           <li class="nav-item  {{ ($activePage === 'NewCons') ? 'active' : '' }} ">
+            <a href="{{route('support.new')}}" class="nav-link">
+              <i data-feather="user-check"></i> <span>{{__('New Connections')}}</span>
+            </a>
+           </li>
+           <li class="nav-item">
+            <a href="#" class="nav-link">
+              <i data-feather="frown"></i> <span>{{__('Need support')}}</span>
+            </a>
+           </li>
+           <li class="nav-item">
+            <a href="#" class="nav-link">
+              <i data-feather="user-x"></i> <span>{{__('Uninstall')}}</span>
+            </a>
+           </li>
            <li class="nav-label">{{__('Finances')}}</li>
           <li class="nav-item {{ ($activePage === 'Tarifs') ? 'active' : '' }} ">
             <a href="{{route('tarifs')}}" class="nav-link"> 
