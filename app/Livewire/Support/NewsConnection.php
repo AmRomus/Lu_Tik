@@ -9,7 +9,7 @@ class NewsConnection extends Component
 {
     public function render()
     {
-        $tickets=SupportTicket::Connections()->get();
+        $tickets=SupportTicket::Connections()->select(['id','planed_time'])->get();      
         return view('livewire.support.news-connection',compact('tickets'));
     }
 }

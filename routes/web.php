@@ -23,6 +23,7 @@ use App\Livewire\Pon\OltList;
 use App\Livewire\Servers\EditMikrotik;
 use App\Livewire\Servers\Mikrotiks;
 use App\Livewire\Support\NewsConnection;
+use App\Livewire\Support\ReqEdit;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', Dashboard::class)->middleware('auth');
@@ -89,4 +90,5 @@ Route::middleware('auth')->prefix('/companies')->group(function(){
 #support
 Route::middleware('auth')->prefix('/support')->group(function(){
     Route::get('/new_cons',NewsConnection::class)->name('support.new');
+    Route::get('/edit/{tid}',ReqEdit::class)->name('support.ticket.edit');
 });
