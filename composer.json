@@ -15,6 +15,7 @@
         "laravel/ui": "^4.5",
         "league/commonmark": "^2.6",
         "livewire/livewire": "^3.5",
+        "nesbot/carbon": "^3.8",
         "spatie/laravel-permission": "^6.9",
         "staudenmeir/laravel-adjacency-list": "^1.22",
         "symfony/http-foundation": "^7.1",

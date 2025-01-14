@@ -12,11 +12,13 @@
                         @if ($item->planed_time)                        
                             <div class="marker marker-ribbon marker-top-right pos-absolute  r-0 t-1 bg-warning tx-white" style="width:200px; cursor: pointer;" >
                                 <div class="dropdown">
-                                <a href="#" class="dropdown-toggle nav-link"  id="ticket_button_{{$item->id}}" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <a href="#" class="dropdown-toggle nav-link text-white"  id="ticket_button_{{$item->id}}" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                     {{$item->planed_time}}
                                 </a>
                                 <div class="dropdown-menu" aria-labelledby="ticket_button_{{$item->id}}">                             
-                                    <a href="{{route('support.ticket.edit',$item->id)}}" class="dropdown-item tx-10 tx-primary" >{{__('Edit')}}</a>
+                                    <a href="{{route('support.ticket.edit',$item->id)}}" class="dropdown-item tx-10 tx-primary" >{{__('Edit Text')}}</a>
+                                    <a href="{{route('support.ticket.edit',$item->id)}}" class="dropdown-item tx-10 tx-primary" >{{__('Edit Date')}}</a>
+                                    <a href="{{route('support.ticket.edit',$item->id)}}" class="dropdown-item tx-10 tx-success" >{{__('Close')}}</a>
                                  <a href="#" class="dropdown-item tx-10 tx-danger" wire:confirm="{{__('Are you whant unlink this device ?')}}" wire:click.prevent="unlik_iptv_dev({{$item->id}})">{{__('Delete')}}</a>
                                 </div>
                               </div> 
@@ -24,7 +26,7 @@
                         @endif
                     
                         
-                        <livewire:widgets.nc-ticket :tid="$item->id" >
+                        <livewire:widgets.nc-ticket :tid="$item->id" :key="$item->id">
                     </div>
                     </div>
                     @endforeach
