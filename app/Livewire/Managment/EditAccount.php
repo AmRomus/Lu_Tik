@@ -23,7 +23,7 @@ class EditAccount extends Component
     public function mount($billing_account)
     {
         $companies=ServiceCompanies::all();
-        $this->account=BillingAccount::with(['tarif','AccountInetService','AccountCatvService','Address','onu'])
+        $this->account=BillingAccount::with(['tarif','AccountInetService','AccountCatvService','Address','onu','SupportTicket'])
         ->findOrFail($billing_account);
         if($this->account){
             foreach($companies as $company){

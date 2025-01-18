@@ -1,5 +1,5 @@
 @props(['activePage'])
-<aside class="aside aside-fixed" wire:ignore> 
+<aside class="aside aside-fixed" > 
     <div class="aside-header">
         <a href="/" class="aside-logo"><img src="/imgs/logo.png" width="180" alt=""></a>       
         <a href="" class="aside-menu-link">
@@ -44,7 +44,7 @@
            <li class="nav-label">{{__('Support')}}</li>
            <li class="nav-item  {{ ($activePage === 'NewCons') ? 'active' : '' }} ">
             <a href="{{route('support.new')}}" class="nav-link">
-              <i data-feather="user-check"></i> <span>{{__('New Connections')}}</span>
+              <i data-feather="user-check"></i> <span>{{__('New Connections')}} ({{App\Models\SupportTicket::Connections()->count()}})</span>
             </a>
            </li>
            <li class="nav-item">
@@ -57,6 +57,12 @@
               <i data-feather="user-x"></i> <span>{{__('Uninstall')}}</span>
             </a>
            </li>
+           <li class="nav-item {{ ($activePage === 'WaitConfirm') ? 'active' : '' }}">
+            <a href="{{route('support.ticket.needconfirm')}}" class="nav-link">
+              <i data-feather="user-x"></i> <span>{{__('Unconfirmed')}} ({{App\Models\SupportTicket::waitConfirm()->count()}})</span>
+            </a>
+           </li>
+           
            <li class="nav-label">{{__('Finances')}}</li>
           <li class="nav-item {{ ($activePage === 'Tarifs') ? 'active' : '' }} ">
             <a href="{{route('tarifs')}}" class="nav-link"> 

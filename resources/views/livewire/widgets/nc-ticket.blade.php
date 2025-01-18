@@ -11,9 +11,20 @@
            <div class="mg-l-auto text-end"><a href="{{route('account.edit',$item->BillingAccount->id)}}">{{$item->BillingAccount->ident}}</a> </div>
         </li>
         <li class="list-group-item d-flex pd-sm-x-20">
-            <div class="pd-sm-l-10">Phone  </div><div class="mg-l-auto text-end"><a href="tel:{{$item->BillingAccount->phone}}">{{$item->BillingAccount->phone}}</a> </div>
+            <div class="pd-sm-l-10">Phone </div><div class="mg-l-auto text-end">
+                @if ($item->alter_phone)
+                <a href="tel:{{$item->alter_phone}}">{{$item->alter_phone}}</a>
+                @else
+                <a href="tel:{{$item->BillingAccount->phone}}">{{$item->BillingAccount->phone}}</a>    
+                @endif
+                
+             </div>
          </li>
          <li class="list-group-item d-flex pd-sm-x-20">
+            <div class="pd-sm-l-10">Active  </div><div class="mg-l-auto text-end">{{$item->TimeLeft}}</div>
+         </li>
+         <li class="list-group-item d-flex pd-sm-x-20">
+            <div class="pd-sm-l-10 tx-bold">{{__('Comment')}}</div><div class="mg-l-auto text-end">
             {{$item->description}}
          </li>
          <li class="list-group-item d-flex pd-sm-x-20">
@@ -30,7 +41,7 @@
          </li>
          <li class="list-group-item d-flex pd-sm-x-20">
             <div class="d-flex w-100">
-                <div class="w-50" style="cursor: pointer" wire:click="$dispatchTo('modals.short-history','show_modal',{ obj: '{{class_basename($item)}}',id: {{ $item->id}} })"">
+                <div class="w-50" style="cursor: pointer" wire:click="$dispatchTo('modals.short-history','show_modal',{ obj: '{{class_basename($item)}}',id: {{ $item->id}} })">
                     <i class="fa fa-history"></i> {{__('History')}} ({{$item->AcctionsHistory->count()}})
                 </div>
                 <div class="text-end w-50" wire:click="toggle_comments" style="cursor: pointer">

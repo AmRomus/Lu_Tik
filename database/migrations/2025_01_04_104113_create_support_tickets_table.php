@@ -18,6 +18,7 @@ return new class extends Migration
             $table->unsignedBigInteger('user_id')->nullable();
             $table->foreign('user_id','ticket_user')->references('id')->on('users')->nullOnDelete();
             $table->integer('ticket_type')->default(1);
+            $table->text('alter_phone')->nullable();
             $table->longText('description')->nullable();
             $table->integer('priority')->default(0);
             $table->dateTime('planed_time')->nullable();            

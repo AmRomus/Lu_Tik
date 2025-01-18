@@ -18,7 +18,8 @@
                       style="width:100px; cursor: pointer;" wire:click="$dispatchTo('modals.new-account-note','show_modal')">
                         <i class="fa fa-bolt" ></i> New Note
                       </div>
-                      <div class="marker marker-ribbon marker-top-right pos-absolute  r-0 t-75 bg-danger tx-white" style="width:100px; cursor: pointer;">
+                      <div class="marker marker-ribbon marker-top-right pos-absolute  r-0 t-75 bg-danger tx-white" style="width:100px; cursor: pointer;"
+                      wire:click="$dispatchTo('modals.new-ticket','show_modal')" >
                         <i class="fa fa-bookmark" ></i> New Ticket
                       </div>      
                       <ul class="list-unstyled mg-b-0">
@@ -319,6 +320,34 @@
                       <p class="mg-b-0">{{__('No calls registred.')}}</p>
                       @endforelse                  
                     </div>
+                    <!-- Tickets -->
+                    <div class="card card-body shadow-none bd-warning overflow-hidden py-3 mt-2">
+                      <div class="marker-icon marker-danger pos-absolute t-0 l-0">
+                       <i data-feather="alert-triangle"></i> 
+                      </div>
+                      <h6 class="mg-b-15 mg-l-15">{{__('Account Tickets')}}</h6>
+                      @forelse ($account->SupportTicket()->actual()->get() as $item)                      
+                      <div class="media align-items-center border-top py-2">
+                        <div class="wd-40 ht-40 bd bd-2 {{$item->processed?'bg-success':'bg-danger'}} tx-white rounded-circle align-items-center justify-content-center op-6 d-none d-sm-flex" >
+                            <i data-feather="alert-triangle" ></i>                                            
+                        </div>
+                        <div class="media-body mg-sm-l-15">
+                          <p class="tx-medium mg-b-0"><span class="badge text-bg-primary mx-2">{{$item->ticket_type->name}}</span> {{$item->description}}</p>  
+                          <small class="text-end tx-color-03 mg-b-0 ">&copy; {{$item->User?->name}}</small>   
+                          <small class="text-end tx-color-03 mg-b-0 "> {{$item->created_at}}</small>
+                           @if ($item->processed)
+                           
+                             <p class="tx-medium mg-b-0"> {{$item->ProcessedResults->meta}} </p>
+                        
+                           @endif                                         
+                        </div><!-- media-body -->
+                        
+                      </div><!-- media --> 
+                     
+                      @empty
+                      <p class="mg-b-0">{{__('No Ticket registred.')}}</p>
+                      @endforelse                  
+                    </div>
                   </div>
                 </div>
             </div>
@@ -336,6 +365,7 @@
         <livewire:modals.edit-phone @saved="$refresh"> 
         <livewire:modals.new-account-note :account="$account->id" @saved="$refresh">   
         <livewire:modals.new-account-call :account="$account->id" @saved="$refresh">   
+        <livewire:modals.new-ticket :account="$account->id" @saved="$refresh">   
           @push('js')
               <script type="module">
                 var cleaveII = new Cleave('#new_mac', {

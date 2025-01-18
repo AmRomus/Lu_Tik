@@ -56,6 +56,10 @@ class BillingAccount extends Model implements Customer
     {
         return $this->hasMany(AccountCalls::class);
     }
+    public function SupportTicket()
+    {
+        return $this->hasMany(SupportTicket::class);
+    }
     public function Tarif()
     {
         return $this->belongsTo(Tarif::class);
