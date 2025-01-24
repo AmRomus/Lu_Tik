@@ -11,9 +11,9 @@
         <div class="aside-loggedin">
             <div class="d-flex align-items-center justify-content-start">
                 <a href="" class="avatar"><img src="https://placehold.co/387" class="rounded-circle" alt=""></a>
-                <div class="aside-alert-link">
+                <div class="aside-alert-link dropdown dropdown-message">
                   <a href="#" ><i data-feather="message-square"></i></a>
-                  <a href="#" ><i data-feather="bell"></i></a>
+                  <a href="{{route('support.my.tasks')}}" class="dropdown-link @if(auth()->user()->SupportTicket()->Actual()?->count()>0) new-indicator @endif" ><i data-feather="bell"></i>@if(auth()->user()->SupportTicket?->count()>0) <span>{{auth()->user()->SupportTicket()->Actual()?->count()}}</span> @endif</a>
                   <a href="#" data-bs-toggle="tooltip" title="Sign out"  onclick="event.preventDefault(); document.getElementById('logout-form').submit();"><i data-feather="log-out"></i></a>
                 </div>
             </div>
@@ -47,14 +47,14 @@
               <i data-feather="user-check"></i> <span>{{__('New Connections')}} ({{App\Models\SupportTicket::Connections()->count()}})</span>
             </a>
            </li>
-           <li class="nav-item">
-            <a href="#" class="nav-link">
-              <i data-feather="frown"></i> <span>{{__('Need support')}}</span>
+           <li class="nav-item {{ ($activePage === 'ServiceTickets') ? 'active' : '' }}">
+            <a href="{{route('support.tickets.service',1)}}" class="nav-link">
+              <i data-feather="frown"></i> <span>{{__('Need support')}} ({{App\Models\SupportTicket::support()->count()}})</span>
             </a>
            </li>
-           <li class="nav-item">
-            <a href="#" class="nav-link">
-              <i data-feather="user-x"></i> <span>{{__('Uninstall')}}</span>
+           <li class="nav-item {{ ($activePage === 'UninstallTickets') ? 'active' : '' }}">
+            <a href="{{route('support.tickets.service',2)}}" class="nav-link">
+              <i data-feather="user-x"></i> <span>{{__('Uninstall')}} ({{App\Models\SupportTicket::uninstall()->count()}})</span>
             </a>
            </li>
            <li class="nav-item {{ ($activePage === 'WaitConfirm') ? 'active' : '' }}">

@@ -25,6 +25,8 @@ use App\Livewire\Servers\Mikrotiks;
 use App\Livewire\Support\NeedConfirm;
 use App\Livewire\Support\NewsConnection;
 use App\Livewire\Support\ReqEdit;
+use App\Livewire\Support\ServiceTickets;
+use App\Livewire\Support\SupportList;
 use App\Livewire\Support\WorkPlan;
 use Illuminate\Support\Facades\Route;
 
@@ -94,4 +96,6 @@ Route::middleware('auth')->prefix('/support')->group(function(){
     Route::get('/new_cons',NewsConnection::class)->name('support.new');
     Route::get('/edit/{tid}',ReqEdit::class)->name('support.ticket.edit');
     Route::get('/unconfirmed',NeedConfirm::class)->name('support.ticket.needconfirm');
+    Route::get('/type/{ttype}',ServiceTickets::class)->name('support.tickets.service');
+    Route::get('/tasklist',SupportList::class)->name('support.my.tasks');
 });

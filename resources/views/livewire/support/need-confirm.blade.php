@@ -25,8 +25,8 @@
                                     <td style="cursor: pointer" wire:click="$dispatchTo('modals.short-history','show_modal',{ obj: '{{class_basename($item)}}',id: {{ $item->id}} })">#{{$item->id}}</td>
                                     <td style="cursor: pointer" wire:click="$dispatchTo('modals.short-history','show_modal',{ obj: '{{class_basename($item)}}',id: {{ $item->id}} })">{{$item->BillingAccount?->Address}}</td>
                                     <td>{{$item->alter_phone?$item->alter_phone:$item->BillingAccount?->phone}}</td>
-                                    <td>{{$item->ProcessedResults->created_at}}</td>
-                                    <td>{{$item->ProcessedResults->meta}}</td>
+                                    <td>{{$item->ProcessedResults?->created_at}}</td>
+                                    <td>{{$item->ProcessedResults?->meta}}</td>
                                     <td>{{$item->ProcessedResults?->User?->name}}</td>
                                     <td><button class="btn btn-xs btn-success" wire:confirm="{{__('Ticket solved ?')}}" wire:click="close({{$item->id}})">{{__('Confirm')}}</button><button class="btn btn-xs btn-danger" wire:click.prevent="$dispatchTo('modals.return-ticket','show_modal',{tid:{{$item->id}}})">{{__('Return')}}</button></td>
                                 </tr>

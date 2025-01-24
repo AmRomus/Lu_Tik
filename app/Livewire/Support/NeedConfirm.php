@@ -24,7 +24,7 @@ class NeedConfirm extends Component
             $ticket->save();
             $acct= new AcctionsHistory();
             $acct->user_id=Auth::user()->id;
-            $acct->acction="Close ticket";          
+            $acct->acction="Ticket closed";          
             $ticket->AcctionsHistory()->save($acct); 
             $this->dispatch('saved');            
         }

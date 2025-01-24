@@ -31,6 +31,7 @@ class ActiveServices extends Component
                 $this->iptv_owner=$tarif->IptvService->ServiceCompanies->Name;
             }
         }
+        
        // dd($account);
     }
     public function render()

@@ -14,4 +14,8 @@ class NewsConnection extends Component
         $tickets=SupportTicket::Connections()->select(['id','planed_time'])->get();      
         return view('livewire.support.news-connection',compact('tickets'));
     }
+    public function delete_ticket($tid)
+    {
+        SupportTicket::find($tid)?->delete();
+    }
 }

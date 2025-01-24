@@ -11,6 +11,10 @@
            <div class="mg-l-auto text-end"><a href="{{route('account.edit',$item->BillingAccount->id)}}">{{$item->BillingAccount->ident}}</a> </div>
         </li>
         <li class="list-group-item d-flex pd-sm-x-20">
+            <div class="pd-sm-l-10">{{__('Name')}}</div>
+            <div class="mg-l-auto text-end">{{$item->BillingAccount->FullName}}</div>
+         </li>
+        <li class="list-group-item d-flex pd-sm-x-20">
             <div class="pd-sm-l-10">Phone </div><div class="mg-l-auto text-end">
                 @if ($item->alter_phone)
                 <a href="tel:{{$item->alter_phone}}">{{$item->alter_phone}}</a>

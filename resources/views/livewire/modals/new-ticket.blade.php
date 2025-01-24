@@ -9,12 +9,21 @@
         </div>
         <div class="modal-body pd-20 pd-sm-30">
             <div class="input-group mb-3">
-                <select name="call_type" class="form-control mb-2" wire:model.defer="ticket_type">
+                <select name="call_type" class="form-control mb-2" wire:model.live="ticket_type">
                     @foreach ($ttypes as $key=>$val)
                         <option value="{{$key}}">{{$val}}</option>
                     @endforeach
                 </select>
             </div>
+            @if ($ticket_type==1)
+            <div class="input-group mb-3">
+                <select name="call_type" class="form-control mb-2" wire:model.live="support_type">
+                    @foreach ($support_types as $item)
+                        <option value="{{$item->id}}">{{$item->name}}</option>
+                    @endforeach
+                </select>
+            </div>
+            @endif
             <div class="input-group mb-3">
                 <div class="input-group-prepend">
                   <span class="input-group-text" >{{__('Alt. Phone')}}</span>

@@ -20,7 +20,7 @@
                                     <a href="#" wire:click.prevent="$dispatchTo('modals.change-ticket-descr','show_modal',{tid:{{$item->id}}})" class="dropdown-item tx-10 tx-primary" >{{__('Edit Text')}}</a>
                                     <a href="#" wire:click.prevent="$dispatchTo('modals.change-ticket-day','show_modal',{tid:{{$item->id}}})" class="dropdown-item tx-10 tx-primary" >{{__('Edit Date')}}</a>
                                     <a href="#" wire:click.prevent="$dispatchTo('modals.close-ticket','show_modal',{tid:{{$item->id}}})" class="dropdown-item tx-10 tx-success" >{{__('Close')}}</a>
-                                 <a href="#" class="dropdown-item tx-10 tx-danger" wire:confirm="{{__('Are you whant unlink this device ?')}}" wire:click.prevent="unlik_iptv_dev({{$item->id}})">{{__('Delete')}}</a>
+                                    <a href="#" class="dropdown-item tx-10 tx-danger" wire:confirm="{{__('Are you whant delete  ticket  #'.$item->id.'?')}}" wire:click.prevent="delete_ticket({{$item->id}})">{{__('Delete')}}</a>
                                 </div>
                               </div> 
                             </div> 
