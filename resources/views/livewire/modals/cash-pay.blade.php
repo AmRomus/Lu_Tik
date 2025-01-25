@@ -1,4 +1,4 @@
-<div class="modal fade @if($show) show @endif "  role="dialog" aria-hidden="true" >
+<div class="modal fade @if($show) show bg-black-8 @endif "  role="dialog" aria-hidden="true" >
     <div class="modal-dialog modal-dialog-top" role="document">        
       <div class="modal-content">
         <div class="modal-header">

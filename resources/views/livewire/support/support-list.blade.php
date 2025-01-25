@@ -54,7 +54,7 @@
                                     <div class="px-2" style="cursor: pointer" wire:click="$dispatchTo('modals.short-history','show_modal',{ obj: '{{class_basename($item)}}',id: {{ $item->id}} })">
                                      <small> <i class="fa fa-history"></i> ({{$item->AcctionsHistory->count()}})</small>  
                                     </div>
-                                    <div class="px-2" wire:click="toggle_comments" style="cursor: pointer">
+                                    <div class="px-2" wire:click="$dispatchTo('modals.show-coments','show_modal',{ tid:{{$item->id}}})" style="cursor: pointer">
                                        <small> <i class="fa fa-comment"></i> ({{$item->TicketComment->count()}})</small>
                                     </div>
                                 </div>
@@ -101,7 +101,7 @@
                                     <div class="px-2" style="cursor: pointer" wire:click="$dispatchTo('modals.short-history','show_modal',{ obj: '{{class_basename($item)}}',id: {{ $item->id}} })">
                                      <small> <i class="fa fa-history"></i> ({{$item->AcctionsHistory->count()}})</small>  
                                     </div>
-                                    <div class="px-2" wire:click="toggle_comments" style="cursor: pointer">
+                                    <div class="px-2"  wire:click="$dispatchTo('modals.show-coments','show_modal',{ tid:{{$item->id}}})" style="cursor: pointer">
                                        <small> <i class="fa fa-comment"></i> ({{$item->TicketComment->count()}})</small>
                                     </div>
                                 </div>
@@ -145,7 +145,7 @@
                                     <div class="px-2" style="cursor: pointer" wire:click="$dispatchTo('modals.short-history','show_modal',{ obj: '{{class_basename($item)}}',id: {{ $item->id}} })">
                                      <small> <i class="fa fa-history"></i> ({{$item->AcctionsHistory->count()}})</small>  
                                     </div>
-                                    <div class="px-2" wire:click="toggle_comments" style="cursor: pointer">
+                                    <div class="px-2"  wire:click="$dispatchTo('modals.show-coments','show_modal',{ tid:{{$item->id}}})" style="cursor: pointer">
                                        <small> <i class="fa fa-comment"></i> ({{$item->TicketComment->count()}})</small>
                                     </div>
                                 </div>
@@ -164,5 +164,6 @@
     
         <livewire:modals.short-history> 
         <livewire:modals.show-ticket-descr> 
+        <livewire:modals.show-coments> 
        
 </div>

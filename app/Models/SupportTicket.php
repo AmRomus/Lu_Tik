@@ -16,6 +16,10 @@ class SupportTicket extends Model
     {
        $q->where('finished','!=',1)->where('processed',0);
     }
+    public function scopeRegistred(Builder $q)
+    {
+        $q->where('finished','!=',1);
+    }
     public function BillingAccount()
     {
         return $this->belongsTo(BillingAccount::class);
@@ -81,6 +85,15 @@ class SupportTicket extends Model
     public function getPlanedDayAttribute()
     {
         return Carbon::parse($this->planed_time)->format("d-m-y");
+    }
+    
+    public function getCreatedDayAttribute()
+    {
+        return Carbon::parse($this->created_at)->format("d-m-y");
+    }
+    public function getDurationAttribute()
+    {
+        return Carbon::parse($this->ProcessedResults?->created_at)->diffForHumans($this->created_at);
     }
 
 }

@@ -15,5 +15,7 @@
     
         <livewire:modals.short-history> 
         <livewire:modals.change-ticket-descr @saved="$refresh">
-        <livewire:modals.set-ticket-users @saved="$refresh">      
+        <livewire:modals.set-ticket-users @saved="$refresh">  
+        <livewire:modals.change-ticket-day  @saved="$refresh">    
+        <livewire:modals.close-ticket  @saved="$refresh">      
 </div>

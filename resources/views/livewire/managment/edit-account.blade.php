@@ -325,13 +325,21 @@
                       <div class="marker-icon marker-danger pos-absolute t-0 l-0">
                        <i data-feather="alert-triangle"></i> 
                       </div>
-                      <h6 class="mg-b-15 mg-l-15">{{__('Account Tickets')}}</h6>
-                      @forelse ($account->SupportTicket()->actual()->get() as $item)                      
+                      <div class="d-flex w-100">
+                        <div>
+                          <h6 class="mg-b-15 mg-l-15">{{__('Account Tickets')}}</h6>
+                        </div>
+                        <div class="col text-end">
+                          <small style="cursor: pointer" wire:click="$dispatchTo('modals.old-ticket','show_modal')" >{{__('History')}} >></small>
+                        </div>                        
+                      </div>                      
+                      @forelse ($account->SupportTicket()->registred()->get() as $item)                      
                       <div class="media align-items-center border-top py-2">
                         <div class="wd-40 ht-40 bd bd-2 {{$item->processed?'bg-success':'bg-danger'}} tx-white rounded-circle align-items-center justify-content-center op-6 d-none d-sm-flex" >
                             <i data-feather="alert-triangle" ></i>                                            
                         </div>
                         <div class="media-body mg-sm-l-15">
+                          <strong>#{{$item->id}}</strong>
                           <p class="tx-medium mg-b-0"><span class="badge text-bg-primary mx-2">{{$item->ticket_type->name}}</span> {{$item->description}}</p>  
                           <small class="text-end tx-color-03 mg-b-0 ">&copy; {{$item->User?->name}}</small>   
                           <small class="text-end tx-color-03 mg-b-0 "> {{$item->created_at}}</small>
@@ -365,7 +373,8 @@
         <livewire:modals.edit-phone @saved="$refresh"> 
         <livewire:modals.new-account-note :account="$account->id" @saved="$refresh">   
         <livewire:modals.new-account-call :account="$account->id" @saved="$refresh">   
-        <livewire:modals.new-ticket :account="$account->id" @saved="$refresh">   
+        <livewire:modals.new-ticket :account="$account->id" @saved="$refresh">  
+        <livewire:modals.old-ticket :account="$account->id">  
           @push('js')
               <script type="module">
                 var cleaveII = new Cleave('#new_mac', {

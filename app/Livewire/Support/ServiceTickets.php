@@ -17,11 +17,11 @@ class ServiceTickets extends Component
         switch(TicketTypes::tryFrom($ttype))
         {
             case TicketTypes::Support: 
-                $this->tickets=SupportTicket::support()->get();
+                $this->tickets=SupportTicket::support()->orderBy('planed_time')->get();
                 $this->tname="Service";
                 break;
             case TicketTypes::Uninstall:
-                $this->tickets=SupportTicket::uninstall()->get();
+                $this->tickets=SupportTicket::uninstall()->orderBy('planed_time')->get();
                 $this->tname="Uninstall";
                 break;
             default:

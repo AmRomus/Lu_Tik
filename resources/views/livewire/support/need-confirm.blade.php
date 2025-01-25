@@ -11,7 +11,7 @@
                             <tbody>
                                 <thead>
                                     <tr>
-                                        <th>ID</th>
+                                        <th>{{__('Ticket')}} ID</th>
                                         <th>{{__('Address')}}</th>
                                         <th>{{__('Phone')}}</th>
                                         <th>{{__('Finish date')}}</th>
@@ -23,7 +23,11 @@
                                 @foreach ($tickets as $item)
                                 <tr >                                    
                                     <td style="cursor: pointer" wire:click="$dispatchTo('modals.short-history','show_modal',{ obj: '{{class_basename($item)}}',id: {{ $item->id}} })">#{{$item->id}}</td>
-                                    <td style="cursor: pointer" wire:click="$dispatchTo('modals.short-history','show_modal',{ obj: '{{class_basename($item)}}',id: {{ $item->id}} })">{{$item->BillingAccount?->Address}}</td>
+                                    <td style="cursor: pointer" wire:click="$dispatchTo('modals.short-history','show_modal',{ obj: '{{class_basename($item)}}',id: {{ $item->id}} })">
+                                        <strong> {{__('Customer ID')}}: {{$item->BillingAccount?->ident}}</strong>
+                                        <h6>{{$item->BillingAccount?->Address}}</h6>
+                                        <p>{{$item->BillingAccount?->FullName}}</p>                                        
+                                    </td>
                                     <td>{{$item->alter_phone?$item->alter_phone:$item->BillingAccount?->phone}}</td>
                                     <td>{{$item->ProcessedResults?->created_at}}</td>
                                     <td>{{$item->ProcessedResults?->meta}}</td>

@@ -1,10 +1,10 @@
 <div class="col-lg-3 col-md-3 col-sm-3 col-12 ps-1" style="min-width:260px">
     <div class="card card-body" >
         @if ($item->planed_time)                        
-        <div class="marker marker-ribbon marker-top-right pos-absolute  r-0 t-2 @if(!$item->expired) bg-warning @else bg-danger @endif tx-white" style="width:200px; cursor: pointer;" >
-            <div class="dropdown">
-            <a href="#" class="dropdown-toggle nav-link @if(!$item->expired) text-black @else text-white @endif"  id="ticket_button_{{$item->id}}" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                {{$item->planed_time}}
+        <div class="marker marker-ribbon marker-top-right pos-absolute  r-0 t-2  @if($item->IsToday) bg-warning @elseif($item->expired) bg-danger @else bg-success @endif tx-white" style="width:200px; cursor: pointer;" >
+            <div class="dropdown">            
+            <a href="#" class="dropdown-toggle nav-link  @if($item->IsToday) text-black @else text-white @endif"  id="ticket_button_{{$item->id}}" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                {{$item->IsToday?__('Today'):$item->PlanedDay}}               
             </a>
             <div class="dropdown-menu" aria-labelledby="ticket_button_{{$item->id}}">                             
                 <a href="#" wire:click.prevent="$dispatchTo('modals.change-ticket-descr','show_modal',{tid:{{$item->id}}})" class="dropdown-item tx-10 tx-primary" >{{__('Edit Text')}}</a>
@@ -30,7 +30,7 @@
                 <div class="pd-sm-l-10">
                     <div class="img-group img-group-sm">
                         @foreach ($item->Users as $user)
-                        <img src="/imgs/noavatar.png" style="width: 25px" class="img rounded-circle" alt="{{$user->name}}" data-bs-toggle="tooltip" title="{{$user->name}}" >
+                        <img src="/imgs/noavatar.png" style="width: 25px" class="img rounded-circle bd bd-2" alt="{{$user->name}}" data-bs-toggle="tooltip" title="{{$user->name}}" >
                         @endforeach
                     </div>
                 </div>

@@ -31,8 +31,7 @@
                                         <i class="fa fa-filter" style="cursor: pointer" wire:click="$dispatchTo('modals.set-tarif-filter','show_modal',{filtred:null})"></i>
                                     @endif</div> </div></th>
                                     <th>{{__('State')}}</th>
-                                    <th>{{__('Active Until')}}</th>
-                                    <th>{{__('Comment')}}</th>
+                                    <th>{{__('Active Until')}}</th>                                    
                                     <th  style="width: 50px;"></th>
                                     <th style="width: 50px;"></th>
                                 </tr>
@@ -81,7 +80,7 @@
                                             @endif
                                         </td>
                                         <td>{{$item->Subscriptions->first()?->acct_end}}</td>
-                                        <td>{{$item->coment}}</td> 
+                                        
                                         <td></td>                                      
                                         <td ><a href="{{route('account.edit',$item->id)}}"><i class="fa fa-arrow-right"></i></a></td>
                                     </tr>
