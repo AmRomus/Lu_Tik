@@ -13,7 +13,7 @@
                 <a href="" class="avatar"><img src="https://placehold.co/387" class="rounded-circle" alt=""></a>
                 <div class="aside-alert-link dropdown dropdown-message">
                   <a href="#" ><i data-feather="message-square"></i></a>
-                  <a href="{{route('support.my.tasks')}}" class="dropdown-link @if(auth()->user()->SupportTicket()->Actual()?->count()>0) new-indicator @endif" ><i data-feather="bell"></i>@if(auth()->user()->SupportTicket?->count()>0) <span>{{auth()->user()->SupportTicket()->Actual()?->count()}}</span> @endif</a>
+                  <a href="{{route('support.my.tasks')}}" class="dropdown-link @if(auth()->user()->MyTicketsCount>0) new-indicator @endif" ><i data-feather="bell"></i>@if(auth()->user()->MyTicketsCount>0) <span>{{auth()->user()->MyTicketsCount}}</span> @endif</a>
                   <a href="#" data-bs-toggle="tooltip" title="Sign out"  onclick="event.preventDefault(); document.getElementById('logout-form').submit();"><i data-feather="log-out"></i></a>
                 </div>
             </div>
@@ -41,6 +41,11 @@
               <i data-feather="users"></i> <span>{{__('Accounts')}}</span>
             </a>
            </li>
+           <li class="nav-item {{($activePage === 'Addresses')? 'active':''}}">
+            <a href="{{route('addressbook')}}" class="nav-link">
+              <i data-feather="navigation"></i> <span>{{__('Addresses')}}</span>
+            </a>
+          </li>
            <li class="nav-label">{{__('Support')}}</li>
            <li class="nav-item  {{ ($activePage === 'NewCons') ? 'active' : '' }} ">
             <a href="{{route('support.new')}}" class="nav-link">
@@ -70,12 +75,6 @@
             </a>
            </li>
           <li class="nav-label">{{__('Configurations')}}</li>
-          <li class="nav-label">{{__('Locations')}}</li>
-          <li class="nav-item {{($activePage === 'Addresses')? 'active':''}}">
-            <a href="{{route('addressbook')}}" class="nav-link">
-              <i data-feather="navigation"></i> <span>{{__('Addresses')}}</span>
-            </a>
-          </li>
           <li class="nav-item {{($activePage ==='Mikrotiks')? 'active':'' }}" >
             <a href="{{route('mikrotik.list')}}" class="nav-link"> 
               <i data-feather="server"></i> <span>{{__('Mikrotiks')}}</span>

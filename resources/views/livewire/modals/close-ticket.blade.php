@@ -8,10 +8,16 @@
               </a>
         </div>
         <div class="modal-body pd-20 pd-sm-30">
+          <div class="input-group mb-3">
+            <select name="processed_relation" class="form-control mb-2" wire:model.live="processed_relation">
+              @foreach ($processed_relations as $key=>$val)               
+                    <option value="{{$key}}">{{__($val)}}</option>
+                @endforeach
+            </select>
+           </div>
             <div class="input-group mb-3">                
                 <textarea  class="form-control" aria-label="description" name="description"  wire:model.defer="description">{{$description}}</textarea>
-            </div>
-            
+            </div>            
           <div class="d-flex justify-content-end mg-t-30 mg-b-0">
             <button type="button" class="btn btn-xs btn-white" data-dismiss="modal" wire:click="hide_modal">{{__('Cencel')}}</button>
             <button type="button" class="btn  btn-xs btn-primary mg-l-5" wire:click="save">{{__('Save')}}</button>

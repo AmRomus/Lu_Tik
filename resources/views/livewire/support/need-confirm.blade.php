@@ -15,14 +15,27 @@
                                         <th>{{__('Address')}}</th>
                                         <th>{{__('Phone')}}</th>
                                         <th>{{__('Finish date')}}</th>
+                                        <th>{{__('Type')}}</th>
                                         <th>{{__('Coment')}}</th>
                                         <th></th>
                                         <th></th>
                                     </tr>
                                 </thead>
                                 @foreach ($tickets as $item)
-                                <tr >                                    
-                                    <td style="cursor: pointer" wire:click="$dispatchTo('modals.short-history','show_modal',{ obj: '{{class_basename($item)}}',id: {{ $item->id}} })">#{{$item->id}}</td>
+                                <tr > 
+                                                               
+                                    <td style="cursor: pointer" wire:click="$dispatchTo('modals.short-history','show_modal',{ obj: '{{class_basename($item)}}',id: {{ $item->id}} })">
+                                       
+                                        <div class="marker-icon marker-primary pos-absolute  l-0" >
+                                            @if ($item->ticket_type->value==0)
+                                            <i data-feather="link"></i>
+                                            @elseif($item->ticket_type->value==1)
+                                            <i data-feather="tool"></i>
+                                            @endif    
+                                          </div>     
+                                          
+                                        #{{$item->id}}
+                                    </td>
                                     <td style="cursor: pointer" wire:click="$dispatchTo('modals.short-history','show_modal',{ obj: '{{class_basename($item)}}',id: {{ $item->id}} })">
                                         <strong> {{__('Customer ID')}}: {{$item->BillingAccount?->ident}}</strong>
                                         <h6>{{$item->BillingAccount?->Address}}</h6>
@@ -30,6 +43,7 @@
                                     </td>
                                     <td>{{$item->alter_phone?$item->alter_phone:$item->BillingAccount?->phone}}</td>
                                     <td>{{$item->ProcessedResults?->created_at}}</td>
+                                    <td>{{$item->processed_relation?->name}}</td>
                                     <td>{{$item->ProcessedResults?->meta}}</td>
                                     <td>{{$item->ProcessedResults?->User?->name}}</td>
                                     <td><button class="btn btn-xs btn-success" wire:confirm="{{__('Ticket solved ?')}}" wire:click="close({{$item->id}})">{{__('Confirm')}}</button><button class="btn btn-xs btn-danger" wire:click.prevent="$dispatchTo('modals.return-ticket','show_modal',{tid:{{$item->id}}})">{{__('Return')}}</button></td>

@@ -23,7 +23,8 @@ return new class extends Migration
             $table->integer('priority')->default(0);
             $table->dateTime('planed_time')->nullable();            
             $table->boolean('processed')->default(false);
-            $table->text('processed_by')->nullable();
+            $table->integer('processed_relation')->nullable();
+            $table->text('processed_comment')->nullable();
             $table->dateTime('processed_time')->nullable();
             $table->boolean('finished')->default(false);
             $table->unsignedBigInteger('finished_id')->nullable();

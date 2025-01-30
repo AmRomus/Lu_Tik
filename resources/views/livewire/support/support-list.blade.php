@@ -106,7 +106,7 @@
                                     </div>
                                 </div>
                                 <div class="w-50 text-end">
-                                    <a href="#" wire:click.prevent="close_connection({{$item->id}})" wire:confirm="{{__('Problem solved ?')}}" class="btn btn-xs bg-success nav-link text-white px-2">{{__('Done')}}</a>
+                                    <a href="#" wire:click.prevent="$dispatchTo('modals.close-ticket','show_modal',{tid:{{$item->id}}})"  class="btn btn-xs bg-success nav-link text-white px-2">{{__('Done')}}</a>
                                 </div>
                             </li>
                             @endforeach
@@ -165,5 +165,6 @@
         <livewire:modals.short-history> 
         <livewire:modals.show-ticket-descr> 
         <livewire:modals.show-coments> 
+        <livewire:modals.close-ticket  @saved="$refresh"> 
        
 </div>

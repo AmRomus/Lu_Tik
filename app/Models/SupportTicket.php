@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\ProcessedRelation;
 use App\TicketTypes;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
@@ -11,6 +12,7 @@ class SupportTicket extends Model
     protected $casts=
     [
         'ticket_type'=>TicketTypes::class,
+        'processed_relation'=>ProcessedRelation::class,
     ];
     public function scopeActual(Builder $q)
     {

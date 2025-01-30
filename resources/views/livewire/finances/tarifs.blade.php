@@ -9,35 +9,33 @@
             </div>
             <div class="content-body">
                 <div class="row">
-                    <div class="col-4 table-resposive">
-                        <ul class="list-unstyled mg-b-0">
-                            <li class="list-label">{{__('List')}}</li>
-                            @forelse ($tarif_list as $item)                            
-                            <li class="list-item bd">
-                                <div class="media align-items-center w-100">
-                                    <div class="wd-35 ht-35 bd bd-2 bd-success tx-primary rounded-circle align-items-center justify-content-center op-6 d-none d-sm-flex">
-                                      <i data-feather="dollar-sign"></i>
-                                    </div>
-                                    <div class="media-body mg-sm-l-15">
-                                      <p class="tx-medium mg-b-0">{{$item->name}}{{$item->$service}}</p>
-                                      <span class="mg-b-5">{{__('Amount')}}:{{$item->getAmountProduct()}}</span><br/>
-                                      <span class="tx-12 tx-color-03 mg-b-0">{{__('Description')}}:{{$item->description}}</span>
-                                    </div><!-- media-body -->
-                                    <div class="justify-content-end">
-                                       <a href="#" class="nav-link" wire:click.prevent="$dispatchTo('finances.tarif-services','show_tarif',{tarif:{{$item->id}}})"> edit</a>
-                                    </div>
-                                </div><!-- media -->                            
-                            </li> 
-                            @empty
-                            <li class="list-item">{{__('No Tarif registred')}} 
-                            @endforelse
-                        </ul>
-                    </div>
-                    <div class="col-8">
-                        <livewire:finances.tarif-services>
+                    <div class="col-12 table-resposncive">
+                        <table class="table table-hover table-dashboard bd">
+                            <thead class="bg-gray-100">
+                                <th>{{__('Name')}}</th>
+                                <th>{{__('Services')}}</th>
+                                <th>{{__('Price')}}</th>
+                                <th>{{__('Accounts')}}</th>
+                                <th>{{__('Description')}}</th>
+                                <th></th>
+                            </thead>
+                            <tbody>
+                                @foreach ($tarif_list as $item)
+                                <tr>
+                                    <td>{{$item->name}}</td>
+                                    <td><livewire:widgets.active-services :tarif="$item->id"></td>
+                                    <td>{{$item->getAmountProduct()}}</td>
+                                    <td>{{$item->BillingAccount->count()}}</td>
+                                    <td>{{$item->description}}</td>
+                                    <td><a href="{{route('finances.edit.tarif',$item->id)}}" class="nav-link">{{__('Edit')}}</a></td>
+                                </tr>                                
+                                @endforeach
+                            </tbody>
+                        </table>
                     </div>
                 </div>
+                
             </div>
         </div>
-        <livewire:modals.new-tarif @saved="$refresh">
+       
 </div>

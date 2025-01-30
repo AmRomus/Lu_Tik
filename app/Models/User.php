@@ -56,4 +56,8 @@ class User extends Authenticatable implements Wallet
     {
         return $this->belongsToMany(SupportTicket::class);
     }
+    public function getMyTicketsCountAttribute()
+    {
+       return $this->SupportTicket()->Actual()?->count();
+    }
 }

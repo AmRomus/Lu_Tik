@@ -14,12 +14,13 @@ class SupportList extends Component
     public $for_uninstall;
     public function mount()
     {
-        $this->for_install=Auth::user()->SupportTicket()->Connections()->orderBy('planed_time')->get();
-        $this->for_support=Auth::user()->SupportTicket()->Support()->get();
-        $this->for_uninstall=Auth::user()->SupportTicket()->Uninstall()->get();
+       
     }
     public function render()
     {
+        $this->for_install=Auth::user()->SupportTicket()->Connections()->orderBy('planed_time')->get();
+        $this->for_support=Auth::user()->SupportTicket()->Support()->get();
+        $this->for_uninstall=Auth::user()->SupportTicket()->Uninstall()->get();
         return view('livewire.support.support-list');
     }
     public function close_connection($tid)

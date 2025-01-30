@@ -9,6 +9,7 @@ use App\Livewire\Companies\ManageCompanies;
 use App\Livewire\Companies\ManageUsers;
 use App\Livewire\Confs\InetServices;
 use App\Livewire\Dashboard;
+use App\Livewire\Finances\EditTarif;
 use App\Livewire\Finances\Tarifs;
 use App\Livewire\Iptv\EditPlayList;
 use App\Livewire\Iptv\EditStream;
@@ -62,6 +63,7 @@ Route::middleware('auth')->prefix('/misc')->group(function(){
 #finances
 Route::middleware('auth')->prefix('/finances')->group(function(){
     Route::get('/tarifs',Tarifs::class)->name('tarifs');
+    Route::get('/t/{tarif}/edit',EditTarif::class)->name('finances.edit.tarif');
 });
 
 
