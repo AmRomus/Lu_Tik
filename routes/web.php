@@ -7,6 +7,7 @@ use App\Livewire\Companies\EditCompany;
 use App\Livewire\Companies\EditUser;
 use App\Livewire\Companies\ManageCompanies;
 use App\Livewire\Companies\ManageUsers;
+use App\Livewire\Companies\WorkerAccess;
 use App\Livewire\Confs\InetServices;
 use App\Livewire\Dashboard;
 use App\Livewire\Finances\EditTarif;
@@ -91,6 +92,7 @@ Route::middleware('auth')->prefix('/companies')->group(function(){
     Route::get('/workers',ManageUsers::class)->name('companies.workers');
     Route::get('/worker/{user}/edit',EditUser::class)->name('company.user.edit');
     Route::get('/company/{company}/edit',EditCompany::class)->name('company.edit');
+    Route::get('/positions',WorkerAccess::class)->name('positions');
 });
 
 #support

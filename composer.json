@@ -6,6 +6,7 @@
     "license": "MIT",
     "require": {
         "php": "^8.2",
+        "1foru/php-html-parser": "^1.0",
         "barryvdh/laravel-debugbar": "^3.14",
         "bavix/laravel-wallet": "^11.3",
         "contributte/vite": "^0.2.0",

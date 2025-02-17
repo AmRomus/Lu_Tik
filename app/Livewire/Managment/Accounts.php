@@ -7,7 +7,7 @@ use App\Models\BillingAccount;
 use Livewire\Attributes\On;
 use Livewire\Component;
 use Livewire\WithPagination;
-
+use Auth;
 class Accounts extends Component
 {
     use WithPagination;
@@ -24,7 +24,7 @@ class Accounts extends Component
     {
        
         //$accounts=BillingAccount::all();
-        $accs=BillingAccount::where(function($q){
+        $accs_res=BillingAccount::where(function($q){
             foreach($this->farray as $key=>$val)
             {
                 if($val){
@@ -55,7 +55,11 @@ class Accounts extends Component
         ->with('Tarif')
         ->with('AccountInetService')
         ->with('AccountCatvService')
-        ->with('Address')->paginate(20);
+        ->with('Address');
+        if(Auth::user()->hasAnyPermission(['Delete accounts','Superadmin'])){
+            $accs_res->withTrashed();
+        }
+        $accs=$accs_res->paginate(20);
         return view('livewire.managment.accounts',compact('accs'));
     }
     #[On('set_tarif_filter')]

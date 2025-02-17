@@ -60,4 +60,8 @@ class User extends Authenticatable implements Wallet
     {
        return $this->SupportTicket()->Actual()?->count();
     }
+    public function AcctionsHistory()
+    {
+        return $this->morphMany(AcctionsHistory::class,'acct_object');
+    }
 }

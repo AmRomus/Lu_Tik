@@ -4,7 +4,10 @@
             <div class="content-header">
                 <h4>{{__('Account')}} {{$account->FullName}}</h4>
                 <nav class="nav">
-                    <a href="#" class="btn btn-sm btn-danger tx-bold" > {{__('Delete')}}</a>
+                  @if ($account->trashed())
+                  <a href="#" class="btn btn-xs btn-success tx-bold mx-10" wire:click.prevent="restore">{{__('Restore')}}</a>
+                  @endif
+                    <a href="#" class="btn btn-xs btn-danger tx-bold" wire:click.prevent="delete"> {{__('Delete')}}</a>
                   </nav>
             </div>
             <div class="content-body">
@@ -59,19 +62,7 @@
                           </div>
                         </li>
                         <li class="list-label">{{__('Billing Infromation')}}</li>
-                        <li class="list-item">
-                          <div class="media align-items-center">
-                            <div class="avatar"><span class="avatar-initial rounded-circle bg-gray-600" wire:click="$dispatchTo('modals.change-tarif','show_modal')">
-                              <i class="fa fa-briefcase" style="cursor: pointer"></i> </span>
-                            </div>
-                            <div class="media-body mg-sm-l-15">
-                              <p class="tx-medium mg-b-0">{{__('Tarif')}}</p>                                 
-                            </div><!-- media-body -->
-                          </div><!-- media -->
-                          <div class="text-end tx-rubik">
-                            {{$account->Tarif?->name}}
-                          </div>
-                        </li>
+                      
                         @if (!$account->subscription)
                         @if ($account->Tarif?->InetService)
                         <li class="list-item">
@@ -82,7 +73,7 @@
                               bg-danger
                             @endif " 
                     wire:click="$dispatchTo('modals.set-service-api','show_modal',{ service_id:{{$account->AccountInetService?->id}}})">
-                      <i data-feather="briefcase" style="cursor: pointer"></i> </span>
+                      <i data-feather="link" style="cursor: pointer"></i> </span>
                     </div>
                     <div class="media-body mg-sm-l-15">
                       <p class="tx-medium mg-b-0">{{__('Internet Service Api')}}</p>                                           
@@ -121,7 +112,7 @@
                       bg-danger
                     @endif "  
                     wire:click="$dispatchTo('modals.set-catv-service-api','show_modal',{ service_id:{{$account->AccountCatvService?->id}}})">
-                      <i data-feather="briefcase" style="cursor: pointer"></i>
+                      <i data-feather="link" style="cursor: pointer"></i>
                     </div>
                     <div class="media-body mg-sm-l-15">
                       <p class="tx-medium mg-b-0">{{__('TV Service Api')}}</p>                                           
@@ -165,12 +156,26 @@
                   </div>
                   <div class="col-12 col-sm-6 col-lg-4">
                     <div class="df-example mb-3" data-label="Active Services">
+                    
+                          <div class="media align-items-center mb-3 ">
+                            <div class="avatar"><span class="avatar-initial rounded-circle bg-gray-600" wire:click="$dispatchTo('modals.change-tarif','show_modal')">
+                              <i class="fa fa-briefcase" style="cursor: pointer"></i> </span>
+                            </div>
+                            <div class="media-body mg-sm-l-15">
+                              <p class="tx-medium mg-b-0">{{__('Tarif')}}</p>                                 
+                            </div><!-- media-body -->
+                            <div class="text-end tx-rubik">
+                              <strong>{{$account->Tarif?->name}}</strong>
+                            </div>
+                          </div><!-- media -->
+                         <hr>
+                     
                       @if ($subscr)
                       <livewire:widgets.active-services :tarif="$subscr->tarif->id" />
                         @elseif($account->Tarif)
                         <livewire:widgets.active-services :tarif="$account->Tarif->id" />
                       @endif
-                        
+                      
                     </div>
                     <div class="df-example p-1" data-label="Account Devices">
                       <div class="row d-flex">
@@ -265,6 +270,7 @@
                        <i data-feather="zap"></i> 
                       </div>
                       <h6 class="mg-b-15 mg-l-15">{{__('Account Notes')}}</h6>
+                     
                       @forelse ($account->AccountNotes as $item)
                       <div class="row border-top">
                         <div class="col-12">
@@ -359,7 +365,9 @@
                   </div>
                 </div>
             </div>
+           
         </div>
+        @if (!$account->trashed())
         <livewire:modals.change-tarif @saved="$refresh" :account_id="$account->id" >
         <livewire:modals.set-service-api @saved="$refresh" >
         <livewire:modals.set-catv-service-api @saved="$refresh" >
@@ -374,7 +382,9 @@
         <livewire:modals.new-account-note :account="$account->id" @saved="$refresh">   
         <livewire:modals.new-account-call :account="$account->id" @saved="$refresh">   
         <livewire:modals.new-ticket :account="$account->id" @saved="$refresh">  
-        <livewire:modals.old-ticket :account="$account->id">  
+        <livewire:modals.old-ticket :account="$account->id">    
+        @endif
+        
           @push('js')
               <script type="module">
                 var cleaveII = new Cleave('#new_mac', {

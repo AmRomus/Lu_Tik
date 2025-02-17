@@ -3,20 +3,17 @@
         <div class="content ht-100v pd-0">
             <div class="content-header">
                 <h4>{{__('Accounts')}}</h4>
+                <div class="input-group w-50">                      
+                      <input type="text" class="form-control"  wire:model.live="search"> 
+                      <button class="btn btn-outline-secondary" type="button" id="button-addon2"><i class="fa fa-search"></i></button>                              
+                </div>
                 <nav class="nav">
                     <a href="#" class="btn btn-sm btn-success tx-bold" wire:click="$dispatchTo('modals.new-billing-account','show_modal')"> {{__('New Account')}}</a>
                   </nav>
             </div>
             <div class="content-body">
                 <div class="row">
-                    <div class="col-12 text-end">
-                       
-                        <div class="input-group w-50">  
-                            <span class="input-group-text" id="basic-addon1">{{__('Search:')}}</span>                          
-                              <input type="text" class="form-control"  wire:model.live="search"> 
-                              <button class="btn btn-outline-secondary" type="button" id="button-addon2"><i class="fa fa-search"></i></button>                              
-                        </div>
-                    </div>
+             
                     <div class="col-12 table-resposive">
                         <table class="table table-hover table-dashboard">
                             <thead>
@@ -38,10 +35,23 @@
                             </thead>
                             <tbody>
                                 @foreach ($accs as $item)
-                                    <tr @if ($item->WarnInfo)
+
+                                    <tr 
+                                    @if($item->trashed())
+                                        class="bg-gray-700 tx-white tx-bold"
+                                        @endif
+                                    @if ($item->WarnInfo)
                                         class="bg-danger"
+                                        @elseif (!$item->tarif)
+                                        class="bg-gray-300 tx-white tx-bold"
+                                        
                                     @endif>
-                                        <td >{{$item->ident}}</td>                                        
+                                        <td >
+                                            @if ($item->trashed())
+                                                <i class="fa fa-trash"></i>&nbsp;&nbsp;
+                                            @endif 
+                                            {{$item->ident}}
+                                        </td>                                        
                                         <td>
                                             {{$item->FullName}}                                     
                                         </td>

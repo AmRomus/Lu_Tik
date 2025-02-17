@@ -6,7 +6,7 @@ use App\Models\BillingAccount;
 use App\Models\Tarif;
 use Livewire\Attributes\On;
 use Livewire\Component;
-
+use Auth;
 class ChangeTarif extends Component
 {
     public $selected_tarif;
@@ -19,8 +19,11 @@ class ChangeTarif extends Component
     public $account;
     public function mount($account_id)
     {
-      
-        $this->account=BillingAccount::find($account_id)->load('Tarif');      
+        if(Auth::user()->hasAnyPermission(['Delete accounts','Superadmin'])){
+        $this->account=BillingAccount::withTrashed()->find($account_id)->load('Tarif');    
+        }  else {
+            $this->account=BillingAccount::findOrFail($account_id)->load('Tarif');    
+        }
         $this->selected_tarif=$this->account->tarif_id;
     }
     public function render()

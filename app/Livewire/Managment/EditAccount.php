@@ -23,9 +23,16 @@ class EditAccount extends Component
     public function mount($billing_account)
     {
         $companies=ServiceCompanies::all();
-        $this->account=BillingAccount::with(['tarif','AccountInetService','AccountCatvService','Address','onu','SupportTicket'])
-        ->findOrFail($billing_account);
-        if($this->account){
+        if(Auth::user()->hasAnyPermission(['Delete accounts','Superadmin'])){
+            $this->account=BillingAccount::withTrashed()->with(['tarif','AccountInetService','AccountCatvService','Address','onu','SupportTicket'])
+            ->where('id',$billing_account)->firstOrFail();
+           
+        }else {
+            $this->account=BillingAccount::with(['tarif','AccountInetService','AccountCatvService','Address','onu','SupportTicket'])
+            ->findOrFail($billing_account);
+        }
+       
+        if($this->account&&!$this->account->trashed()){
             foreach($companies as $company){
                 if(!$this->account->hasWallet("wallet_".$company->id))
                 {
@@ -35,17 +42,30 @@ class EditAccount extends Component
                     ]);
                 }
             }
-        }
+        } 
         $alowed_wallets_id=Auth::user()->ServiceCompany->pluck('id')->toArray();
+       
         foreach($alowed_wallets_id as $cid)
         {
             $this->alowed_wallets[]='wallet_'.$cid;
         //    array_push($this->alowed_wallets,'wallet_'.$cid);          
         }
        
-        $this->subscr=$this->account->Subscriptions->first();
+        $this->subscr=$this->account->Subscriptions()->first();
        // $this->acc=$this->account?->toArray();
         $this->devli=0;
+    }
+    public function delete()
+    {
+        if(!$this->account->trashed())
+            $this->account->delete();
+        else 
+            $this->account->forceDelete();
+        return $this->redirectRoute('accounts.list');
+    }
+    public function restore()
+    {
+        if($this->account->trashed()) $this->account->restore();
     }
     public function render()
     { 

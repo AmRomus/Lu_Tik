@@ -1,5 +1,5 @@
 @props(['activePage'])
-<aside class="aside aside-fixed" > 
+<aside class="aside aside-fixed minimize" > 
     <div class="aside-header">
         <a href="/" class="aside-logo"><img src="/imgs/logo.png" width="180" alt=""></a>       
         <a href="" class="aside-menu-link">
@@ -62,19 +62,23 @@
               <i data-feather="user-x"></i> <span>{{__('Uninstall')}} ({{App\Models\SupportTicket::uninstall()->count()}})</span>
             </a>
            </li>
+           @canany(['Confirm tickets close', 'Superadmin'])
            <li class="nav-item {{ ($activePage === 'WaitConfirm') ? 'active' : '' }}">
             <a href="{{route('support.ticket.needconfirm')}}" class="nav-link">
-              <i data-feather="user-x"></i> <span>{{__('Unconfirmed')}} ({{App\Models\SupportTicket::waitConfirm()->count()}})</span>
+              <i data-feather="phone-call"></i> <span>{{__('Unconfirmed')}} ({{App\Models\SupportTicket::waitConfirm()->count()}})</span>
             </a>
            </li>
-           
+           @endcanany
+           @canany(['Manage Finances', 'Superadmin'])
            <li class="nav-label">{{__('Finances')}}</li>
-          <li class="nav-item {{ ($activePage === 'Tarifs') ? 'active' : '' }} ">
-            <a href="{{route('tarifs')}}" class="nav-link"> 
-              <i data-feather="dollar-sign"></i> <span>{{__('Tarifs')}}</span>
-            </a>
+           <li class="nav-item {{ ($activePage === 'Tarifs') ? 'active' : '' }} ">
+              <a href="{{route('tarifs')}}" class="nav-link"> 
+                 <i data-feather="dollar-sign"></i> <span>{{__('Tarifs')}}</span>
+              </a>
            </li>
-          <li class="nav-label">{{__('Configurations')}}</li>
+           @endcanany
+           @canany(['Configure network', 'Superadmin'])
+          <li class="nav-label">{{__('Network Configurations')}}</li>         
           <li class="nav-item {{($activePage ==='Mikrotiks')? 'active':'' }}" >
             <a href="{{route('mikrotik.list')}}" class="nav-link"> 
               <i data-feather="server"></i> <span>{{__('Mikrotiks')}}</span>
@@ -90,7 +94,9 @@
               <i data-feather="hard-drive"></i> <span>{{__('Routers')}}</span>
             </a>
           </li>
-          <li class="nav-label">{{__('IPTV')}}</li>
+          @endcanany
+          @canany(['Configure IpTV', 'Superadmin'])
+          <li class="nav-label">{{__('IPTV Configurations')}}</li>
           <li class="nav-item {{($activePage ==='iptv_streams')? 'active':'' }}" >
             <a href="{{route('iptv.streams')}}" class="nav-link"> 
               <i data-feather="airplay"></i> <span>{{__('Streams')}}</span>
@@ -101,10 +107,17 @@
               <i data-feather="list"></i> <span>{{__('Play Lists')}}</span>
             </a>
           </li>
-          <li class="nav-label">{{__('Company managment')}}</li>
+          @endcanany
+          @canany(['System Managment', 'Superadmin'])
+          <li class="nav-label">{{__('System Configurations')}}</li>
           <li class="nav-item {{($activePage ==='companies')? 'active':'' }}" >
             <a href="{{route('companies.list')}}" class="nav-link"> 
               <i data-feather="slack"></i> <span>{{__('Companies')}}</span>
+            </a>
+          </li>
+          <li class="nav-item {{($activePage ==='Positions')? 'active':'' }}" >
+            <a href="{{route('positions')}}" class="nav-link"> 
+              <i data-feather="key"></i> <span>{{__('Positions')}}</span>
             </a>
           </li>
           <li class="nav-item {{($activePage ==='workers')? 'active':'' }}" >
@@ -112,6 +125,7 @@
               <i data-feather="user"></i> <span>{{__('Workers')}}</span>
             </a>
           </li>
+          @endcanany
         </ul>
     </div>
 </aside>

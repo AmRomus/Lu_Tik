@@ -12,12 +12,13 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Bavix\Wallet\Traits\CanPay;
 use Bavix\Wallet\Interfaces\Customer;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Log;
 
 #[ObservedBy([BillingAccountObserver::class])]
 class BillingAccount extends Model implements Customer
 {
-    use HasFactory,CanPay,HasWallets;
+    use HasFactory,CanPay,HasWallets,SoftDeletes;
     protected $fillable=[
         'first',
         'last',
