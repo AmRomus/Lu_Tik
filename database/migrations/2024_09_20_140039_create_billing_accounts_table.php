@@ -19,8 +19,9 @@ return new class extends Migration
             $table->string('middle')->nullable();
             $table->string('phone')->nullable();
             $table->string('passport')->nullable();
+            $table->string('passport_region',4)->nullable();
             $table->string('passport_file')->nullable();
-            $table->text('coment')->nullable();
+            $table->string('email')->nullable();
             $table->unsignedBigInteger('address_id')->nullable();
             $table->foreign('address_id','account_address')->references('id')->on('addresses')->nullOnDelete();
             $table->unsignedBigInteger('tarif_id')->nullable();

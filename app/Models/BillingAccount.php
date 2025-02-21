@@ -61,6 +61,10 @@ class BillingAccount extends Model implements Customer
     {
         return $this->hasMany(SupportTicket::class);
     }
+    public function Files()
+    {
+        return $this->morphMany(UploadedFile::class,'linked_object');
+    }
     public function Tarif()
     {
         return $this->belongsTo(Tarif::class);
@@ -117,7 +121,8 @@ class BillingAccount extends Model implements Customer
     {
         foreach($this->Onu as $onu)
         {
-            if(Carbon::parse($onu->last_state)->diffInDays()>3&&$onu->last_state==0){
+           
+            if(Carbon::parse($onu->last_state)->diffInDays()>3&&$this->state==0){
                 return true;
             }
         }

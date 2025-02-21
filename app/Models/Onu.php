@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -26,13 +27,20 @@ class Onu extends Model
                 }
                 catch (\Exception $ign)
                 {
-                    $this->online=false;
-                    $this->save();
+                    if($this->online){
+                        $this->last_state=Carbon::now();
+                        $this->online=false;
+                        $this->save();
+                    }
+                   
                     $this->fresh();
                     return "No Signal";
                 }
-                $this->online=true;
+                if(!$this->online){
+                    $this->last_state=Carbon::now();
+                    $this->online=true;
                 $this->save();
+                }
                 return $ret->getValue();                
             }
         }

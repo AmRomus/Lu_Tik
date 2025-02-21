@@ -55,6 +55,9 @@ class EditAccount extends Component
        // $this->acc=$this->account?->toArray();
         $this->devli=0;
     }
+    public function details(){
+        $this->redirectRoute('account.personal',$this->account);
+    }
     public function delete()
     {
         if(!$this->account->trashed())

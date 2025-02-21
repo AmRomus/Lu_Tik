@@ -61,6 +61,7 @@
                           @endforeach
                           </div>
                         </li>
+                        <li class="list-label text-end"><strong wire:click="details" style="cursor: pointer">{{__('Documents and details')}} >>></strong></li>
                         <li class="list-label">{{__('Billing Infromation')}}</li>
                       
                         @if (!$account->subscription)

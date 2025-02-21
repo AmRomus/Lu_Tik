@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AddressController;
+use App\Http\Controllers\PrivateFileController;
 use App\Livewire\Apis\MikroBill;
 use App\Livewire\Auth\Login;
 use App\Livewire\Companies\EditCompany;
@@ -16,6 +17,7 @@ use App\Livewire\Iptv\EditPlayList;
 use App\Livewire\Iptv\EditStream;
 use App\Livewire\Iptv\ManagePlayLists;
 use App\Livewire\Iptv\Streams;
+use App\Livewire\Managment\AccountPersonal;
 use App\Livewire\Managment\Accounts;
 use App\Livewire\Managment\EditAccount;
 use App\Livewire\Misc\Addressbook;
@@ -52,6 +54,9 @@ Route::middleware('auth')->prefix('/servers')->group(function(){
 Route::middleware('auth')->prefix('/accounts')->group(function(){
     Route::get('/list',Accounts::class)->name('accounts.list');
     Route::get('/edit/{billing_account}',EditAccount::class)->name('account.edit');
+    Route::get('/personal/{billing_account}',AccountPersonal::class)->name('account.personal');
+    Route::get('/personal/pimage/{f_name}',[PrivateFileController::class,'get_passport_image'])->name('get_passport_image');
+    Route::get('/personal/files/{f_name}',[PrivateFileController::class,'get_file'])->name('get_file');
 });
 
 

@@ -46,7 +46,7 @@
                                         class="bg-gray-300 tx-white tx-bold"
                                         
                                     @endif>
-                                        <td >
+                                        <td >                                          
                                             @if ($item->trashed())
                                                 <i class="fa fa-trash"></i>&nbsp;&nbsp;
                                             @endif 
